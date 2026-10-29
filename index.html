@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tombola · Kaya Luefkens · Netball 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Bleu, blanc, rouge */
+    --bg: #f3f5fb; --surface: #ffffff; --ink: #0b1a3f; --muted: #57627f; --line: #dbe1ee;
+    --accent: #002395; --accent-ink: #ffffff; --accent-soft: #e5eafb;
+    --red: #ce1126; --red-ink: #ffffff; --flag-blue: #002395; --flag-white: #ffffff; --flag-red: #ef4135;
+    --taken: #e7ebf3; --taken-ink: #a6afc4; --err: #c1121f; --ok: #2f6f4e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #081130; --surface: #101c45; --ink: #eef2ff; --muted: #9aa7cc; --line: #24326a;
+      --accent: #7c96ff; --accent-ink: #081130; --accent-soft: #1b2a63;
+      --red: #ff5c66; --red-ink: #1a0508; --flag-blue: #3d5eff; --flag-white: #f4f6ff; --flag-red: #ff5c66;
+      --taken: #17224f; --taken-ink: #46538a; --err: #ff7a80; --ok: #6fcf97;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); }
+  body { font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 16px 16px 120px; }
+  .top { display: flex; justify-content: flex-end; }
+  .lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; background: var(--surface); }
+  .lang button { border: 0; background: none; color: var(--muted); font: 600 13px/1 system-ui, sans-serif; padding: 7px 12px; border-radius: 999px; cursor: pointer; }
+  .lang button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+
+  /* Ticket header */
+  .ticket { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 34px 24px 0; margin: 14px 0 28px; }
+  .ticket::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 10px;
+          background: linear-gradient(90deg, var(--flag-blue) 0 33.34%, var(--flag-white) 33.34% 66.67%, var(--flag-red) 66.67% 100%);
+          border-bottom: 1px solid var(--line); }
+  .eyebrow { margin: 0; color: var(--red); font: 700 12px/1 system-ui, sans-serif; letter-spacing: .14em; text-transform: uppercase; }
+  h1 { font-family: Fraunces, Georgia, serif; font-weight: 700; font-size: clamp(28px, 6.2vw, 42px); line-height: 1.1; margin: 12px 0 12px; letter-spacing: -.01em; color: var(--accent); text-wrap: balance; }
+  .prize { margin: 0; color: var(--ink); font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: clamp(19px, 4.4vw, 23px); line-height: 1.3; }
+  .prize em { font-style: normal; color: var(--red); white-space: nowrap; }
+  .stub { position: relative; margin: 22px -24px 0; padding: 16px 24px 18px; border-top: 2px dashed var(--line);
+          display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .stub::before, .stub::after { content: ""; position: absolute; top: -12px; width: 22px; height: 22px; border-radius: 50%;
+          background: var(--bg); border: 1px solid var(--line); }
+  .stub::before { left: -12px; } .stub::after { right: -12px; }
+  .fact small { display: block; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+  .fact b { font-size: 16px; font-variant-numeric: tabular-nums; }
+
+  /* Grid */
+  h2 { font-family: Fraunces, Georgia, serif; font-size: 24px; margin: 0 0 4px; }
+  .hint { margin: 0 0 14px; color: var(--muted); }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+  .legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; border: 1px solid var(--line); background: var(--surface); }
+  .legend .l-sel::before { background: var(--accent); border-color: var(--accent); }
+  .legend .l-taken::before { background: var(--taken); border-color: var(--taken); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(42px, 1fr)); gap: 6px; }
+  @media (min-width: 560px) { .grid { grid-template-columns: repeat(10, 1fr); } }
+  .cell { aspect-ratio: 1; min-height: 40px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 9px;
+          font: 600 14px/1 system-ui, sans-serif; font-variant-numeric: tabular-nums; cursor: pointer; padding: 0;
+          transition: background .12s, border-color .12s, color .12s, transform .08s; }
+  .cell:hover:not(:disabled):not(.sel) { border-color: var(--accent); color: var(--accent); }
+  .cell:active:not(:disabled) { transform: scale(.94); }
+  .cell.sel { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .cell:disabled { background: var(--taken); border-color: transparent; color: var(--taken-ink); cursor: not-allowed; text-decoration: line-through; }
+  .grid.loading .cell { opacity: .5; text-decoration: none; }
+  .cell:focus-visible, .btn:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .status { min-height: 22px; margin: 10px 0 0; font-size: 14px; color: var(--muted); }
+  .status.err { color: var(--err); }
+
+  /* Form */
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px; margin-top: 28px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 16px; min-height: 30px; }
+  .chip { background: var(--accent-soft); color: var(--accent); border: 0; border-radius: 999px; padding: 5px 10px; font: 600 14px/1.2 system-ui, sans-serif; cursor: pointer; }
+  .chip::after { content: " ×"; opacity: .7; }
+  .empty { color: var(--muted); font-size: 14px; }
+  label { display: block; font-size: 14px; font-weight: 600; margin: 14px 0 6px; }
+  input[type=text], input[type=email] { width: 100%; font: 16px/1.4 system-ui, sans-serif; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); }
+  .seg { display: flex; gap: 8px; flex-wrap: wrap; }
+  .seg label { margin: 0; flex: 1; min-width: 80px; }
+  .seg input { position: absolute; opacity: 0; pointer-events: none; }
+  .seg span { display: block; text-align: center; padding: 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); cursor: pointer; font-weight: 600; }
+  .seg input:checked + span { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+  .seg input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .total { display: flex; justify-content: space-between; align-items: baseline; margin: 20px 0 14px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .total b { font-family: Fraunces, Georgia, serif; font-size: 28px; font-variant-numeric: tabular-nums; }
+  .btn { width: 100%; border: 0; border-radius: 12px; background: var(--red); color: var(--red-ink); font: 700 16px/1 system-ui, sans-serif; padding: 16px; cursor: pointer; }
+  .btn:disabled { opacity: .55; cursor: default; }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .note { font-size: 14px; color: var(--muted); margin: 12px 0 0; }
+  .formerr { color: var(--err); font-size: 14px; margin: 10px 0 0; min-height: 20px; }
+
+  /* Sticky bar */
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: var(--surface); border-top: 1px solid var(--line);
+         padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); transform: translateY(110%); transition: transform .2s; z-index: 5; }
+  .bar.show { transform: none; }
+  .bar-in { max-width: 720px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
+  .bar-in div { flex: 1; font-weight: 600; }
+  .bar-in small { display: block; color: var(--muted); font-weight: 400; }
+  .bar .btn { width: auto; padding: 13px 20px; }
+
+  /* Done */
+  .done { text-align: center; padding: 30px 22px; }
+  .done h2 { font-size: 30px; margin: 8px 0 10px; }
+  .done p { color: var(--muted); max-width: 460px; margin: 0 auto 12px; }
+  .done .nums { font-family: Fraunces, Georgia, serif; font-size: 26px; color: var(--accent); margin: 14px 0; }
+  [hidden] { display: none !important; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .setup { background: var(--accent-soft); color: var(--ink); border-radius: 12px; padding: 14px 16px; margin: 0 0 20px; font-size: 15px; }
+  .setup code { font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="fr">FR</button>
+      <button type="button" data-lang="en">EN</button>
+    </div>
+  </div>
+
+  <header class="ticket">
+    <p class="eyebrow" data-t="eyebrow"></p>
+    <h1 id="title"></h1>
+    <p class="prize" id="prize"></p>
+    <div class="stub">
+      <div class="fact"><small data-t="price"></small><b id="priceVal"></b></div>
+      <div class="fact"><small data-t="draw"></small><b id="drawVal"></b></div>
+      <div class="fact"><small data-t="left"></small><b id="leftVal">–</b></div>
+    </div>
+  </header>
+
+  <p class="setup" id="setup" hidden>⚙️ Setup not finished: open <code>index.html</code> and paste your Google Apps Script URL (ending in <code>/exec</code>) where it says <code>API_URL</code> (use Ctrl/Cmd+F to find it).</p>
+
+  <main id="main">
+    <section>
+      <h2 data-t="pick"></h2>
+      <p class="hint" id="hint"></p>
+      <div class="legend">
+        <span data-t="free"></span><span class="l-sel" data-t="selected"></span><span class="l-taken" data-t="taken"></span>
+      </div>
+      <div class="grid loading" id="grid"></div>
+      <p class="status" id="status" aria-live="polite"></p>
+    </section>
+
+    <form class="card" id="form" novalidate>
+      <h2 data-t="yourNumbers"></h2>
+      <div class="chips" id="chips"></div>
+
+      <div class="hp" aria-hidden="true"><label for="website">Website</label><input type="text" id="website" tabindex="-1" autocomplete="off"></div>
+
+      <label for="name" data-t="name"></label>
+      <input type="text" id="name" autocomplete="name" maxlength="80" required>
+
+      <label for="email" data-t="email"></label>
+      <input type="email" id="email" autocomplete="email" maxlength="120" required>
+
+      <label data-t="currency"></label>
+      <div class="seg" id="seg"></div>
+
+      <div class="total"><span data-t="total"></span><b id="totalVal">0</b></div>
+      <button class="btn" type="submit" id="submit"></button>
+      <p class="formerr" id="formerr" aria-live="assertive"></p>
+      <p class="note" id="note"></p>
+    </form>
+  </main>
+
+  <section class="card done" id="done" hidden>
+    <h2 data-t="doneTitle"></h2>
+    <div class="nums" id="doneNums"></div>
+    <p id="doneBody"></p>
+    <p id="doneHold"></p>
+    <button class="btn ghost" type="button" id="again" data-t="again" style="margin-top:12px"></button>
+  </section>
+</div>
+
+<div class="bar" id="bar">
+  <div class="bar-in">
+    <div><span id="barCount"></span><small id="barTotal"></small></div>
+    <button class="btn" type="button" id="barBtn" data-t="continue"></button>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE (it ends in /exec)
+   ===================================================================== */
+const API_URL = '';
+
+// Defaults shown until the backend answers (the real values come from Code.gs CONFIG).
+let CFG = {
+  title: { en: 'Raffle', fr: 'Tombola' }, prize: { en: '', fr: '' }, drawDate: { en: '…', fr: '…' },
+  organiser: '', total: 200, price: 10, maxPerOrder: 10, holdHours: 72, currencies: ['CHF', 'EUR', 'GBP'],
+};
+
+const STR = {
+  en: {
+    eyebrow: 'Raffle · Netball 2027', price: 'Price',
+    headline: 'Support Kaya Luefkens in her netball season 2027', question: 'Want to win a night at the {prize}?', prizeName: 'Palace XX', draw: 'Draw', left: 'Left',
+    pick: 'Pick your numbers', hint: 'Tap one or more free numbers (up to {max}).',
+    free: 'Free', selected: 'Selected', taken: 'Taken',
+    yourNumbers: 'Your numbers', noneYet: 'No numbers selected yet — tap them on the grid above.',
+    name: 'Your name', email: 'Email', currency: "I'll pay in", total: 'Total',
+    submit: 'Reserve my numbers', sending: 'Reserving…',
+    note: "We'll email you the bank details straight away. Your numbers are held for {h} hours while the transfer arrives.",
+    noteNoHold: "We'll email you the bank details straight away.",
+    loading: 'Loading numbers…', loadErr: "Couldn't load the numbers. Please refresh the page.",
+    soldOut: 'All numbers are taken — thank you everyone!',
+    errNone: 'Pick at least one number.', errName: 'Please enter your name.', errEmail: 'Please enter a valid email address.',
+    errMax: 'You can reserve up to {max} numbers at once.', errTaken: 'Sorry — {nums} was just taken by someone else. Please pick another.',
+    errBusy: 'Lots of people at once — please try again in a moment.', errGeneric: 'Something went wrong. Please try again.',
+    count1: '1 number selected', countN: '{n} numbers selected', continue: 'Continue',
+    doneTitle: "You're almost in!",
+    doneBody: "We've sent the payment details to {email}. If it's not there in a few minutes, check your spam folder.",
+    doneMailFail: "Your numbers are reserved, but the email didn't go through. {org} will send you the payment details directly.",
+    doneHold: "Please make the transfer within {h} hours with reference {ref}, or the numbers go back on the grid.",
+    doneRef: 'Please use the reference {ref} with your transfer.',
+    again: 'Reserve more numbers',
+  },
+  fr: {
+    eyebrow: 'Tombola · Netball 2027', price: 'Prix',
+    headline: 'Soutenez Kaya Luefkens pour sa saison de netball 2027', question: 'Envie de gagner une nuit au {prize}\u00a0?', prizeName: 'Palace XX', draw: 'Tirage', left: 'Restants',
+    pick: 'Choisissez vos numéros', hint: "Touchez un ou plusieurs numéros libres (jusqu'à {max}).",
+    free: 'Libre', selected: 'Sélectionné', taken: 'Pris',
+    yourNumbers: 'Vos numéros', noneYet: 'Aucun numéro sélectionné — touchez-les dans la grille ci-dessus.',
+    name: 'Votre nom', email: 'E-mail', currency: 'Je paie en', total: 'Total',
+    submit: 'Réserver mes numéros', sending: 'Réservation…',
+    note: 'Vous recevrez les coordonnées bancaires par e-mail immédiatement. Vos numéros sont réservés {h} heures, le temps que le virement arrive.',
+    noteNoHold: 'Vous recevrez les coordonnées bancaires par e-mail immédiatement.',
+    loading: 'Chargement des numéros…', loadErr: 'Impossible de charger les numéros. Merci de rafraîchir la page.',
+    soldOut: 'Tous les numéros sont pris — merci à tous !',
+    errNone: 'Choisissez au moins un numéro.', errName: 'Merci d’indiquer votre nom.', errEmail: 'Merci d’indiquer une adresse e-mail valide.',
+    errMax: "Vous pouvez réserver jusqu'à {max} numéros à la fois.", errTaken: 'Désolé — {nums} vient d’être pris par quelqu’un d’autre. Choisissez-en un autre.',
+    errBusy: 'Beaucoup de monde en même temps — réessayez dans un instant.', errGeneric: 'Une erreur est survenue. Merci de réessayer.',
+    count1: '1 numéro sélectionné', countN: '{n} numéros sélectionnés', continue: 'Continuer',
+    doneTitle: "C'est presque fini !",
+    doneBody: 'Les coordonnées de paiement ont été envoyées à {email}. Si vous ne voyez rien d’ici quelques minutes, vérifiez vos spams.',
+    doneMailFail: "Vos numéros sont réservés, mais l'e-mail n'a pas pu partir. {org} vous enverra les coordonnées directement.",
+    doneHold: 'Merci de faire le virement sous {h} heures avec la référence {ref}, sinon les numéros seront remis en jeu.',
+    doneRef: 'Merci d’indiquer la référence {ref} avec votre virement.',
+    again: 'Réserver d’autres numéros',
+  },
+};
+
+const $ = (id) => document.getElementById(id);
+let lang = (navigator.language || 'en').toLowerCase().startsWith('fr') ? 'fr' : 'en';
+let taken = null;           // {number: 'reserved'|'paid'} once loaded
+const sel = new Set();
+let currency = CFG.currencies[0];
+let busy = false;
+let statusMsg = { key: 'loading', vars: null, err: false };
+
+function tr(key, vars) {
+  let s = (STR[lang] && STR[lang][key]) || STR.en[key] || key;
+  if (vars) for (const k in vars) s = s.split('{' + k + '}').join(vars[k]);
+  return s;
+}
+
+function buildGrid() {
+  const g = $('grid');
+  for (let n = 1; n <= CFG.total; n++) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'cell'; b.textContent = n; b.disabled = true;
+    b.addEventListener('click', () => toggle(n));
+    g.appendChild(b);
+  }
+}
+
+function buildCurrencies() {
+  const seg = $('seg');
+  CFG.currencies.forEach((c) => {
+    const l = document.createElement('label');
+    const i = document.createElement('input');
+    i.type = 'radio'; i.name = 'cur'; i.value = c; i.checked = c === currency;
+    i.addEventListener('change', () => { currency = c; render(); });
+    const s = document.createElement('span'); s.textContent = c;
+    l.append(i, s); seg.appendChild(l);
+  });
+}
+
+function toggle(n) {
+  if (!taken || taken[n]) return;
+  if (sel.has(n)) sel.delete(n);
+  else {
+    if (sel.size >= CFG.maxPerOrder) { setStatus('errMax', { max: CFG.maxPerOrder }, true); return; }
+    sel.add(n);
+  }
+  if (statusMsg.err) setStatus(null);
+  $('formerr').textContent = '';
+  render();
+}
+
+function setStatus(key, vars, err) { statusMsg = { key, vars, err: !!err }; renderStatus(); }
+function renderStatus() {
+  const el = $('status');
+  el.textContent = statusMsg.key ? tr(statusMsg.key, statusMsg.vars) : '';
+  el.classList.toggle('err', statusMsg.err);
+}
+
+function render() {
+  const cells = $('grid').children;
+  let free = 0;
+  for (let i = 0; i < cells.length; i++) {
+    const n = i + 1, b = cells[i];
+    const isTaken = !!(taken && taken[n]);
+    if (taken && !isTaken) free++;
+    b.disabled = !taken || isTaken;
+    b.classList.toggle('sel', sel.has(n));
+    b.setAttribute('aria-pressed', sel.has(n) ? 'true' : 'false');
+  }
+  $('grid').classList.toggle('loading', !taken);
+  $('leftVal').textContent = taken ? free + ' / ' + CFG.total : '–';
+
+  const nums = [...sel].sort((a, b) => a - b);
+  const chips = $('chips'); chips.textContent = '';
+  if (!nums.length) {
+    const e = document.createElement('span'); e.className = 'empty'; e.textContent = tr('noneYet'); chips.appendChild(e);
+  }
+  nums.forEach((n) => {
+    const c = document.createElement('button'); c.type = 'button'; c.className = 'chip'; c.textContent = n;
+    c.addEventListener('click', () => toggle(n)); chips.appendChild(c);
+  });
+  const total = nums.length * CFG.price + ' ' + currency;
+  $('totalVal').textContent = total;
+  $('barCount').textContent = nums.length === 1 ? tr('count1') : tr('countN', { n: nums.length });
+  $('barTotal').textContent = total;
+  $('bar').classList.toggle('show', nums.length > 0 && !formInView && $('done').hidden);
+  $('submit').disabled = busy;
+  $('submit').textContent = busy ? tr('sending') : tr('submit');
+}
+
+function applyLang() {
+  document.documentElement.lang = lang;
+  document.title = tr('headline');
+  document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = tr(el.dataset.t); });
+  document.querySelectorAll('.lang button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true' : 'false'));
+  $('title').textContent = tr('headline');
+  const [qa, qb] = tr('question').split('{prize}');
+  const em = document.createElement('em'); em.textContent = tr('prizeName');
+  $('prize').replaceChildren(qa, em, qb || '');
+  $('priceVal').textContent = CFG.price + ' ' + CFG.currencies.join(' / ');
+  $('drawVal').textContent = CFG.drawDate[lang];
+  $('hint').textContent = tr('hint', { max: CFG.maxPerOrder });
+  $('note').textContent = CFG.holdHours > 0 ? tr('note', { h: CFG.holdHours }) : tr('noteNoHold');
+  renderStatus();
+  render();
+}
+
+async function api(method, payload) {
+  const url = API_URL + (method === 'GET' ? '?action=state&t=' + Date.now() : '');
+  const res = await fetch(url, method === 'GET' ? { cache: 'no-store' } : {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },   // plain text avoids a CORS preflight Apps Script can't answer
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  return res.json();
+}
+
+let configLoaded = false;
+async function load() {
+  if (!API_URL) { $('setup').hidden = false; setStatus('loadErr', null, true); return; }
+  try {
+    const d = await api('GET');
+    if (d.config && !configLoaded) {
+      const sameCur = d.config.currencies.join() === CFG.currencies.join();
+      CFG = d.config; configLoaded = true;
+      if (!CFG.currencies.includes(currency)) currency = CFG.currencies[0];
+      if (!sameCur) { $('seg').textContent = ''; buildCurrencies(); }
+      if ($('grid').children.length !== CFG.total) { $('grid').textContent = ''; buildGrid(); }
+      applyLang();
+    }
+    taken = d.taken || {};
+    const lost = [...sel].filter((n) => taken[n]);
+    lost.forEach((n) => sel.delete(n));
+    if (lost.length) setStatus('errTaken', { nums: lost.join(', ') }, true);
+    else if (statusMsg.key === 'loading' || statusMsg.key === 'loadErr') setStatus(null);
+    if (Object.keys(taken).length >= CFG.total) setStatus('soldOut');
+    render();
+  } catch (e) {
+    console.error(e);
+    if (!taken) setStatus('loadErr', null, true);
+  }
+}
+
+let formInView = false;
+new IntersectionObserver((entries) => { formInView = entries[0].isIntersecting; render(); }, { threshold: 0.15 }).observe($('form'));
+
+$('barBtn').addEventListener('click', () => {
+  $('form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(() => $('name').focus({ preventScroll: true }), 400);
+});
+
+$('form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (busy) return;
+  const err = (k, v) => { $('formerr').textContent = tr(k, v); };
+  const name = $('name').value.trim();
+  const email = $('email').value.trim();
+  if (!API_URL) return err('loadErr');
+  if (!sel.size) return err('errNone');
+  if (!name) return err('errName');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return err('errEmail');
+  $('formerr').textContent = '';
+
+  busy = true; render();
+  const numbers = [...sel].sort((a, b) => a - b);
+  api('POST', { action: 'reserve', numbers, name, email, currency, lang, website: $('website').value })
+    .then((res) => {
+      busy = false;
+      if (res && res.ok) {
+        res.numbers.forEach((n) => { taken[n] = 'reserved'; });
+        sel.clear();
+        showDone(res, email);
+      } else {
+        const code = res && res.code;
+        if (code === 'taken') {
+          if (res.taken) taken = res.taken;
+          (res.numbers || []).forEach((n) => sel.delete(n));
+          err('errTaken', { nums: (res.numbers || []).join(', ') });
+        } else {
+          err({ none: 'errNone', name: 'errName', email: 'errEmail', max: 'errMax', busy: 'errBusy' }[code] || 'errGeneric', { max: CFG.maxPerOrder });
+        }
+      }
+      render();
+    })
+    .catch((e2) => { console.error(e2); busy = false; err('errGeneric'); render(); });
+});
+
+function showDone(res, email) {
+  $('main').hidden = true;
+  $('done').hidden = false;
+  $('doneNums').textContent = res.numbers.join(' · ');
+  $('doneBody').textContent = res.mailFailed ? tr('doneMailFail', { org: CFG.organiser || (lang === 'fr' ? "L'organisateur" : 'The organiser') }) : tr('doneBody', { email });
+  $('doneHold').textContent = CFG.holdHours > 0 ? tr('doneHold', { h: CFG.holdHours, ref: res.ref }) : tr('doneRef', { ref: res.ref });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  render();
+}
+
+$('again').addEventListener('click', () => {
+  $('done').hidden = true; $('main').hidden = false; load(); render();
+});
+
+document.querySelectorAll('.lang button').forEach((b) => b.addEventListener('click', () => { lang = b.dataset.lang; applyLang(); }));
+
+buildGrid();
+buildCurrencies();
+applyLang();
+load();
+setInterval(() => { if (!document.hidden && !busy && !$('main').hidden) load(); }, 20000);
+</script>
+</body>
+</html>
