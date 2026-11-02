@@ -1,142 +1,403 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tombola · Kaya Luefkens · Netball 2027</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#000091">
+<meta name="color-scheme" content="light dark">
+<title>Tombola de Kaya – Netball 2027</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* Bleu, blanc, rouge */
-    --bg: #f3f5fb; --surface: #ffffff; --ink: #0b1a3f; --muted: #57627f; --line: #dbe1ee;
-    --accent: #002395; --accent-ink: #ffffff; --accent-soft: #e5eafb;
-    --red: #ce1126; --red-ink: #ffffff; --flag-blue: #002395; --flag-white: #ffffff; --flag-red: #ef4135;
-    --taken: #e7ebf3; --taken-ink: #a6afc4; --err: #c1121f; --ok: #2f6f4e;
+    --blue: #000091;          /* Bleu France */
+    --red: #e1000f;           /* Rouge Marianne */
+    --red-press: #b8000c;
+    --white: #ffffff;
+    --page: #f4f6ff;
+    --surface: #ffffff;
+    --ink: #0a0a3c;
+    --muted: #55587a;
+    --line: #d9ddf2;
+    --taken: #e7e9f7;
+    --taken-ink: #a3a7c4;
+    --sel: #000091;
+    --sel-ink: #ffffff;
+    --court-line: rgba(255, 255, 255, .3);
+    --ball: #f9faff; --ball-edge: #dde1f5; --seam: rgba(0, 0, 145, .2);
+    --ball-sel: #000091; --ball-sel-hi: #3446e0; --seam-sel: rgba(255, 255, 255, .38);
+    --post: #b9bedb;
+    --err: #c4000d;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --condensed: 72%;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #081130; --surface: #101c45; --ink: #eef2ff; --muted: #9aa7cc; --line: #24326a;
-      --accent: #7c96ff; --accent-ink: #081130; --accent-soft: #1b2a63;
-      --red: #ff5c66; --red-ink: #1a0508; --flag-blue: #3d5eff; --flag-white: #f4f6ff; --flag-red: #ff5c66;
-      --taken: #17224f; --taken-ink: #46538a; --err: #ff7a80; --ok: #6fcf97;
+      --page: #06062b;
+      --surface: #0e0f45;
+      --ink: #eef0ff;
+      --muted: #a2a6d0;
+      --line: #252873;
+      --taken: #15175a;
+      --taken-ink: #4b4f93;
+      --sel: #ffffff;
+      --sel-ink: #000091;
+      --red: #ff2f3c;
+      --red-press: #e1000f;
+      --err: #ff6b74;
+      --ball: #f4f5ff; --ball-edge: #c9cdea; --seam: rgba(0, 0, 145, .22);
+      --ball-sel: #2f4dff; --ball-sel-hi: #7d93ff; --seam-sel: rgba(255, 255, 255, .45);
+      --post: #4a4f95;
     }
   }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; background: var(--bg); color: var(--ink); }
-  body { font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 16px 16px 120px; }
-  .top { display: flex; justify-content: flex-end; }
-  .lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 2px; background: var(--surface); }
-  .lang button { border: 0; background: none; color: var(--muted); font: 600 13px/1 system-ui, sans-serif; padding: 7px 12px; border-radius: 999px; cursor: pointer; }
-  .lang button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 
-  /* Ticket header */
-  .ticket { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 34px 24px 0; margin: 14px 0 28px; }
-  .ticket::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 10px;
-          background: linear-gradient(90deg, var(--flag-blue) 0 33.34%, var(--flag-white) 33.34% 66.67%, var(--flag-red) 66.67% 100%);
-          border-bottom: 1px solid var(--line); }
-  .eyebrow { margin: 0; color: var(--red); font: 700 12px/1 system-ui, sans-serif; letter-spacing: .14em; text-transform: uppercase; }
-  h1 { font-family: Fraunces, Georgia, serif; font-weight: 700; font-size: clamp(28px, 6.2vw, 42px); line-height: 1.1; margin: 12px 0 12px; letter-spacing: -.01em; color: var(--accent); text-wrap: balance; }
-  .prize { margin: 0; color: var(--ink); font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: clamp(19px, 4.4vw, 23px); line-height: 1.3; }
-  .prize em { font-style: normal; color: var(--red); white-space: nowrap; }
-  .stub { position: relative; margin: 22px -24px 0; padding: 16px 24px 18px; border-top: 2px dashed var(--line);
-          display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .stub::before, .stub::after { content: ""; position: absolute; top: -12px; width: 22px; height: 22px; border-radius: 50%;
-          background: var(--bg); border: 1px solid var(--line); }
-  .stub::before { left: -12px; } .stub::after { right: -12px; }
-  .fact small { display: block; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
-  .fact b { font-size: 16px; font-variant-numeric: tabular-nums; }
+  * { box-sizing: border-box; }
+  html { -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; }
+  html, body { margin: 0; background: var(--page); color: var(--ink); }
+  body { font-family: Archivo, system-ui, sans-serif; font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  button, a, label, [role="button"] { touch-action: manipulation; }
+  button { -webkit-user-select: none; user-select: none; font-family: inherit; }
+  img { display: block; max-width: 100%; }
+  [hidden] { display: none !important; }
+  :focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+  .display { font-stretch: var(--condensed); font-weight: 850; letter-spacing: -.01em; line-height: .98; text-wrap: balance; }
+
+  /* ───────── Hero: the court ───────── */
+  .hero { position: relative; overflow: hidden; background: #000091; color: #fff;
+          padding: calc(14px + env(safe-area-inset-top, 0px)) 0 34px; }
+  .court { position: absolute; inset: 10px; border: 2px solid var(--court-line); overflow: hidden; pointer-events: none;
+           clip-path: inset(0 0 0 0); }
+  .court i { position: absolute; display: block; border-color: var(--court-line); }
+  .court .third { background: var(--court-line); }
+  .court .centre { width: 64px; aspect-ratio: 1; border: 2px solid var(--court-line); border-radius: 50%; left: 50%; top: 50%; translate: -50% -50%; }
+  .court .goal { aspect-ratio: 1; border: 2px solid var(--court-line); border-radius: 50%; }
+  .court .post { width: 10px; height: 10px; border-radius: 50%; background: var(--court-line); }
+  /* Portrait court (phones): thirds run across */
+  .court .t1, .court .t2 { left: 0; right: 0; height: 2px; }
+  .court .t1 { top: 33.333%; } .court .t2 { top: 66.666%; }
+  .court .g1, .court .g2 { width: 62%; left: 50%; }
+  .court .g1 { top: 0; translate: -50% -50%; } .court .g2 { bottom: 0; translate: -50% 50%; }
+  .court .p1, .court .p2 { left: 50%; translate: -50% 0; }
+  .court .p1 { top: 6px; } .court .p2 { bottom: 6px; }
+  @media (min-width: 700px) {
+    /* Landscape court: thirds run down */
+    .court .t1, .court .t2 { top: 0; bottom: 0; left: auto; right: auto; width: 2px; height: auto; }
+    .court .t1 { left: 33.333%; } .court .t2 { left: 66.666%; }
+    .court .g1, .court .g2 { width: auto; height: 62%; top: 50%; left: auto; }
+    .court .g1 { left: 0; translate: -50% -50%; } .court .g2 { right: 0; translate: 50% -50%; }
+    .court .p1, .court .p2 { top: 50%; translate: 0 -50%; left: auto; bottom: auto; }
+    .court .p1 { left: 6px; } .court .p2 { right: 6px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .court { animation: paint 1100ms var(--ease-in-out) 120ms both; }
+    @keyframes paint { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+    @media (max-width: 699px) { @keyframes paint { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } } }
+  }
+
+  .hero .wrap { position: relative; }
+  .topbar { display: flex; justify-content: flex-end; padding: 8px 6px 0; }
+  .lang { display: inline-flex; padding: 3px; border-radius: 999px; background: rgba(255,255,255,.12); }
+  .lang button { border: 0; background: none; color: rgba(255,255,255,.75); font: 600 14px/1 Archivo, sans-serif;
+                 padding: 8px 13px; border-radius: 999px; cursor: pointer; transition: background-color 160ms ease, color 160ms ease; }
+  .lang button[aria-pressed="true"] { background: #fff; color: #000091; }
+  .hero-body { padding: 48px 6px 0; display: grid; grid-template-columns: minmax(0, 1fr) 40%; grid-template-areas: "title title" "info kaya"; column-gap: 8px; }
+  .hero h1 { grid-area: title; font-size: clamp(44px, 12vw, 84px); margin: 0; }
+  .hero-info { grid-area: info; min-width: 0; }
+  .hero-kaya { grid-area: kaya; align-self: end; position: relative; width: 100%; max-width: 190px; justify-self: end; margin-right: -4px; padding-left: 6%; }
+  .hero-fig { position: relative; }
+  .hero-kaya img { position: relative; z-index: 1; display: block; width: 100%; height: auto; transform: scaleX(-1); }
+  .hero-kaya::after { content: ""; position: absolute; z-index: 0; left: 14%; right: 8%; bottom: -5px; height: 14px; border-radius: 50%; background: rgba(0, 0, 40, .45); filter: blur(5px); }
+  .hero-ball, .fly-ball { position: absolute; z-index: 0; aspect-ratio: 1; display: block; }
+  .hero-ball { transition: opacity 300ms ease; }
+  .hero-ball svg, .fly-ball svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .fly-ball { position: fixed; left: 0; top: 0; z-index: 30; pointer-events: none; will-change: transform; }
+  @media (min-width: 700px) {
+    .hero-body { grid-template-columns: minmax(0, 1fr) 220px; grid-template-areas: "title kaya" "info kaya"; column-gap: 28px; }
+    .hero-kaya { max-width: none; margin-right: 0; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-kaya { animation: rise 700ms var(--ease-out) 700ms both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+  }
+  .hook { font-size: clamp(18px, 4.4vw, 24px); line-height: 1.3; margin: 18px 0 0; font-weight: 500; max-width: 30ch; }
+  .facts { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 6px 28px; margin: 30px 0 0; padding: 0; }
+  .facts div { min-width: 0; }
+  .facts dt { font-size: 14px; color: rgba(255,255,255,.72); }
+  .facts dd { margin: 0; font-weight: 700; font-size: 17px; }
+  @media (max-width: 699px) { .facts { grid-template-columns: 1fr; gap: 12px; margin-top: 24px; } .progress { margin-top: 22px; } }
+  .progress { margin: 26px 0 0; max-width: 420px; }
+  .progress p { margin: 0 0 8px; font-size: 15px; font-variant-numeric: tabular-nums; }
+  .track { height: 8px; border-radius: 99px; background: rgba(255,255,255,.18); overflow: hidden; }
+  .fill { height: 100%; width: 100%; background: #fff; border-radius: 99px; transform-origin: left; transform: scaleX(0);
+          transition: transform 900ms var(--ease-out); }
+  .cta { display: inline-block; margin-top: 30px; background: var(--red); color: #fff; text-decoration: none; border-radius: 12px;
+         padding: 17px 24px; font-weight: 700; font-size: 17px; line-height: 1; transition: transform 140ms var(--ease-out), background-color 160ms ease; }
+  .cta:active { transform: scale(.97); background: var(--red-press); }
+  @media (max-width: 699px) { .cta { display: block; text-align: center; padding: 16px 10px; font-size: 16px; } }
+
+  /* ───────── Sections ───────── */
+  section { margin-top: 64px; }
+  h2 { font-size: clamp(34px, 8vw, 50px); margin: 0 0 14px; }
+  .lede { color: var(--muted); margin: 0 0 22px; max-width: 58ch; }
+
+  /* Kaya */
+  .kaya { display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 18px; align-items: start; }
+  @media (min-width: 640px) { .kaya { grid-template-columns: 170px minmax(0, 1fr); gap: 30px; } }
+  .portrait { margin: 0; }
+  .portrait .frame { aspect-ratio: 3 / 4; border-radius: 12px; overflow: hidden; background: #000091; }
+  .portrait img, .lot .media img { width: 100%; height: 100%; object-fit: cover; }
+  .kaya .ph { font-size: 40px; }
+  .kaya h2 { margin-top: 4px; }
+  .kaya p { margin: 0; max-width: 58ch; text-wrap: pretty; }
+
+  /* Photo placeholder (photo not uploaded yet / failed to load) */
+  .ph { width: 100%; height: 100%; display: grid; place-items: center; background:
+        linear-gradient(transparent calc(50% - 1px), rgba(255,255,255,.22) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)), #000091;
+        color: rgba(255,255,255,.5); font-stretch: var(--condensed); font-weight: 900; font-size: 64px; }
+
+  /* Prizes */
+  .lots { display: grid; gap: 14px; }
+  .lot { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: grid; min-width: 0; }
+  .lot .media { position: relative; background: #000091; }
+  .lot .body { padding: 16px 18px 18px; min-width: 0; }
+  .rank { display: inline-block; background: var(--red); color: #fff; font-weight: 700; font-size: 14px; line-height: 1; padding: 6px 9px; border-radius: 6px; }
+  .lot h3 { font-size: 22px; line-height: 1.15; margin: 10px 0 6px; font-stretch: 85%; font-weight: 800; overflow-wrap: anywhere; }
+  .lot p { margin: 0; color: var(--muted); font-size: 16px; }
+  .lot-1 .media { aspect-ratio: 16 / 10; }
+  .lot-1 h3 { font-size: clamp(26px, 6vw, 34px); font-stretch: var(--condensed); font-weight: 850; }
+  @media (min-width: 640px) {
+    .lot-1 { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
+    .lot-1 .media { aspect-ratio: auto; min-height: 300px; }
+    .lot-1 .body { padding: 24px; align-self: center; }
+  }
+  .lots-row { display: grid; gap: 14px; }
+  .lots-row .lot { grid-template-columns: 112px minmax(0, 1fr); }
+  .lots-row .media { aspect-ratio: 1; }
+  .lots-row .ph { font-size: 40px; }
+  .lots-row .body { padding: 14px 16px; align-self: center; }
+  .lots-row h3 { font-size: 19px; margin-top: 8px; }
+  .lots-row p { font-size: 15px; }
+  @media (min-width: 640px) {
+    .lots-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .lots-row .lot { grid-template-columns: none; grid-template-rows: auto 1fr; }
+    .lots-row .media { aspect-ratio: 4 / 3; }
+    .lots-row .body { align-self: start; }
+  }
+  .sheet { list-style: none; margin: 8px 0 0; padding: 0; border-top: 2px solid var(--ink); }
+  .sheet li { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 4px 12px; padding: 14px 0; border-bottom: 1px solid var(--line); align-items: center; }
+  .sheet .n { font-stretch: var(--condensed); font-weight: 900; font-size: 30px; line-height: 1; color: var(--red); font-variant-numeric: tabular-nums; }
+  .sheet b { display: block; font-weight: 700; overflow-wrap: anywhere; }
+  .sheet span { display: block; color: var(--muted); font-size: 15px; }
+  .rules { color: var(--muted); font-size: 15px; margin: 18px 0 0; max-width: 60ch; }
 
   /* Grid */
-  h2 { font-family: Fraunces, Georgia, serif; font-size: 24px; margin: 0 0 4px; }
-  .hint { margin: 0 0 14px; color: var(--muted); }
-  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin-bottom: 12px; }
-  .legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; border: 1px solid var(--line); background: var(--surface); }
-  .legend .l-sel::before { background: var(--accent); border-color: var(--accent); }
+  .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; color: var(--muted); margin: 0 0 14px; }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .legend span::before { content: ""; width: 15px; height: 15px; border-radius: 50%; border: 1px solid var(--line);
+                         background: radial-gradient(circle at 34% 28%, #fff 0 20%, var(--ball) 60%, var(--ball-edge)); }
+  .legend .l-sel::before { background: radial-gradient(circle at 34% 28%, var(--ball-sel-hi), var(--ball-sel) 70%); border-color: var(--ball-sel); }
   .legend .l-taken::before { background: var(--taken); border-color: var(--taken); }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(42px, 1fr)); gap: 6px; }
-  @media (min-width: 560px) { .grid { grid-template-columns: repeat(10, 1fr); } }
-  .cell { aspect-ratio: 1; min-height: 40px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 9px;
-          font: 600 14px/1 system-ui, sans-serif; font-variant-numeric: tabular-nums; cursor: pointer; padding: 0;
-          transition: background .12s, border-color .12s, color .12s, transform .08s; }
-  .cell:hover:not(:disabled):not(.sel) { border-color: var(--accent); color: var(--accent); }
-  .cell:active:not(:disabled) { transform: scale(.94); }
-  .cell.sel { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-  .cell:disabled { background: var(--taken); border-color: transparent; color: var(--taken-ink); cursor: not-allowed; text-decoration: line-through; }
-  .grid.loading .cell { opacity: .5; text-decoration: none; }
-  .cell:focus-visible, .btn:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .status { min-height: 22px; margin: 10px 0 0; font-size: 14px; color: var(--muted); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); gap: 6px; }
+  @media (min-width: 600px) { .grid { grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 9px; } }
+
+  /* Each number is a netball: a round ball with curved panel seams */
+  .cell { position: relative; isolation: isolate; aspect-ratio: 1; min-height: 44px; padding: 0; overflow: hidden;
+          border: 1.5px solid var(--seam); border-radius: 50%; color: #0a0a3c; text-shadow: 0 0 3px var(--ball), 0 0 6px var(--ball);
+          background: radial-gradient(circle at 34% 28%, #fff 0 18%, var(--ball) 58%, var(--ball-edge) 100%);
+          font: 750 16px/1 Archivo, sans-serif; font-stretch: 85%; font-variant-numeric: tabular-nums; cursor: pointer;
+          transition: transform 120ms var(--ease-out), color 150ms ease, border-color 150ms ease; }
+  .cell::before, .cell::after { content: ""; position: absolute; z-index: -1; border-radius: 50%; border: 1.5px solid var(--seam); pointer-events: none; }
+  .cell::before { inset: -2px 24%; border-top-color: transparent; border-bottom-color: transparent; }
+  .cell::after  { inset: 24% -2px; border-left-color: transparent; border-right-color: transparent; }
+  .cell:active:not(:disabled) { transform: scale(.9); }
+  .cell.sel { color: #fff; text-shadow: 0 0 4px var(--ball-sel); border-color: var(--ball-sel); background: radial-gradient(circle at 34% 28%, var(--ball-sel-hi) 0 12%, var(--ball-sel) 72%); }
+  .cell.sel::before, .cell.sel::after { border-color: var(--seam-sel); }
+  .cell.sel::before { border-top-color: transparent; border-bottom-color: transparent; }
+  .cell.sel::after  { border-left-color: transparent; border-right-color: transparent; }
+  .cell:disabled { cursor: not-allowed; background: var(--taken); border-color: transparent; color: var(--taken-ink); text-shadow: none; }
+  .cell:disabled::before, .cell:disabled::after { opacity: .35; }
+  .grid.loading .cell { color: transparent; }
+  @media (hover: hover) and (pointer: fine) {
+    .cell:hover:not(:disabled):not(.sel) { border-color: var(--ball-sel); }
+    .cta:hover { background: var(--red-press); }
+    .btn:not(.ghost):hover:not(:disabled) { background: var(--red-press); }
+    .btn.ghost:hover { border-color: var(--ink); }
+  }
+  .status { min-height: 24px; margin: 12px 0 0; font-size: 15px; color: var(--muted); }
   .status.err { color: var(--err); }
 
   /* Form */
-  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px; margin-top: 28px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 16px; min-height: 30px; }
-  .chip { background: var(--accent-soft); color: var(--accent); border: 0; border-radius: 999px; padding: 5px 10px; font: 600 14px/1.2 system-ui, sans-serif; cursor: pointer; }
-  .chip::after { content: " ×"; opacity: .7; }
-  .empty { color: var(--muted); font-size: 14px; }
-  label { display: block; font-size: 14px; font-weight: 600; margin: 14px 0 6px; }
-  input[type=text], input[type=email] { width: 100%; font: 16px/1.4 system-ui, sans-serif; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); }
-  .seg { display: flex; gap: 8px; flex-wrap: wrap; }
-  .seg label { margin: 0; flex: 1; min-width: 80px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px 20px; }
+  .form-wrap { position: relative; margin-top: 96px; }
+  form.card { position: relative; z-index: 1; }
+  .peek { position: absolute; z-index: 0; right: 26px; top: 0; width: 88px; height: auto; transform: translateY(-30%);
+          transition: transform 420ms var(--ease-out); pointer-events: none; }
+  .form-wrap.peeking .peek { transform: translateY(-60%); }
+  form h2 { font-size: 30px; }
+  /* A chosen number = a blue netball (same look as a chosen ball in the grid) */
+  .bball { --s: 46px; position: relative; isolation: isolate; display: inline-grid; place-items: center; flex-shrink: 0;
+           width: var(--s); height: var(--s); padding: 0; border-radius: 50%; border: 1.5px solid var(--ball-sel); color: #fff;
+           background: radial-gradient(circle at 34% 28%, var(--ball-sel-hi) 0 12%, var(--ball-sel) 72%);
+           font: 750 calc(var(--s) * .36)/1 Archivo, sans-serif; font-stretch: 85%; font-variant-numeric: tabular-nums; text-shadow: 0 0 4px var(--ball-sel); }
+  .bball .sm { position: absolute; inset: 0; z-index: -1; border-radius: 50%; overflow: hidden; }
+  .bball .sm::before, .bball .sm::after { content: ""; position: absolute; border-radius: 50%; border: 1.5px solid var(--seam-sel); }
+  .bball .sm::before { inset: -2px 24%; border-top-color: transparent; border-bottom-color: transparent; }
+  .bball .sm::after  { inset: 24% -2px; border-left-color: transparent; border-right-color: transparent; }
+  .chips { display: flex; flex-wrap: wrap; gap: 12px 10px; margin: 2px 0 6px; padding-top: 6px; min-height: 58px; align-items: center; }
+  .chip { cursor: pointer; transition: transform 120ms var(--ease-out); }
+  .chip:active { transform: scale(.92); }
+  .chip::after { content: "×"; position: absolute; top: -5px; right: -5px; width: 20px; height: 20px; border-radius: 50%;
+                 display: grid; place-items: center; background: var(--surface); color: var(--ink); border: 1px solid var(--line);
+                 font: 700 15px/1 system-ui, sans-serif; text-shadow: none; box-shadow: 0 2px 6px rgba(0, 0, 60, .15); }
+  .chip.arriving, .mini.arriving { opacity: 0; }
+  .bball.zoom { position: fixed; left: 0; top: 0; z-index: 60; margin: 0; transform-origin: 50% 50%; will-change: transform;
+                border-width: calc(var(--s) * .012); font-size: calc(var(--s) * .36); text-shadow: 0 0 calc(var(--s) * .02) var(--ball-sel); }
+  .bball.zoom .sm::before, .bball.zoom .sm::after { border-width: calc(var(--s) * .01); }
+  .bball.zoom .znum { display: block; line-height: 1; }
+  .bball.zoom.waiting .sm { animation: zspin 2.6s linear infinite; }
+  @keyframes zspin { to { transform: rotate(360deg); } }
+  .fly-num { position: fixed; left: 0; top: 0; z-index: 30; pointer-events: none; margin: 0; will-change: transform; }
+  .empty { color: var(--muted); font-size: 15px; }
+  label.f { display: block; font-size: 15px; font-weight: 700; margin: 18px 0 7px; }
+  input[type=text], input[type=email] { width: 100%; font: 16px/1.4 Archivo, sans-serif; padding: 12px 13px; border: 1px solid var(--line);
+          border-radius: 10px; background: var(--page); color: var(--ink); transition: border-color 150ms ease; }
+  input[type=text]:focus, input[type=email]:focus { border-color: var(--sel); outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--sel) 20%, transparent); }
+  .seg { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 8px; }
+  .seg label { position: relative; }
   .seg input { position: absolute; opacity: 0; pointer-events: none; }
-  .seg span { display: block; text-align: center; padding: 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); cursor: pointer; font-weight: 600; }
-  .seg input:checked + span { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
-  .seg input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .total { display: flex; justify-content: space-between; align-items: baseline; margin: 20px 0 14px; padding-top: 16px; border-top: 1px solid var(--line); }
-  .total b { font-family: Fraunces, Georgia, serif; font-size: 28px; font-variant-numeric: tabular-nums; }
-  .btn { width: 100%; border: 0; border-radius: 12px; background: var(--red); color: var(--red-ink); font: 700 16px/1 system-ui, sans-serif; padding: 16px; cursor: pointer; }
-  .btn:disabled { opacity: .55; cursor: default; }
+  .seg span { display: block; text-align: center; padding: 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--page);
+              font-weight: 700; cursor: pointer; -webkit-user-select: none; user-select: none; transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease; }
+  .seg input:checked + span { background: var(--sel); border-color: var(--sel); color: var(--sel-ink); }
+  .seg input:focus-visible + span { outline: 3px solid var(--red); outline-offset: 2px; }
+  .total { display: flex; justify-content: space-between; align-items: baseline; margin: 22px 0 14px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .total b { font-stretch: var(--condensed); font-weight: 900; font-size: 34px; font-variant-numeric: tabular-nums; }
+  .btn { width: 100%; border: 0; border-radius: 12px; background: var(--red); color: #fff; font: 700 17px/1 Archivo, sans-serif; padding: 18px; cursor: pointer;
+         transition: transform 140ms var(--ease-out), background-color 160ms ease, opacity 160ms ease; }
+  .btn:active:not(:disabled) { transform: scale(.97); }
+  .btn:not(.ghost):active:not(:disabled) { background: var(--red-press); }
+  .btn:disabled { opacity: .6; cursor: default; }
   .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
-  .note { font-size: 14px; color: var(--muted); margin: 12px 0 0; }
-  .formerr { color: var(--err); font-size: 14px; margin: 10px 0 0; min-height: 20px; }
+  .note { font-size: 15px; color: var(--muted); margin: 12px 0 0; }
+  .formerr { color: var(--err); font-size: 15px; margin: 10px 0 0; min-height: 22px; }
 
   /* Sticky bar */
-  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: var(--surface); border-top: 1px solid var(--line);
-         padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); transform: translateY(110%); transition: transform .2s; z-index: 5; }
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; background: var(--surface); border-top: 1px solid var(--line);
+         padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px)); transform: translateY(110%); transition: transform 240ms var(--ease-out); }
   .bar.show { transform: none; }
-  .bar-in { max-width: 720px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
-  .bar-in div { flex: 1; font-weight: 600; }
-  .bar-in small { display: block; color: var(--muted); font-weight: 400; }
-  .bar .btn { width: auto; padding: 13px 20px; }
+  .bar-in { max-width: 760px; margin: 0 auto; display: flex; align-items: center; gap: 14px; }
+  .bar-in > div { flex: 1; min-width: 0; }
+  .minis { display: flex; align-items: center; min-height: 30px; }
+  .minis .bball { --s: 30px; margin-right: -5px; border-color: var(--surface); }
+  .minis .more { margin-left: 10px; font-weight: 700; font-size: 14px; color: var(--ink); }
+  .bar-in small { display: block; margin-top: 4px; color: var(--muted); font-size: 14px; }
+  .bar .btn { width: auto; flex-shrink: 0; padding: 14px 20px; }
 
   /* Done */
-  .done { text-align: center; padding: 30px 22px; }
-  .done h2 { font-size: 30px; margin: 8px 0 10px; }
-  .done p { color: var(--muted); max-width: 460px; margin: 0 auto 12px; }
-  .done .nums { font-family: Fraunces, Georgia, serif; font-size: 26px; color: var(--accent); margin: 14px 0; }
-  [hidden] { display: none !important; }
+  .done { position: relative; overflow: hidden; margin-top: 34px; text-align: center; padding: 34px 22px; }
+  .done h2 { font-size: clamp(34px, 8vw, 46px); }
+  .done .nums { font-stretch: var(--condensed); font-weight: 900; font-size: 40px; line-height: 1.05; color: var(--red); margin: 4px 0 16px; overflow-wrap: anywhere; }
+  .done p { color: var(--muted); max-width: 46ch; margin: 0 auto 12px; }
+  /* The payment still to do: the one thing people must not miss */
+  .todo { max-width: 440px; margin: 6px auto 18px; padding: 18px 18px 16px; text-align: left; border: 2px solid var(--red); border-radius: 14px;
+          background: color-mix(in srgb, var(--red) 6%, var(--surface)); }
+  .todo h3 { margin: 0 0 12px; font-size: 21px; line-height: 1.15; font-weight: 850; font-stretch: 80%; color: var(--ink); }
+  .pay { margin: 0 0 12px; display: grid; gap: 8px; }
+  .pay div { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+  .pay dt { color: var(--muted); font-size: 15px; }
+  .pay dd { margin: 0; font-weight: 800; font-size: 17px; font-variant-numeric: tabular-nums; text-align: right; display: flex; align-items: center; gap: 8px; }
+  #payRef { white-space: nowrap; }
+  .copy { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 5px 9px; font: 600 13px/1 Archivo, sans-serif; cursor: pointer; }
+  .copy:active { transform: scale(.96); }
+  .todo p#doneBody { margin: 0; max-width: none; font-size: 15px; }
+  .shot { display: block; width: 100%; max-width: 420px; aspect-ratio: 340 / 292; margin: -8px auto 6px; padding: 0; border: 0; background: none; cursor: pointer; color: inherit; }
+  .shot svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .shot .floor { stroke: var(--line); stroke-width: 2; }
+  .shot .post { fill: var(--post); }
+  .shot .ring { fill: none; stroke: var(--red); stroke-width: 3.5; stroke-linecap: round; }
+  .shot .net { fill: none; stroke: var(--muted); stroke-width: 1.1; opacity: .7; transform-box: fill-box; transform-origin: 50% 0; }
+  .bnum-sel { fill: #fff; font: 750 9.5px Archivo, sans-serif; font-stretch: 85%; }
+  .bnum { fill: #0a0a3c; font: 800 8.5px Archivo, sans-serif; font-stretch: 78%; }
+  .shot .spin { transform-box: fill-box; transform-origin: 50% 50%; }
+  .shot .kaya { transform-box: fill-box; transform-origin: 50% 100%; }
+  .shot .goal { fill: var(--red); font: 900 30px Archivo, sans-serif; font-stretch: 72%; transform-box: fill-box; transform-origin: 50% 100%; }
+  .confetti { position: absolute; top: -12px; width: 8px; height: 14px; border-radius: 2px; pointer-events: none; }
+
+  footer { margin: 72px 0 0; padding: 22px 0 calc(110px + env(safe-area-inset-bottom, 0px)); border-top: 2px solid var(--red); color: var(--muted); font-size: 15px; }
+  footer p { margin: 0; }
+
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-  .setup { background: var(--accent-soft); color: var(--ink); border-radius: 12px; padding: 14px 16px; margin: 0 0 20px; font-size: 15px; }
+  .setup { background: #fff3cd; color: #3d2e00; border-radius: 12px; padding: 14px 16px; margin: 24px 0 0; font-size: 15px; }
   .setup code { font-size: 14px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fill, .bar, .cell, .btn, .cta, .chip, .peek { transition-duration: 0ms; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="top">
-    <div class="lang" role="group" aria-label="Language">
-      <button type="button" data-lang="fr">FR</button>
-      <button type="button" data-lang="en">EN</button>
+
+<header class="hero">
+  <div class="court" aria-hidden="true">
+    <i class="third t1"></i><i class="third t2"></i><i class="centre"></i>
+    <i class="goal g1"></i><i class="goal g2"></i><i class="post p1"></i><i class="post p2"></i>
+  </div>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="lang" role="group" aria-label="Langue / Language">
+        <button type="button" data-lang="fr">FR</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+    </div>
+    <div class="hero-body">
+      <h1 class="display" id="title"></h1>
+      <div class="hero-info">
+      <p class="hook" id="hook"></p>
+      <dl class="facts">
+        <div><dt data-t="perNumber"></dt><dd id="priceVal"></dd></div>
+        <div><dt data-t="toWin"></dt><dd id="prizeCount"></dd></div>
+        <div><dt data-t="draw"></dt><dd id="drawVal"></dd></div>
+      </dl>
+      <div class="progress" id="progress" hidden>
+        <p id="progressText"></p>
+        <div class="track"><div class="fill" id="fill"></div></div>
+      </div>
+      <a class="cta" href="#numbers" id="cta" data-t="ctaPick"></a>
+      </div>
+      <div class="hero-kaya" id="heroKaya" aria-hidden="true">
+        <div class="hero-fig"><span class="hero-ball" id="heroBall"></span><img id="heroKayaImg" alt="" width="377" height="760"></div>
+      </div>
     </div>
   </div>
+</header>
 
-  <header class="ticket">
-    <p class="eyebrow" data-t="eyebrow"></p>
-    <h1 id="title"></h1>
-    <p class="prize" id="prize"></p>
-    <div class="stub">
-      <div class="fact"><small data-t="price"></small><b id="priceVal"></b></div>
-      <div class="fact"><small data-t="draw"></small><b id="drawVal"></b></div>
-      <div class="fact"><small data-t="left"></small><b id="leftVal">–</b></div>
-    </div>
-  </header>
-
+<div class="wrap">
   <p class="setup" id="setup" hidden>⚙️ Setup not finished: open <code>index.html</code> and paste your Google Apps Script URL (ending in <code>/exec</code>) where it says <code>API_URL</code> (use Ctrl/Cmd+F to find it).</p>
 
+  <section class="kaya" id="kaya">
+    <figure class="portrait">
+      <div class="frame" id="kayaFrame"></div>
+    </figure>
+    <div>
+      <h2 class="display" id="kayaName"></h2>
+      <p id="kayaText"></p>
+    </div>
+  </section>
+
+  <section id="prizes">
+    <h2 class="display" id="prizesTitle"></h2>
+    <div class="lots" id="lots"></div>
+    <ol class="sheet" id="sheet"></ol>
+    <p class="rules" data-t="rules"></p>
+  </section>
+
   <main id="main">
-    <section>
-      <h2 data-t="pick"></h2>
-      <p class="hint" id="hint"></p>
+    <section id="numbers">
+      <h2 class="display" data-t="pick"></h2>
+      <p class="lede" id="hint"></p>
       <div class="legend">
         <span data-t="free"></span><span class="l-sel" data-t="selected"></span><span class="l-taken" data-t="taken"></span>
       </div>
@@ -144,19 +405,21 @@
       <p class="status" id="status" aria-live="polite"></p>
     </section>
 
+    <div class="form-wrap" id="formWrap">
+    <img class="peek" id="peek" alt="" aria-hidden="true" width="370" height="760">
     <form class="card" id="form" novalidate>
-      <h2 data-t="yourNumbers"></h2>
+      <h2 class="display" data-t="yourNumbers"></h2>
       <div class="chips" id="chips"></div>
 
       <div class="hp" aria-hidden="true"><label for="website">Website</label><input type="text" id="website" tabindex="-1" autocomplete="off"></div>
 
-      <label for="name" data-t="name"></label>
-      <input type="text" id="name" autocomplete="name" maxlength="80" required>
+      <label class="f" for="name" data-t="name"></label>
+      <input type="text" id="name" autocomplete="name" maxlength="80" enterkeyhint="next" required>
 
-      <label for="email" data-t="email"></label>
-      <input type="email" id="email" autocomplete="email" maxlength="120" required>
+      <label class="f" for="email" data-t="email"></label>
+      <input type="email" id="email" autocomplete="email" autocapitalize="none" autocorrect="off" maxlength="120" enterkeyhint="done" required>
 
-      <label data-t="currency"></label>
+      <label class="f" data-t="currency"></label>
       <div class="seg" id="seg"></div>
 
       <div class="total"><span data-t="total"></span><b id="totalVal">0</b></div>
@@ -164,87 +427,161 @@
       <p class="formerr" id="formerr" aria-live="assertive"></p>
       <p class="note" id="note"></p>
     </form>
+    </div>
   </main>
 
   <section class="card done" id="done" hidden>
-    <h2 data-t="doneTitle"></h2>
+    <button type="button" class="shot" id="shot"></button>
+    <h2 class="display" data-t="doneTitle"></h2>
     <div class="nums" id="doneNums"></div>
-    <p id="doneBody"></p>
+    <div class="todo">
+      <h3 data-t="todoTitle"></h3>
+      <dl class="pay">
+        <div><dt data-t="todoAmount"></dt><dd id="payAmount"></dd></div>
+        <div><dt data-t="todoRef"></dt><dd><span id="payRef"></span><button type="button" class="copy" id="copyRef" data-t="copy"></button></dd></div>
+        <div id="payByRow"><dt data-t="todoBy"></dt><dd id="payBy"></dd></div>
+      </dl>
+      <p id="doneBody"></p>
+    </div>
     <p id="doneHold"></p>
     <button class="btn ghost" type="button" id="again" data-t="again" style="margin-top:12px"></button>
   </section>
+
+  <footer><p id="footer"></p></footer>
 </div>
 
 <div class="bar" id="bar">
   <div class="bar-in">
-    <div><span id="barCount"></span><small id="barTotal"></small></div>
+    <div><div class="minis" id="minis"></div><small id="barTotal"></small></div>
     <button class="btn" type="button" id="barBtn" data-t="continue"></button>
   </div>
 </div>
 
 <script>
 /* =====================================================================
-   PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE (it ends in /exec)
+   1) PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE (it ends in /exec)
    ===================================================================== */
-const API_URL = 'https://script.google.com/macros/s/AKfycbyojjAxoBGQIcPzyA0j-OX4tzeza-wV3L_Yt1HR64kKQ2jYbB7yRz8p-1ePSKxa7f7gZw/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwW6AyA9L6ZAsDI32tJj9Nkt0sCcoS4qAutuzWnN1l2w9GA5B74Rj89cdWT-UpyWAPqTg/exec';
+
+/* =====================================================================
+   2) YOUR CONTENT — edit the text between the quotes.
+   Photos: upload the image files to GitHub next to index.html, with
+   exactly these names (lower case). A missing photo shows a blue block.
+   ===================================================================== */
+const CONTENT = {
+  headline: {
+    fr: 'Soutenez Kaya pour sa saison de netball 2027',
+    en: 'Support Kaya in her 2027 netball season',
+  },
+  hook: {   // one line under the headline
+    fr: 'Joueuse de Meinier Netball et des Valley Vipers, internationale U21, Kaya finance elle-même sa saison.',
+    en: 'Playing for Meinier Netball, the Valley Vipers and France U21, Kaya funds her own season.',
+  },
+  kaya: {
+    name: 'Kaya Luefkens',
+    photo: 'kaya-training.jpg',
+    text: {
+      fr: 'Originaire du Chablais, au bord du Léman, Kaya a découvert le netball à 9 ans au club genevois de Meinier, et joue aujourd’hui aussi avec les Valley Vipers de Saint-Jean-d’Aulps. Sélectionnée en équipe de France junior dès 13 ans, elle compte déjà 5 compétitions internationales et 3 médailles d’or, et a été élue meilleure joueuse des Championnats d’Europe U17 et U19 en 2025. Son objectif : devenir championne d’Europe en première division avant 2028. Comme la plupart des joueuses de netball, elle finance elle-même ses déplacements et ses compétitions, et l’argent de la tombola servira à sa saison 2027.',
+      en: 'Kaya grew up in the Chablais, on the shores of Lake Geneva, and discovered netball at 9 with the Meinier club in Geneva; today she also plays for the Valley Vipers in Saint-Jean-d’Aulps. Selected for the France junior squad at just 13, she has already played 5 international competitions, won 3 gold medals and was voted best player at the 2025 U17 and U19 European Championships. Her goal is to become European champion in the first division before 2028. Like most netball players, she pays for her own travel and competitions, and the money from this raffle will fund her 2027 season.',
+    },
+  },
+  // In draw order: prize 1 first. The first 4 are shown big, with a photo; the rest as a list.
+  prizes: [
+    { photo: 'lot-1.jpg', fr: { title: 'Une nuit au Palace XX', detail: '[Détails : pour 2 personnes, petit-déjeuner inclus…]' },
+                          en: { title: 'A night at the Palace XX', detail: '[Details: for 2 people, breakfast included…]' } },
+    { photo: 'lot-2.jpg', fr: { title: '[Lot 2]', detail: '[Détails]' }, en: { title: '[Prize 2]', detail: '[Details]' } },
+    { photo: 'lot-3.jpg', fr: { title: '[Lot 3]', detail: '[Détails]' }, en: { title: '[Prize 3]', detail: '[Details]' } },
+    { photo: 'lot-4.jpg', fr: { title: '[Lot 4]', detail: '[Détails]' }, en: { title: '[Prize 4]', detail: '[Details]' } },
+    { fr: { title: '[Lot 5]', detail: '' }, en: { title: '[Prize 5]', detail: '' } },
+    { fr: { title: '[Lot 6]', detail: '' }, en: { title: '[Prize 6]', detail: '' } },
+    { fr: { title: '[Lot 7]', detail: '' }, en: { title: '[Prize 7]', detail: '' } },
+    { fr: { title: '[Lot 8]', detail: '' }, en: { title: '[Prize 8]', detail: '' } },
+  ],
+  footer: {
+    fr: 'Tombola organisée par la famille et les amis de Kaya. Merci pour votre soutien !',
+    en: 'Raffle run by Kaya’s family and friends. Thank you for your support!',
+  },
+};
+const BIG_PRIZES = 4;
+// Illustrated Kaya (cut-outs of the sketch). Upload these files next to index.html too.
+const ART = { shoot: 'kaya-shoot.webp', front: 'kaya-front.webp' };
+// Where the ball sits in kaya-shoot.webp (pixels): used to put the real ball in her hands.
+const SHOOT = { w: 377, h: 760, cx: 345.8, cy: 93.7, r: 59 };
+// Kaya catching, turning and passing: 63 frames (24 per second) cut from the video, in one image of 9 columns.
+// balls = centre of the ball (pixels, in one frame) for each frame until she lets go of it.
+const TURN = { src: 'kaya-turn.webp', w: 267, h: 340, cols: 9, count: 63, release: 50,
+  balls: [[86.7,109.9],[85.9,114.7],[85.6,120.0],[85.0,125.9],[84.6,131.6],[84.1,135.6],[84.0,138.8],[84.1,141.2],[83.8,143.1],[84.2,144.4],[84.1,145.5],[84.6,145.8],[84.1,146.3],[84.1,146.1],[84.1,145.3],[84.1,144.2],[84.2,142.9],[84.8,141.1],[84.4,140.0],[85.7,138.0],[88.4,135.6],[91.2,133.3],[94.9,130.9],[98.7,128.2],[102.5,125.6],[108.3,122.2],[112.9,119.2],[116.7,117.1],[120.3,115.5],[123.2,114.4],[127.8,112.3],[131.1,111.5],[134.4,111.3],[138.1,111.0],[140.1,111.8],[144.3,111.6],[147.2,112.1],[149.6,113.0],[152.0,113.0],[154.0,114.1],[156.2,114.5],[158.3,114.7],[161.4,114.0],[165.1,113.6],[169.7,112.4],[175.8,109.6],[185.4,106.1],[196.5,103.1],[212.6,97.8],[234.2,92.3]] };
+
+/* ===================================================================== */
 
 // Defaults shown until the backend answers (the real values come from Code.gs CONFIG).
 let CFG = {
-  title: { en: 'Raffle', fr: 'Tombola' }, prize: { en: '', fr: '' }, drawDate: { en: '…', fr: '…' },
-  organiser: '', total: 200, price: 10, maxPerOrder: 10, holdHours: 72, currencies: ['CHF', 'EUR', 'GBP'],
+  title: { en: 'Raffle', fr: 'Tombola' }, prize: { en: '', fr: '' }, drawDate: { en: '31 December', fr: '31 décembre' },
+  organiser: '', total: 300, price: 10, maxPerOrder: 10, holdHours: 72, currencies: ['CHF', 'EUR', 'GBP'],
 };
 
 const STR = {
   en: {
-    eyebrow: 'Raffle · Netball 2027', price: 'Price',
-    headline: 'Support Kaya Luefkens in her netball season 2027', question: 'Want to win a night at the {prize}?', prizeName: 'Palace XX', draw: 'Draw', left: 'Left',
-    pick: 'Pick your numbers', hint: 'Tap one or more free numbers (up to {max}).',
+    perNumber: 'Per number', toWin: 'To win', draw: 'Draw', or: 'or',
+    prizes1: '1 prize', prizesN: '{n} prizes', prizesTitle: '{n} prizes to win', prizesTitle1: '1 prize to win',
+    progress: '{taken} of {total} numbers taken', ctaPick: 'Pick my numbers',
+    rules: 'Winners are drawn from paid numbers only, starting with prize 1. Each number can win once.',
+    pick: 'Pick your numbers', hint: 'Tap one or more free numbers, up to {max} at a time.',
     free: 'Free', selected: 'Selected', taken: 'Taken',
-    yourNumbers: 'Your numbers', noneYet: 'No numbers selected yet — tap them on the grid above.',
+    yourNumbers: 'Your numbers', noneYet: 'Tap numbers on the grid to add them here.',
     name: 'Your name', email: 'Email', currency: "I'll pay in", total: 'Total',
     submit: 'Reserve my numbers', sending: 'Reserving…',
     note: "We'll email you the bank details straight away. Your numbers are held for {h} hours while the transfer arrives.",
     noteNoHold: "We'll email you the bank details straight away.",
-    loading: 'Loading numbers…', loadErr: "Couldn't load the numbers. Please refresh the page.",
-    soldOut: 'All numbers are taken — thank you everyone!',
-    errNone: 'Pick at least one number.', errName: 'Please enter your name.', errEmail: 'Please enter a valid email address.',
-    errMax: 'You can reserve up to {max} numbers at once.', errTaken: 'Sorry — {nums} was just taken by someone else. Please pick another.',
-    errBusy: 'Lots of people at once — please try again in a moment.', errGeneric: 'Something went wrong. Please try again.',
+    loading: 'Loading numbers…', loadErr: "Couldn't load the numbers. Refresh the page to try again.",
+    soldOut: 'All numbers are taken. Thank you everyone!',
+    errNone: 'Pick at least one number.', errName: 'Enter your name.', errEmail: 'Enter a valid email address.',
+    errMax: 'You can reserve up to {max} numbers at once.', errTaken: '{nums} was just taken by someone else. Pick another number.',
+    errBusy: 'Lots of people are booking right now. Try again in a moment.', errGeneric: "Your numbers weren't reserved. Try again.",
     count1: '1 number selected', countN: '{n} numbers selected', continue: 'Continue',
-    doneTitle: "You're almost in!",
-    doneBody: "We've sent the payment details to {email}. If it's not there in a few minutes, check your spam folder.",
+    doneTitle: 'Numbers reserved, one more step!',
+    todoTitle: 'Make the bank transfer to confirm your numbers', todoAmount: 'Amount', todoRef: 'Reference', todoBy: 'Within',
+    copy: 'Copy', copied: 'Copied',
+    doneBody: "The bank details are in the email we've just sent to {email}. If it hasn't arrived within a few minutes, check your spam folder.",
     doneMailFail: "Your numbers are reserved, but the email didn't go through. {org} will send you the payment details directly.",
-    doneHold: "Please make the transfer within {h} hours with reference {ref}, or the numbers go back on the grid.",
-    doneRef: 'Please use the reference {ref} with your transfer.',
-    again: 'Reserve more numbers',
+    doneHold: "Without a transfer within {h} hours, the numbers go back on the grid. You'll get a confirmation email once your payment arrives.",
+    doneRef: "You'll get a confirmation email once your payment arrives: that's when your numbers enter the draw.",
+    again: 'Reserve more numbers', organiser: 'The organiser', goal: 'Goal!', replay: 'Watch Kaya shoot again',
+    ord: (n) => n + ({ 1: 'st', 2: 'nd', 3: 'rd' }[(n % 100 >= 11 && n % 100 <= 13) ? 0 : n % 10] || 'th') + ' prize',
   },
   fr: {
-    eyebrow: 'Tombola · Netball 2027', price: 'Prix',
-    headline: 'Soutenez Kaya Luefkens pour sa saison de netball 2027', question: 'Envie de gagner une nuit au {prize}\u00a0?', prizeName: 'Palace XX', draw: 'Tirage', left: 'Restants',
-    pick: 'Choisissez vos numéros', hint: "Touchez un ou plusieurs numéros libres (jusqu'à {max}).",
-    free: 'Libre', selected: 'Sélectionné', taken: 'Pris',
-    yourNumbers: 'Vos numéros', noneYet: 'Aucun numéro sélectionné — touchez-les dans la grille ci-dessus.',
+    perNumber: 'Le numéro', toWin: 'À gagner', draw: 'Tirage', or: 'ou',
+    prizes1: '1 lot', prizesN: '{n} lots', prizesTitle: '{n} lots à gagner', prizesTitle1: '1 lot à gagner',
+    progress: '{taken} numéros pris sur {total}', ctaPick: 'Choisir mes numéros',
+    rules: 'Les gagnants sont tirés parmi les numéros payés, en commençant par le 1er lot. Chaque numéro ne peut gagner qu’une fois.',
+    pick: 'Choisissez vos numéros', hint: 'Touchez un ou plusieurs numéros libres, jusqu’à {max} à la fois.',
+    free: 'Libre', selected: 'Choisi', taken: 'Pris',
+    yourNumbers: 'Vos numéros', noneYet: 'Touchez des numéros dans la grille pour les ajouter ici.',
     name: 'Votre nom', email: 'E-mail', currency: 'Je paie en', total: 'Total',
     submit: 'Réserver mes numéros', sending: 'Réservation…',
-    note: 'Vous recevrez les coordonnées bancaires par e-mail immédiatement. Vos numéros sont réservés {h} heures, le temps que le virement arrive.',
-    noteNoHold: 'Vous recevrez les coordonnées bancaires par e-mail immédiatement.',
-    loading: 'Chargement des numéros…', loadErr: 'Impossible de charger les numéros. Merci de rafraîchir la page.',
-    soldOut: 'Tous les numéros sont pris — merci à tous !',
-    errNone: 'Choisissez au moins un numéro.', errName: 'Merci d’indiquer votre nom.', errEmail: 'Merci d’indiquer une adresse e-mail valide.',
-    errMax: "Vous pouvez réserver jusqu'à {max} numéros à la fois.", errTaken: 'Désolé — {nums} vient d’être pris par quelqu’un d’autre. Choisissez-en un autre.',
-    errBusy: 'Beaucoup de monde en même temps — réessayez dans un instant.', errGeneric: 'Une erreur est survenue. Merci de réessayer.',
-    count1: '1 numéro sélectionné', countN: '{n} numéros sélectionnés', continue: 'Continuer',
-    doneTitle: "C'est presque fini !",
-    doneBody: 'Les coordonnées de paiement ont été envoyées à {email}. Si vous ne voyez rien d’ici quelques minutes, vérifiez vos spams.',
-    doneMailFail: "Vos numéros sont réservés, mais l'e-mail n'a pas pu partir. {org} vous enverra les coordonnées directement.",
-    doneHold: 'Merci de faire le virement sous {h} heures avec la référence {ref}, sinon les numéros seront remis en jeu.',
-    doneRef: 'Merci d’indiquer la référence {ref} avec votre virement.',
-    again: 'Réserver d’autres numéros',
+    note: 'Vous recevez les coordonnées bancaires par e-mail tout de suite. Vos numéros sont réservés {h} heures, le temps que le virement arrive.',
+    noteNoHold: 'Vous recevez les coordonnées bancaires par e-mail tout de suite.',
+    loading: 'Chargement des numéros…', loadErr: 'Les numéros n’ont pas pu être chargés. Rafraîchissez la page pour réessayer.',
+    soldOut: 'Tous les numéros sont pris. Merci à tous !',
+    errNone: 'Choisissez au moins un numéro.', errName: 'Indiquez votre nom.', errEmail: 'Indiquez une adresse e-mail valide.',
+    errMax: 'Vous pouvez réserver jusqu’à {max} numéros à la fois.', errTaken: 'Le {nums} vient d’être pris par quelqu’un d’autre. Choisissez un autre numéro.',
+    errBusy: 'Beaucoup de réservations en ce moment. Réessayez dans un instant.', errGeneric: 'Vos numéros n’ont pas été réservés. Réessayez.',
+    count1: '1 numéro choisi', countN: '{n} numéros choisis', continue: 'Continuer',
+    doneTitle: 'Numéros réservés, plus qu’une étape\u00a0!',
+    todoTitle: 'Faites le virement pour valider vos numéros', todoAmount: 'Montant', todoRef: 'Référence', todoBy: 'À faire sous',
+    copy: 'Copier', copied: 'Copié',
+    doneBody: 'Les coordonnées bancaires sont dans l’e-mail que nous venons d’envoyer à {email}. S’il n’est pas arrivé d’ici quelques minutes, vérifiez vos spams.',
+    doneMailFail: 'Vos numéros sont réservés, mais l’e-mail n’a pas pu partir. {org} vous enverra les coordonnées directement.',
+    doneHold: 'Sans virement sous {h} heures, les numéros sont remis en jeu. Vous recevrez un e-mail de confirmation à réception du paiement.',
+    doneRef: 'Vous recevrez un e-mail de confirmation à réception du paiement : c’est à ce moment que vos numéros entrent dans le tirage.',
+    again: 'Réserver d’autres numéros', organiser: 'L’organisateur', goal: 'Panier\u00a0!', replay: 'Revoir le tir de Kaya',
+    ord: (n) => (n === 1 ? '1er' : n + 'e') + ' lot',
   },
 };
 
 const $ = (id) => document.getElementById(id);
-let lang = (navigator.language || 'en').toLowerCase().startsWith('fr') ? 'fr' : 'en';
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let lang = (navigator.language || 'fr').toLowerCase().startsWith('en') ? 'en' : 'fr';
 let taken = null;           // {number: 'reserved'|'paid'} once loaded
 const sel = new Set();
 let currency = CFG.currencies[0];
@@ -256,12 +593,174 @@ function tr(key, vars) {
   if (vars) for (const k in vars) s = s.split('{' + k + '}').join(vars[k]);
   return s;
 }
+const pick = (obj) => (obj && (obj[lang] || obj.fr || obj.en)) || '';
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 
+/* Photo with a placeholder if the file is missing or fails to load */
+function photo(src, alt, fallback) {
+  const ph = el('div', 'ph', fallback);
+  if (!src) return ph;
+  const img = new Image();
+  img.src = src; img.alt = alt; img.loading = 'lazy'; img.decoding = 'async';
+  img.addEventListener('error', () => img.replaceWith(ph));
+  return img;
+}
+
+/* ── Static content: Kaya + prizes ── */
+function renderContent() {
+  $('title').textContent = pick(CONTENT.headline);
+  $('hook').textContent = pick(CONTENT.hook);
+  document.title = pick(CONTENT.headline);
+
+  const k = CONTENT.kaya;
+  const initials = k.name.split(/\s+/).filter(Boolean).map((w) => [...w][0]).slice(0, 2).join('').toUpperCase();
+  $('kayaFrame').replaceChildren(photo(k.photo, k.name, initials));
+  $('kayaName').textContent = k.name;
+  $('kayaText').textContent = pick(k.text);
+
+  const n = CONTENT.prizes.length;
+  $('prizesTitle').textContent = n === 1 ? tr('prizesTitle1') : tr('prizesTitle', { n });
+  $('prizeCount').textContent = n === 1 ? tr('prizes1') : tr('prizesN', { n });
+
+  const lots = $('lots'); lots.textContent = '';
+  const row = el('div', 'lots-row');
+  CONTENT.prizes.slice(0, BIG_PRIZES).forEach((p, i) => {
+    const t = pick(p);
+    const card = el('article', 'lot' + (i === 0 ? ' lot-1' : ''));
+    const media = el('div', 'media');
+    media.appendChild(photo(p.photo, t.title || '', String(i + 1)));
+    const body = el('div', 'body');
+    body.append(el('span', 'rank', STR[lang].ord(i + 1)), el('h3', null, t.title || ''));
+    if (t.detail) body.appendChild(el('p', null, t.detail));
+    card.append(media, body);
+    (i === 0 ? lots : row).appendChild(card);
+  });
+  if (row.children.length) lots.appendChild(row);
+
+  const sheet = $('sheet'); sheet.textContent = '';
+  CONTENT.prizes.slice(BIG_PRIZES).forEach((p, j) => {
+    const t = pick(p), li = el('li');
+    li.appendChild(el('span', 'n', String(BIG_PRIZES + j + 1)));
+    const txt = el('div'); txt.appendChild(el('b', null, t.title || ''));
+    if (t.detail) txt.appendChild(el('span', null, t.detail));
+    li.appendChild(txt); sheet.appendChild(li);
+  });
+  sheet.hidden = !sheet.children.length;
+  $('footer').textContent = pick(CONTENT.footer);
+}
+
+/* ── Kaya's ball (same style as the sketch): lilac with a white panel ── */
+function ballMarkup(num) {
+  return '<circle r="11.4" fill="#bf86c9" stroke="#1a1014" stroke-width="1.3"/>' +
+    '<path d="M-3.4,-11 Q-8.6,-6.5 -7.4,-3.2 M3.8,-11 Q8.4,-7.2 7.6,-3.2 M-7,5.6 Q-6,9.6 -2.6,11.1 M7,5.4 Q6.2,9.4 2.8,11.1" fill="none" stroke="#1a1014" stroke-width=".8" stroke-linecap="round"/>' +
+    '<path d="M-11.1,-2.6 Q0,-7.2 11.1,-2.6 L11.2,3.4 Q0,8.2 -11.2,3.4 Z" fill="#fbf4f0" stroke="#1a1014" stroke-width=".85" stroke-linejoin="round"/>' +
+    '<path d="M-7.5,-7.8 Q-5,-10 -1.8,-10.4" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".55"/>' +
+    (num !== '' ? '<text class="bnum" x="0" y="3.1" text-anchor="middle">' + Number(num) + '</text>' : '');
+}
+/* A chosen ball in the "Goal!" scene: identical to a chosen ball in the grid (blue, light seams, white number) */
+function selBallMarkup(num) {
+  return '<circle r="11.4" fill="url(#bselGrad)" stroke="var(--ball-sel)" stroke-width=".6"/>' +
+    '<g fill="none" stroke="var(--seam-sel)" stroke-width=".6" clip-path="url(#bselClip)">' +
+    '<ellipse rx="6.1" ry="11.8"/><ellipse rx="11.8" ry="6.1"/></g>' +
+    '<text class="bnum-sel" x="0" y="3.3" text-anchor="middle">' + Number(num) + '</text>';
+}
+function ballSVG() { return '<svg viewBox="-13 -13 26 26">' + ballMarkup('') + '</svg>'; }
+
+/* ── Illustrated Kaya: hero (shooting, facing the text) and form (peeking) ── */
+function setupArt() {
+  const hk = $('heroKaya'), img = $('heroKayaImg'), hb = $('heroBall');
+  hb.innerHTML = ballSVG();
+  hb.style.left = (SHOOT.w - SHOOT.cx - SHOOT.r) / SHOOT.w * 100 + '%';   // mirrored: she faces the text
+  hb.style.top = (SHOOT.cy - SHOOT.r) / SHOOT.h * 100 + '%';
+  hb.style.width = (2 * SHOOT.r) / SHOOT.w * 100 + '%';
+  img.addEventListener('error', () => { hk.hidden = true; });
+  img.src = ART.shoot;
+  const peek = $('peek'); peek.addEventListener('error', () => peek.remove()); peek.src = ART.front;
+}
+
+/* ── The pass: Kaya shoots the ball from the hero down to the numbers while the page scrolls ── */
+let passing = false;
+const easeInOut = (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+function passToGrid() {
+  const maxScroll = document.documentElement.scrollHeight - innerHeight;
+  const endY = Math.min(maxScroll, $('numbers').getBoundingClientRect().top + scrollY - 12);
+  const hb = $('heroBall');
+  if (reduceMotion || passing || $('heroKaya').hidden || !hb.offsetWidth || !hb.animate) {
+    window.scrollTo({ top: endY, behavior: reduceMotion ? 'auto' : 'smooth' });
+    return;
+  }
+  passing = true;
+  const b = hb.getBoundingClientRect(), size = b.width;
+  const cells = $('grid').children, top0 = cells[0].offsetTop;
+  let cols = 0; while (cols < cells.length && cells[cols].offsetTop === top0) cols++;
+  const idx = Math.min(cells.length - 1, cols + Math.floor(cols / 2));
+  const c = cells[idx].getBoundingClientRect();
+  const startY = scrollY;
+  const P0 = { x: b.left + size / 2, y: b.top + size / 2 };
+  const P2 = { x: c.left + c.width / 2, y: c.top + c.height / 2 - (endY - startY) };
+  const P1 = { x: (P0.x + P2.x) / 2 - 40, y: Math.min(P0.y, P2.y) - Math.min(280, innerHeight * .4) };
+  const endScale = c.width / size;
+
+  const fly = el('span', 'fly-ball'); fly.innerHTML = ballSVG();
+  fly.style.width = fly.style.height = size + 'px';
+  const place = (x, y, s, rot) => { fly.style.transform = `translate(${x - size / 2}px, ${y - size / 2}px) scale(${s}) rotate(${rot}deg)`; };
+  place(P0.x, P0.y, 1, 0);
+  document.body.appendChild(fly);
+  hb.style.transition = 'none'; hb.style.opacity = 0;
+
+  $('heroKaya').animate([
+    { transform: 'translateY(0) scaleY(1)' },
+    { transform: 'translateY(4px) scaleY(.97)', offset: .22 },
+    { transform: 'translateY(-14px) scaleY(1.01)', offset: .55 },
+    { transform: 'translateY(0) scaleY(1)' },
+  ], { duration: 560, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' });
+
+  let userScrolled = false;
+  const stop = () => { userScrolled = true; };
+  addEventListener('wheel', stop, { passive: true }); addEventListener('touchstart', stop, { passive: true });
+  const D = 1150, t0 = performance.now() + 130;
+
+  function frame(now) {
+    const t = Math.max(0, Math.min(1, (now - t0) / D));
+    if (!userScrolled) window.scrollTo(0, startY + (endY - startY) * easeInOut(t));
+    const u = 1 - t;
+    const x = u * u * P0.x + 2 * u * t * P1.x + t * t * P2.x;
+    const y = u * u * P0.y + 2 * u * t * P1.y + t * t * P2.y;
+    place(x, y, 1 + (endScale - 1) * t + .55 * Math.sin(Math.PI * t), -620 * t);
+    if (t < 1) return requestAnimationFrame(frame);
+    removeEventListener('wheel', stop); removeEventListener('touchstart', stop);
+    ripple(idx);
+    fly.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220, easing: 'ease-out', fill: 'forwards' }).finished.then(() => fly.remove());
+    setTimeout(() => { hb.style.transition = ''; hb.style.opacity = ''; passing = false; }, 500);
+  }
+  requestAnimationFrame(frame);
+}
+
+/* The ball lands and the numbers bounce outwards from where it hit */
+function ripple(idx) {
+  const cells = $('grid').children, o = cells[idx].getBoundingClientRect();
+  const ox = o.left + o.width / 2, oy = o.top + o.height / 2;
+  for (let i = 0; i < cells.length; i++) {
+    const r = cells[i].getBoundingClientRect();
+    if (r.bottom < -50 || r.top > innerHeight + 50) continue;
+    const d = Math.hypot(r.left + r.width / 2 - ox, r.top + r.height / 2 - oy);
+    if (d > 700) continue;
+    const amp = 8 * (1 - d / 700);
+    cells[i].animate([
+      { transform: 'translateY(0)' },
+      { transform: `translateY(${-amp}px) scale(${1 + amp / 120})`, offset: .4 },
+      { transform: 'translateY(0)' },
+    ], { duration: 380, delay: d * .55, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' });
+  }
+}
+
+/* ── Grid & form ── */
 function buildGrid() {
   const g = $('grid');
   for (let n = 1; n <= CFG.total; n++) {
-    const b = document.createElement('button');
-    b.type = 'button'; b.className = 'cell'; b.textContent = n; b.disabled = true;
+    const b = el('button', 'cell', n);
+    b.type = 'button'; b.disabled = true;
     b.addEventListener('click', () => toggle(n));
     g.appendChild(b);
   }
@@ -270,12 +769,11 @@ function buildGrid() {
 function buildCurrencies() {
   const seg = $('seg');
   CFG.currencies.forEach((c) => {
-    const l = document.createElement('label');
-    const i = document.createElement('input');
+    const l = el('label');
+    const i = el('input');
     i.type = 'radio'; i.name = 'cur'; i.value = c; i.checked = c === currency;
     i.addEventListener('change', () => { currency = c; render(); });
-    const s = document.createElement('span'); s.textContent = c;
-    l.append(i, s); seg.appendChild(l);
+    l.append(i, el('span', null, c)); seg.appendChild(l);
   });
 }
 
@@ -285,68 +783,140 @@ function toggle(n) {
   else {
     if (sel.size >= CFG.maxPerOrder) { setStatus('errMax', { max: CFG.maxPerOrder }, true); return; }
     sel.add(n);
+    preloadTurn().then((ok) => { sc_ready = ok; });
+    hop($('grid').children[n - 1]);
+    if (statusMsg.err) setStatus(null);
+    $('formerr').textContent = '';
+    render();
+    flyToPicked(n);
+    return;
   }
+  arriving.delete(n);
   if (statusMsg.err) setStatus(null);
   $('formerr').textContent = '';
   render();
 }
 
+/* A short bounce when a ball is picked (not on un-pick: removing should feel instant) */
+function hop(cell) {
+  if (reduceMotion || !cell || !cell.animate) return;
+  cell.animate([
+    { transform: 'translateY(0) scale(1)' },
+    { transform: 'translateY(-7px) scale(1.06)', offset: .4 },
+    { transform: 'translateY(0) scale(.96)', offset: .75 },
+    { transform: 'translateY(0) scale(1)' },
+  ], { duration: 320, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' });
+}
+
+/* A blue netball showing a number */
+const arriving = new Set();           // numbers whose ball is still flying in
+function bball(n, tag, cls) {
+  const b = el(tag, 'bball ' + cls);
+  b.dataset.n = n;
+  b.append(el('i', 'sm'), String(n));
+  if (arriving.has(n)) b.classList.add('arriving');
+  return b;
+}
+
+/* The chosen ball flies from the grid into "Your numbers" (or into the bottom bar when the form is out of view) */
+function flyToPicked(n) {
+  const cell = $('grid').children[n - 1];
+  const inForm = formInView;
+  const target = inForm ? $('chips').querySelector(`[data-n="${n}"]`)
+                        : ($('minis').querySelector(`[data-n="${n}"]`) || $('minis').querySelector('.more') || $('minis'));
+  if (reduceMotion || !cell || !target || !cell.animate) return;
+  const a = cell.getBoundingClientRect(), t = target.getBoundingClientRect();
+  let ty = t.top;
+  if (!inForm) {                                  // the bar may still be sliding up: aim at where it will settle
+    const bar = $('bar'), br = bar.getBoundingClientRect();
+    ty -= br.top - (innerHeight - bar.offsetHeight);
+  }
+  const size = a.width, endScale = t.width / size;
+  const fx = el('span', 'bball fly-num'); fx.append(el('i', 'sm'), String(n));
+  fx.style.setProperty('--s', size + 'px');
+  document.body.appendChild(fx);
+  arriving.add(n);
+  target.classList.add('arriving');
+  const x0 = a.left, y0 = a.top, x1 = t.left + (t.width - size) / 2, y1 = ty + (t.height - size) / 2;
+  const lift = Math.min(90, Math.abs(y1 - y0) * .25 + 30);
+  const mid = (k) => `translate(${x0 + (x1 - x0) * k}px, ${y0 + (y1 - y0) * k - lift * Math.sin(Math.PI * k)}px)`;
+  fx.animate([
+    { transform: `${mid(0)} scale(1) rotate(0deg)` },
+    { transform: `${mid(.25)} scale(${1 + (endScale - 1) * .25 + .08}) rotate(-90deg)` },
+    { transform: `${mid(.5)} scale(${1 + (endScale - 1) * .5 + .1}) rotate(-180deg)` },
+    { transform: `${mid(.75)} scale(${1 + (endScale - 1) * .75 + .05}) rotate(-270deg)` },
+    { transform: `${mid(1)} scale(${endScale}) rotate(-360deg)` },
+  ], { duration: 460, easing: 'cubic-bezier(0.77, 0, 0.175, 1)', fill: 'forwards' }).finished.then(() => {
+    fx.remove();
+    arriving.delete(n);
+    document.querySelectorAll(`.bball[data-n="${n}"]`).forEach((b) => {
+      b.classList.remove('arriving');
+      b.animate([{ transform: 'scale(1.18)' }, { transform: 'scale(1)' }], { duration: 220, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' });
+    });
+  });
+}
+
 function setStatus(key, vars, err) { statusMsg = { key, vars, err: !!err }; renderStatus(); }
 function renderStatus() {
-  const el = $('status');
-  el.textContent = statusMsg.key ? tr(statusMsg.key, statusMsg.vars) : '';
-  el.classList.toggle('err', statusMsg.err);
+  const s = $('status');
+  s.textContent = statusMsg.key ? tr(statusMsg.key, statusMsg.vars) : '';
+  s.classList.toggle('err', statusMsg.err);
 }
 
 function render() {
   const cells = $('grid').children;
-  let free = 0;
+  let count = 0;
   for (let i = 0; i < cells.length; i++) {
     const n = i + 1, b = cells[i];
     const isTaken = !!(taken && taken[n]);
-    if (taken && !isTaken) free++;
+    if (isTaken) count++;
     b.disabled = !taken || isTaken;
     b.classList.toggle('sel', sel.has(n));
     b.setAttribute('aria-pressed', sel.has(n) ? 'true' : 'false');
   }
   $('grid').classList.toggle('loading', !taken);
-  $('leftVal').textContent = taken ? free + ' / ' + CFG.total : '–';
+
+  $('progress').hidden = !taken;
+  if (taken) {
+    $('progressText').textContent = tr('progress', { taken: count, total: CFG.total });
+    $('fill').style.transform = 'scaleX(' + Math.min(1, count / CFG.total) + ')';
+  }
 
   const nums = [...sel].sort((a, b) => a - b);
   const chips = $('chips'); chips.textContent = '';
-  if (!nums.length) {
-    const e = document.createElement('span'); e.className = 'empty'; e.textContent = tr('noneYet'); chips.appendChild(e);
-  }
+  if (!nums.length) chips.appendChild(el('span', 'empty', tr('noneYet')));
   nums.forEach((n) => {
-    const c = document.createElement('button'); c.type = 'button'; c.className = 'chip'; c.textContent = n;
+    const c = bball(n, 'button', 'chip'); c.type = 'button';
+    c.setAttribute('aria-label', (lang === 'fr' ? 'Retirer le ' : 'Remove ') + n);
     c.addEventListener('click', () => toggle(n)); chips.appendChild(c);
   });
+  const MAX_MINIS = 6, minis = $('minis'); minis.textContent = '';
+  nums.slice(0, MAX_MINIS).forEach((n) => minis.appendChild(bball(n, 'span', 'mini')));
+  if (nums.length > MAX_MINIS) minis.appendChild(el('span', 'more', '+' + (nums.length - MAX_MINIS)));
   const total = nums.length * CFG.price + ' ' + currency;
   $('totalVal').textContent = total;
-  $('barCount').textContent = nums.length === 1 ? tr('count1') : tr('countN', { n: nums.length });
-  $('barTotal').textContent = total;
+  $('barTotal').textContent = (nums.length === 1 ? tr('count1') : tr('countN', { n: nums.length })) + ', ' + total;
   $('bar').classList.toggle('show', nums.length > 0 && !formInView && $('done').hidden);
+  $('formWrap').classList.toggle('peeking', nums.length > 0);
   $('submit').disabled = busy;
   $('submit').textContent = busy ? tr('sending') : tr('submit');
 }
 
 function applyLang() {
   document.documentElement.lang = lang;
-  document.title = tr('headline');
-  document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = tr(el.dataset.t); });
+  document.querySelectorAll('[data-t]').forEach((e) => { e.textContent = tr(e.dataset.t); });
   document.querySelectorAll('.lang button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true' : 'false'));
-  $('title').textContent = tr('headline');
-  const [qa, qb] = tr('question').split('{prize}');
-  const em = document.createElement('em'); em.textContent = tr('prizeName');
-  $('prize').replaceChildren(qa, em, qb || '');
-  $('priceVal').textContent = CFG.price + ' ' + CFG.currencies.join(' / ');
-  $('drawVal').textContent = CFG.drawDate[lang];
+  const cur = CFG.currencies;
+  $('priceVal').textContent = CFG.price + ' ' + (cur.length > 1 ? cur.slice(0, -1).join(', ') + ' ' + tr('or') + ' ' + cur[cur.length - 1] : cur[0]);
+  $('drawVal').textContent = CFG.drawDate[lang] || CFG.drawDate.fr || '…';
   $('hint').textContent = tr('hint', { max: CFG.maxPerOrder });
   $('note').textContent = CFG.holdHours > 0 ? tr('note', { h: CFG.holdHours }) : tr('noteNoHold');
+  renderContent();
   renderStatus();
   render();
 }
 
+/* ── Backend ── */
 async function api(method, payload) {
   const url = API_URL + (method === 'GET' ? '?action=state&t=' + Date.now() : '');
   const res = await fetch(url, method === 'GET' ? { cache: 'no-store' } : {
@@ -387,9 +957,11 @@ async function load() {
 let formInView = false;
 new IntersectionObserver((entries) => { formInView = entries[0].isIntersecting; render(); }, { threshold: 0.15 }).observe($('form'));
 
+const scrollBehavior = reduceMotion ? 'auto' : 'smooth';
+$('cta').addEventListener('click', (e) => { e.preventDefault(); passToGrid(); });
 $('barBtn').addEventListener('click', () => {
-  $('form').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  setTimeout(() => $('name').focus({ preventScroll: true }), 400);
+  $('form').scrollIntoView({ behavior: scrollBehavior, block: 'start' });
+  setTimeout(() => $('name').focus({ preventScroll: true }), reduceMotion ? 0 : 450);
 });
 
 $('form').addEventListener('submit', (e) => {
@@ -406,44 +978,344 @@ $('form').addEventListener('submit', (e) => {
 
   busy = true; render();
   const numbers = [...sel].sort((a, b) => a - b);
+  const cover = zoomIn(numbers[0]);                 // the ball fills the screen while the booking is sent
+  // wait for the zoom to cover the screen and (briefly) for Kaya's animation to be ready
+  const sheet = withTimeout(preloadTurn(), 3000, false).then((ok) => { sc_ready = ok; });
+  const settle = (fn) => (x) => Promise.all([cover ? cover.ready : null, sheet]).then(() => fn(x));
   api('POST', { action: 'reserve', numbers, name, email, currency, lang, website: $('website').value })
-    .then((res) => {
+    .then(settle((res) => {
       busy = false;
       if (res && res.ok) {
         res.numbers.forEach((n) => { taken[n] = 'reserved'; });
         sel.clear();
-        showDone(res, email);
+        showDone(res, email, cover);
+        return;
+      }
+      const code = res && res.code;
+      if (code === 'taken') {
+        if (res.taken) taken = res.taken;
+        (res.numbers || []).forEach((n) => sel.delete(n));
+        err('errTaken', { nums: (res.numbers || []).join(', ') });
       } else {
-        const code = res && res.code;
-        if (code === 'taken') {
-          if (res.taken) taken = res.taken;
-          (res.numbers || []).forEach((n) => sel.delete(n));
-          err('errTaken', { nums: (res.numbers || []).join(', ') });
-        } else {
-          err({ none: 'errNone', name: 'errName', email: 'errEmail', max: 'errMax', busy: 'errBusy' }[code] || 'errGeneric', { max: CFG.maxPerOrder });
-        }
+        err({ none: 'errNone', name: 'errName', email: 'errEmail', max: 'errMax', busy: 'errBusy' }[code] || 'errGeneric', { max: CFG.maxPerOrder });
       }
       render();
-    })
-    .catch((e2) => { console.error(e2); busy = false; err('errGeneric'); render(); });
+      if (cover) zoomBack(cover);
+    }))
+    .catch(settle((e2) => { console.error(e2); busy = false; err('errGeneric'); render(); if (cover) zoomBack(cover); }));
 });
 
-function showDone(res, email) {
+/* ── The big zoom: the first chosen ball grows until it fills the screen, then shrinks into the hoop ── */
+const EASE_IO = 'cubic-bezier(0.77, 0, 0.175, 1)';
+const ZOOM_IN = 760, ZOOM_OUT = 820;
+
+function zoomIn(n) {
+  if (reduceMotion || !Element.prototype.animate) return null;
+  const chip = $('chips').querySelector(`[data-n="${n}"]`);
+  const r = (chip || $('submit')).getBoundingClientRect();
+  const size = chip ? r.width : 46;
+  const D = Math.ceil(Math.hypot(innerWidth, innerHeight) * 1.06);
+  const z = el('div', 'bball zoom');
+  const num = el('span', 'znum', String(n));
+  z.append(el('i', 'sm'), num);
+  z.style.setProperty('--s', D + 'px');
+  const kN = Math.min(1, (innerWidth * .62) / (.36 * D * .56 * String(n).length));
+  const at = (x, y, sc, rot) => `translate(${x - D / 2}px, ${y - D / 2}px) scale(${sc}) rotate(${rot}deg)`;
+  const from = { x: r.left + r.width / 2, y: r.top + r.height / 2, s: size / D };
+  const mid = { x: innerWidth / 2, y: innerHeight / 2 };
+  z.style.transform = at(from.x, from.y, from.s, 0);
+  document.body.appendChild(z);
+  if (chip) chip.style.visibility = 'hidden';
+  const a = z.animate([
+    { transform: at(from.x, from.y, from.s, 0) },
+    { transform: at(mid.x, mid.y, 1, 0) },
+  ], { duration: ZOOM_IN, easing: EASE_IO, fill: 'forwards' });
+  num.animate([{ transform: 'scale(1)' }, { transform: `scale(${kN})` }], { duration: ZOOM_IN, easing: EASE_IO, fill: 'forwards' });
+  const ready = a.finished.then(() => z.classList.add('waiting'));
+  return { z, num, D, kN, at, mid, from, ready };
+}
+
+function zoomTo(cover, x, y, size, dur) {
+  const { z, num, D, kN, at, mid } = cover;
+  z.classList.remove('waiting');
+  num.animate([{ transform: `scale(${kN})` }, { transform: 'scale(1)' }], { duration: dur, easing: EASE_IO, fill: 'forwards' });
+  return z.animate([
+    { transform: at(mid.x, mid.y, 1, 0) },
+    { transform: at(x, y, size / D, -360) },
+  ], { duration: dur, easing: EASE_IO, fill: 'forwards' }).finished.then(() => z.remove());
+}
+
+/* Booking failed: the ball shrinks back into "Your numbers" */
+function zoomBack(cover) {
+  const n = Number(cover.num.textContent);
+  const chip = $('chips').querySelector(`[data-n="${n}"]`);
+  if (chip) chip.style.visibility = 'hidden';
+  const r = chip ? chip.getBoundingClientRect() : cover.from;
+  const x = chip ? r.left + r.width / 2 : r.x, y = chip ? r.top + r.height / 2 : r.y, w = chip ? r.width : cover.from.s * cover.D;
+  zoomTo(cover, x, y, w, 600).then(() => { if (chip) chip.style.visibility = ''; });
+}
+
+function showDone(res, email, cover) {
   $('main').hidden = true;
   $('done').hidden = false;
-  $('doneNums').textContent = res.numbers.join(' · ');
-  $('doneBody').textContent = res.mailFailed ? tr('doneMailFail', { org: CFG.organiser || (lang === 'fr' ? "L'organisateur" : 'The organiser') }) : tr('doneBody', { email });
+  $('doneNums').textContent = res.numbers.join(', ');
+  $('doneBody').textContent = res.mailFailed ? tr('doneMailFail', { org: CFG.organiser || tr('organiser') }) : tr('doneBody', { email });
   $('doneHold').textContent = CFG.holdHours > 0 ? tr('doneHold', { h: CFG.holdHours, ref: res.ref }) : tr('doneRef', { ref: res.ref });
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  $('payAmount').textContent = (res.total != null ? res.total : res.numbers.length * CFG.price) + ' ' + (res.currency || currency);
+  $('payRef').textContent = res.ref;
+  $('payByRow').hidden = !(CFG.holdHours > 0);
+  $('payBy').textContent = CFG.holdHours + (lang === 'fr' ? ' heures' : ' hours');
+  $('copyRef').textContent = tr('copy');
+  lastShot = res.numbers.slice(0, 3);
+  if (cover) {
+    // Behind the full-screen ball: jump to the confirmation, then the ball zooms out into Kaya's hands; she turns and passes it in
+    $('done').scrollIntoView({ behavior: 'auto', block: 'start' });
+    render();
+    const hands = shoot(lastShot, { startDelay: ZOOM_OUT });
+    zoomTo(cover, hands.x, hands.y, hands.size, ZOOM_OUT);
+    return;
+  }
+  $('done').scrollIntoView({ behavior: scrollBehavior, block: 'start' });
   render();
+  shoot(lastShot, { startDelay: reduceMotion ? 0 : 650 });
 }
+
+/* ── The animation of Kaya (cut from the video) is loaded in the background once someone picks a number ── */
+let turnSheet = null;              // Promise<boolean>: true once the image is ready to draw
+function preloadTurn() {
+  if (turnSheet) return turnSheet;
+  const img = new Image();
+  img.src = TURN.src;
+  turnSheet = (img.decode ? img.decode() : new Promise((ok, ko) => { img.onload = ok; img.onerror = ko; }))
+    .then(() => true, () => false);
+  return turnSheet;
+}
+const withTimeout = (p, ms, v) => Promise.race([p, new Promise((r) => setTimeout(() => r(v), ms))]);
+
+/* ── The goal scene ── */
+const NS = 'http://www.w3.org/2000/svg';
+// To scale: Kaya (1.6 m) is ~134 units tall, so 1 m ≈ 83.5 units. The rim is 3 m above the floor, 38 cm across;
+// the net hangs ~40 cm; the post stands just behind the ring.
+const M = 83.5, FLOOR = 272;                       // balls rest at FLOOR; the floor line is at FLOOR + 12
+const RIM_R = .19 * M, NET = .4 * M;
+const RING = { x: 262, y: FLOOR + 12 - 3 * M };
+const POST_X = RING.x + RIM_R + 12;
+const BALL_K = .9;                                 // scene balls drawn at netball size relative to her
+// fallback drawing (if the animation can't load): the shooting sketch
+const KAYA_H = 136, KAYA_X = 14, KAYA_Y = FLOOR + 12 - KAYA_H, KS = KAYA_H / SHOOT.h;
+const START = { x: KAYA_X + SHOOT.cx * KS, y: KAYA_Y + SHOOT.cy * KS };
+// the animation: half size, feet on the floor line
+const KT = .42, TX = 6, TY = FLOOR + 12 - 330 * KT;   // 330 = soles of her shoes in a frame
+const ballAt = (i) => ({ x: TX + TURN.balls[i][0] * KT, y: TY + TURN.balls[i][1] * KT });
+let lastShot = [];
+let sceneRun = 0;                  // bumps when the scene restarts, so an older run stops driving frames
+
+function svgEl(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+
+function buildCourt(numbers, animated) {
+  const svg = svgEl('svg', { viewBox: `0 0 340 ${FLOOR + 20}`, 'aria-hidden': 'true' });
+  svgEl('line', { class: 'floor', x1: 8, y1: FLOOR + 12, x2: 332, y2: FLOOR + 12 }, svg);
+  // post + ring back half
+  svgEl('rect', { class: 'post', x: POST_X, y: RING.y - 8, width: 6, height: FLOOR + 12 - (RING.y - 8), rx: 2 }, svg);
+  svgEl('rect', { class: 'post', x: RING.x + RIM_R - 1, y: RING.y - 2, width: POST_X - (RING.x + RIM_R) + 2, height: 4, rx: 1 }, svg);
+  svgEl('path', { class: 'ring', d: `M${RING.x - RIM_R},${RING.y} A${RIM_R},4.5 0 0 1 ${RING.x + RIM_R},${RING.y}` }, svg);
+  const sdefs = svgEl('defs', {}, svg);
+  sdefs.innerHTML = '<radialGradient id="bselGrad" cx="34%" cy="28%" r="70%"><stop offset="12%" style="stop-color:var(--ball-sel-hi)"/><stop offset="100%" style="stop-color:var(--ball-sel)"/></radialGradient>' +
+    '<clipPath id="bselClip"><circle r="11.3"/></clipPath>';
+  let film = null, num = null, kg = null;
+  if (animated) {
+    // one frame of the sheet is shown at a time by moving the viewBox
+    film = svgEl('svg', { x: TX, y: TY, width: TURN.w * KT, height: TURN.h * KT, viewBox: `0 0 ${TURN.w} ${TURN.h}`, style: 'overflow: hidden' }, svg);
+    svgEl('image', { href: TURN.src, width: TURN.w * TURN.cols, height: TURN.h * Math.ceil(TURN.count / TURN.cols) }, film);
+    num = svgEl('text', { class: 'bnum-sel', 'text-anchor': 'middle', opacity: 0, style: 'font-size: 8.4px' }, svg);   // the number on the ball in her hands
+  }
+  // balls in flight: appended last-first so the first one is on top
+  const balls = numbers.map(() => null);
+  for (let i = numbers.length - 1; i >= 0; i--) {
+    const g = svgEl('g', { class: 'ball', transform: `translate(${START.x} ${START.y})` }, svg);
+    const spin = svgEl('g', { class: 'spin' }, svgEl('g', { transform: `scale(${BALL_K})` }, g));
+    spin.innerHTML = selBallMarkup(numbers[i]);
+    balls[i] = g;
+  }
+  if (!animated) {
+    // fallback: the shooting sketch, drawn after the balls so her fingers are in front of the ball
+    kg = svgEl('image', { class: 'kaya', href: ART.shoot, x: KAYA_X, y: KAYA_Y, width: SHOOT.w * KS, height: KAYA_H }, svg);
+    kg.addEventListener('error', () => kg.remove());
+  }
+  // ring front half + net, in front of the balls
+  svgEl('path', { class: 'ring', d: `M${RING.x - RIM_R},${RING.y} A${RIM_R},4.5 0 0 0 ${RING.x + RIM_R},${RING.y}` }, svg);
+  const R = RIM_R, N = NET, x = RING.x, y = RING.y, nb = R * .55;   // net narrows from the rim to the bottom
+  const net = svgEl('path', { class: 'net', d:
+    `M${x - R + 1},${y + 2} L${x - nb},${y + N} L${x + nb},${y + N} L${x + R - 1},${y + 2}` +
+    ` M${x - R * .5},${y + 4} L${x - nb * .35},${y + N} M${x},${y + 4.5} L${x},${y + N} M${x + R * .5},${y + 4} L${x + nb * .35},${y + N}` +
+    ` M${x - R * .82},${y + N * .38} L${x + R * .82},${y + N * .38} M${x - R * .68},${y + N * .7} L${x + R * .68},${y + N * .7}` }, svg);
+  const goal = svgEl('text', { class: 'goal', x: 172, y: RING.y + 30, 'text-anchor': 'middle', opacity: 0 }, svg);
+  goal.textContent = tr('goal');
+  return { svg, balls, net, goal, kaya: kg, film, num };
+}
+
+/* Shoots ball b from point `from` through the ring to its resting place; returns ms until it scores */
+const FLIGHT = .52, FLY = 1700;
+const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)', FALL = 'cubic-bezier(.55,0,1,.45)';
+function launch(sc, b, i, from, delay) {
+  const r = { x: RING.x - 30 - i * 23, y: FLOOR + 2 };
+  const ctrl = { x: (from.x + RING.x) / 2 + 10, y: RING.y - 70 };
+  const frames = [];
+  for (let s = 0; s <= 22; s++) {                 // arc: quadratic curve from her hands into the ring
+    const t = s / 22, u = 1 - t;
+    frames.push({ transform: `translate(${u * u * from.x + 2 * u * t * ctrl.x + t * t * RING.x}px, ${u * u * from.y + 2 * u * t * ctrl.y + t * t * (RING.y - 4)}px)`, offset: FLIGHT * t });
+  }
+  frames.push({ transform: `translate(${RING.x}px, ${RING.y + NET - 4}px)`, offset: .64, easing: FALL });
+  frames.push({ transform: `translate(${RING.x - 6}px, ${FLOOR}px)`, offset: .78, easing: EASE });
+  frames.push({ transform: `translate(${(RING.x - 6 + r.x) / 2}px, ${FLOOR - 22}px)`, offset: .88, easing: FALL });
+  frames.push({ transform: `translate(${r.x}px, ${r.y}px)`, offset: 1 });
+  b.removeAttribute('transform');
+  b.animate(frames, { duration: FLY, delay, fill: 'both' });
+  b.querySelector('.spin').animate([{ transform: 'rotate(0deg)' }, { transform: 'rotate(-720deg)' }], { duration: FLY, delay, fill: 'both', easing: EASE });
+  sc.net.animate([{ transform: 'scaleY(1)' }, { transform: 'scaleY(1.28)', offset: .4 }, { transform: 'scaleY(1)' }],
+    { duration: 380, delay: delay + FLY * FLIGHT - 40, easing: EASE });
+  return delay + FLY * FLIGHT + 60;
+}
+
+function scoreOnce(sc, at) {
+  if (sc.scored) return;
+  sc.scored = true;
+  sc.goal.animate([{ opacity: 0, transform: 'scale(.85)' }, { opacity: 1, transform: 'scale(1)' }],
+    { duration: 260, delay: at, fill: 'forwards', easing: EASE });
+  setTimeout(celebrate, at);
+}
+
+/* Plays frames a → b of the animation (either direction) at `fps`; resolves when done */
+function playFrames(sc, run, a, b, fps, onFrame) {
+  return new Promise((done) => {
+    const dir = b >= a ? 1 : -1, n = Math.abs(b - a), t0 = performance.now();
+    let last = -1;
+    const tick = (now) => {
+      if (run !== sceneRun) return done(false);
+      const k = Math.min(n, Math.floor((now - t0) * fps / 1000));
+      if (k !== last) { last = k; const i = a + dir * k; showFrame(sc, i); if (onFrame) onFrame(i); }
+      if (k < n) requestAnimationFrame(tick); else done(true);
+    };
+    requestAnimationFrame(tick);
+  });
+}
+function showFrame(sc, i) {
+  const c = i % TURN.cols, r = Math.floor(i / TURN.cols);
+  sc.film.setAttribute('viewBox', `${c * TURN.w} ${r * TURN.h} ${TURN.w} ${TURN.h}`);
+}
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+// Playback speed of the catch-and-turn (the video is 24 frames a second; 42 ≈ 1.75× faster: about 1.2 s to the pass)
+const TURN_FPS = 42;
+
+function shoot(numbers, opts = {}) {
+  const box = $('shot');
+  box.setAttribute('aria-label', tr('replay'));
+  const run = ++sceneRun;
+  const animated = !reduceMotion && opts.animated !== false && !!sc_ready;
+  const sc = buildCourt(numbers, animated);
+  box.replaceChildren(sc.svg);
+
+  // where the ball sits in her hands at the start (screen position + size) — the zoomed ball lands here
+  const p0 = animated ? ballAt(0) : START;
+  const ctm = sc.svg.getScreenCTM();
+  const pt = ctm ? new DOMPoint(p0.x, p0.y).matrixTransform(ctm) : { x: innerWidth / 2, y: innerHeight / 3 };
+  const target = { x: pt.x, y: pt.y, size: 2 * (animated ? 24.5 * KT : SHOOT.r * KS) * (ctm ? ctm.a : 1) };
+
+  if (reduceMotion || !sc.svg.animate) {           // still picture: balls resting under the post
+    sc.balls.forEach((b, i) => b.setAttribute('transform', `translate(${RING.x - 30 - i * 23} ${FLOOR + 2})`));
+    sc.goal.setAttribute('opacity', 1);
+    if (sc.kaya === null && sc.film) showFrame(sc, TURN.count - 1);
+    return target;
+  }
+
+  if (!animated) {
+    // fallback: the shooting sketch shoots each ball from her hands
+    numbers.forEach((n, i) => {
+      const delay = (opts.startDelay || 0) + 250 + i * 520;
+      const at = launch(sc, sc.balls[i], i, START, delay);
+      if (sc.kaya) sc.kaya.animate([{ transform: 'translateY(0) scaleY(1)' }, { transform: 'translateY(2px) scaleY(.97)', offset: .25 }, { transform: 'translateY(-8px) scaleY(1)', offset: .55 }, { transform: 'translateY(0)' }],
+        { duration: 460, delay: delay - 160, easing: EASE });
+      scoreOnce(sc, at);
+    });
+    return target;
+  }
+
+  // animated: she holds the ball facing us, turns to the hoop and passes it in; then the next ones
+  sc.balls.forEach((b) => b.setAttribute('opacity', 0));
+  showFrame(sc, 0);
+  const holdNum = (n) => (i) => {
+    if (i < TURN.release) {
+      const p = ballAt(i);
+      sc.num.textContent = n;
+      sc.num.setAttribute('x', p.x); sc.num.setAttribute('y', p.y + 3);
+      sc.num.setAttribute('opacity', 1);
+    } else sc.num.setAttribute('opacity', 0);
+  };
+  (async () => {
+    await sleep(opts.startDelay || 0);
+    for (let i = 0; i < numbers.length && run === sceneRun; i++) {
+      const hold = holdNum(numbers[i]);
+      if (i === 0) {
+        hold(0);
+        if (!await playFrames(sc, run, 0, TURN.release - 1, TURN_FPS, hold)) return;
+      } else {
+        // bring the arms back in (a new ball appears in her hands), then pass again
+        await sleep(250);
+        if (!await playFrames(sc, run, TURN.count - 1, TURN.release - 8, 56, hold)) return;
+        if (!await playFrames(sc, run, TURN.release - 8, TURN.release - 1, TURN_FPS, hold)) return;
+      }
+      // she lets go: the page's ball takes over from the drawn one
+      sc.num.setAttribute('opacity', 0);
+      const b = sc.balls[i];
+      b.setAttribute('opacity', 1);
+      scoreOnce(sc, launch(sc, b, i, ballAt(TURN.release - 1), 0));
+      if (!await playFrames(sc, run, TURN.release, TURN.count - 1, 32)) return;
+    }
+  })();
+  return target;
+}
+
+$('shot').addEventListener('click', () => { if (lastShot.length) shoot(lastShot); });
+let sc_ready = false;            // true once the animation image has loaded
+
+/* One celebration moment: tricolour confetti after a booking */
+function celebrate() {
+  if (reduceMotion || !Element.prototype.animate) return;
+  const box = $('done'), w = box.clientWidth, colors = ['#000091', '#ffffff', '#e1000f'];
+  for (let i = 0; i < 42; i++) {
+    const c = el('i', 'confetti');
+    c.style.left = Math.random() * w + 'px';
+    c.style.background = colors[i % 3];
+    if (i % 3 === 1) c.style.boxShadow = 'inset 0 0 0 1px #d9ddf2';
+    box.appendChild(c);
+    const drift = (Math.random() - .5) * 120, rot = (Math.random() - .5) * 720, fall = 260 + Math.random() * 260;
+    c.animate([
+      { transform: 'translate(0, 0) rotate(0deg)', opacity: 1 },
+      { transform: `translate(${drift}px, ${fall}px) rotate(${rot}deg)`, opacity: 0 },
+    ], { duration: 1300 + Math.random() * 700, delay: Math.random() * 180, easing: 'cubic-bezier(0.23, 1, 0.32, 1)', fill: 'forwards' })
+      .finished.then(() => c.remove());
+  }
+}
+
+$('copyRef').addEventListener('click', () => {
+  const b = $('copyRef');
+  const done = () => { b.textContent = tr('copied'); setTimeout(() => { b.textContent = tr('copy'); }, 1600); };
+  if (navigator.clipboard) navigator.clipboard.writeText($('payRef').textContent).then(done, () => {});
+});
 
 $('again').addEventListener('click', () => {
   $('done').hidden = true; $('main').hidden = false; load(); render();
+  $('numbers').scrollIntoView({ behavior: scrollBehavior, block: 'start' });
 });
 
 document.querySelectorAll('.lang button').forEach((b) => b.addEventListener('click', () => { lang = b.dataset.lang; applyLang(); }));
 
+setupArt();
 buildGrid();
 buildCurrencies();
 applyLang();
