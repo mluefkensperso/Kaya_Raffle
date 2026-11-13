@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="theme-color" content="#000091">
 <meta name="color-scheme" content="light dark">
+<meta name="description" content="Tombola de soutien pour Kaya, joueuse de netball : choisissez un numéro, gagnez une nuit à l’Hôtel Royal d’Évian ou un forfait de ski à Verbier 4 Vallées.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Soutenez Kaya pour sa saison de netball 2027">
+<meta property="og:description" content="Choisissez un numéro à 10 CHF, € ou £. À gagner : une nuit à l’Hôtel Royal d’Évian et trois forfaits de ski à Verbier 4 Vallées.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23000091'/%3E%3Cg fill='none' stroke='%23fff' stroke-opacity='.45' stroke-width='1.4'%3E%3Cellipse cx='16' cy='16' rx='8' ry='15'/%3E%3Cellipse cx='16' cy='16' rx='15' ry='8'/%3E%3C/g%3E%3C/svg%3E">
 <title>Tombola de Kaya – Netball 2027</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -64,6 +69,7 @@
   :focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
 
   .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+  @media (min-width: 1040px) { .wrap { max-width: 1100px; padding: 0 28px; } }
   .display { font-stretch: var(--condensed); font-weight: 850; letter-spacing: -.01em; line-height: .98; text-wrap: balance; }
 
   /* ───────── Hero: the court ───────── */
@@ -105,10 +111,29 @@
                  padding: 8px 13px; border-radius: 999px; cursor: pointer; transition: background-color 160ms ease, color 160ms ease; }
   .lang button[aria-pressed="true"] { background: #fff; color: #000091; }
   .hero-body { padding: 48px 6px 0; display: grid; grid-template-columns: minmax(0, 1fr) 40%; grid-template-areas: "title title" "info kaya"; column-gap: 8px; }
-  .hero h1 { grid-area: title; font-size: clamp(44px, 12vw, 84px); margin: 0; }
+  .hero-title { grid-area: title; min-width: 0; }
+  .hero h1 { font-size: clamp(44px, 12vw, 84px); margin: 0; }
   .hero-info { grid-area: info; min-width: 0; }
   .hero-kaya { grid-area: kaya; align-self: end; position: relative; width: 100%; max-width: 190px; justify-self: end; margin-right: -4px; padding-left: 6%; }
   .hero-fig { position: relative; }
+  /* Total prize value, as a red sticker on the hero (same style as the ×3 on the Verbier card) */
+  .hero-sticker { position: absolute; z-index: 3; top: 40%; right: -10px; margin: 0; width: 92px; height: 92px; border-radius: 50%; background: #e1000f; color: #fff;
+                  border: 4px solid #fff; box-shadow: 0 8px 20px rgba(0, 0, 40, .35), 0 0 0 2px #e1000f; transform: rotate(-12deg);
+                  display: grid; place-content: center; text-align: center; line-height: 1; }
+  .hero-sticker b { display: block; font-stretch: 65%; font-weight: 900; font-size: 30px; letter-spacing: -.01em; white-space: nowrap; }
+  .hero-sticker small { display: block; margin-top: 3px; font-weight: 800; font-size: 11.5px; letter-spacing: .02em; }
+  @media (min-width: 700px) {
+    .hero-sticker { width: 128px; height: 128px; top: -27%; right: -6px; border-width: 5px; }
+  }
+  @media (min-width: 1040px) {
+    .hero-sticker { right: -46px; }
+    .hero-sticker b { font-size: 42px; }
+    .hero-sticker small { font-size: 15px; margin-top: 4px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-kaya.ready .hero-sticker { animation: stick 520ms cubic-bezier(.34, 1.56, .64, 1) 1050ms both; }
+    @keyframes stick { from { opacity: 0; transform: rotate(-30deg) scale(.4); } to { opacity: 1; transform: rotate(-12deg) scale(1); } }
+  }
   .hero-kaya img { position: relative; z-index: 1; display: block; width: 100%; height: auto; transform: scaleX(-1); }
   .hero-kaya::after { content: ""; position: absolute; z-index: 0; left: 14%; right: 8%; bottom: -5px; height: 14px; border-radius: 50%; background: rgba(0, 0, 40, .45); filter: blur(5px); }
   .hero-ball, .fly-ball { position: absolute; z-index: 0; aspect-ratio: 1; display: block; }
@@ -117,13 +142,15 @@
   .fly-ball { position: fixed; left: 0; top: 0; z-index: 30; pointer-events: none; will-change: transform; }
   @media (min-width: 700px) {
     .hero-body { grid-template-columns: minmax(0, 1fr) 220px; grid-template-areas: "title kaya" "info kaya"; column-gap: 28px; }
+    .hero h1 { max-width: 11em; }
     .hero-kaya { max-width: none; margin-right: 0; }
   }
   @media (prefers-reduced-motion: no-preference) {
-    .hero-kaya { animation: rise 700ms var(--ease-out) 700ms both; }
+    .hero-kaya { opacity: 0; }
+    .hero-kaya.ready { animation: rise 700ms var(--ease-out) 450ms both; }
     @keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
   }
-  .hook { font-size: clamp(18px, 4.4vw, 24px); line-height: 1.3; margin: 18px 0 0; font-weight: 500; max-width: 30ch; }
+  .hook { font-size: clamp(18px, 4.4vw, 24px); line-height: 1.3; margin: 18px 0 0; font-weight: 500; max-width: 34ch; }
   .facts { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 6px 28px; margin: 30px 0 0; padding: 0; }
   .facts div { min-width: 0; }
   .facts dt { font-size: 14px; color: rgba(255,255,255,.72); }
@@ -145,56 +172,104 @@
   .lede { color: var(--muted); margin: 0 0 22px; max-width: 58ch; }
 
   /* Kaya */
-  .kaya { display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 18px; align-items: start; }
-  @media (min-width: 640px) { .kaya { grid-template-columns: 170px minmax(0, 1fr); gap: 30px; } }
+  .kaya { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 16px 18px; align-items: center; }
   .portrait { margin: 0; }
   .portrait .frame { aspect-ratio: 3 / 4; border-radius: 12px; overflow: hidden; background: #000091; }
-  .portrait img, .lot .media img { width: 100%; height: 100%; object-fit: cover; }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; }
   .kaya .ph { font-size: 40px; }
-  .kaya h2 { margin-top: 4px; }
-  .kaya p { margin: 0; max-width: 58ch; text-wrap: pretty; }
-
+  .kaya h2 { margin: 0; }
+  .kaya p { grid-column: 1 / -1; margin: 0; max-width: 62ch; text-wrap: pretty; }
+  .kstats { grid-column: 1 / -1; margin: 6px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 2px solid var(--ink); }
+  .kstats div { padding: 12px 10px 12px 0; border-bottom: 1px solid var(--line); }
+  .kstats dd { margin: 0; font-stretch: var(--condensed); font-weight: 900; font-size: 44px; line-height: 1; color: var(--ball-sel); font-variant-numeric: tabular-nums; }
+  .kstats dd small { font-size: 20px; font-weight: 800; margin-left: 4px; font-stretch: 85%; }
+  .kstats dt { margin-top: 4px; font-size: 15px; line-height: 1.3; color: var(--muted); }
+  @media (min-width: 640px) {
+    .kaya { grid-template-columns: 190px minmax(0, 1fr); gap: 14px 34px; align-items: start; }
+    .portrait { grid-row: 1 / span 3; }
+    .kaya h2 { align-self: end; }
+    .kaya p, .kstats { grid-column: 2; }
+    .kstats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  /* Court-line divider between sections: a line with a centre circle */
+  .mark { position: relative; height: 1.5px; margin: 64px 0 0; background: var(--line); border: 0; overflow: visible; }
+  .mark::after { content: ""; position: absolute; left: 50%; top: 50%; width: 18px; height: 18px; translate: -50% -50%; border: 1.5px solid var(--line); border-radius: 50%; background: var(--page); }
+  .mark + section, .mark + main > section:first-child { margin-top: 56px; }
   /* Photo placeholder (photo not uploaded yet / failed to load) */
   .ph { width: 100%; height: 100%; display: grid; place-items: center; background:
         linear-gradient(transparent calc(50% - 1px), rgba(255,255,255,.22) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)), #000091;
         color: rgba(255,255,255,.5); font-stretch: var(--condensed); font-weight: 900; font-size: 64px; }
 
   /* Prizes */
-  .lots { display: grid; gap: 14px; }
-  .lot { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: grid; min-width: 0; }
-  .lot .media { position: relative; background: #000091; }
-  .lot .body { padding: 16px 18px 18px; min-width: 0; }
-  .rank { display: inline-block; background: var(--red); color: #fff; font-weight: 700; font-size: 14px; line-height: 1; padding: 6px 9px; border-radius: 6px; }
-  .lot h3 { font-size: 22px; line-height: 1.15; margin: 10px 0 6px; font-stretch: 85%; font-weight: 800; overflow-wrap: anywhere; }
-  .lot p { margin: 0; color: var(--muted); font-size: 16px; }
-  .lot-1 .media { aspect-ratio: 16 / 10; }
-  .lot-1 h3 { font-size: clamp(26px, 6vw, 34px); font-stretch: var(--condensed); font-weight: 850; }
-  @media (min-width: 640px) {
-    .lot-1 { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
-    .lot-1 .media { aspect-ratio: auto; min-height: 300px; }
-    .lot-1 .body { padding: 24px; align-self: center; }
+  /* Prize cards (collector-card style). Every size inside a card is a multiple of --u = card width / 600,
+     so the card looks identical at any width. */
+  .deck { display: grid; gap: 24px; justify-items: center; margin-top: 8px; }
+  @media (min-width: 700px) { .deck { grid-template-columns: repeat(2, minmax(0, 390px)); justify-content: start; gap: 28px; } }
+  .pcard { width: 100%; max-width: 390px; aspect-ratio: 600 / 840; container-type: inline-size; perspective: 1000px; touch-action: pan-y; }
+  .pface { --u: .58px; position: relative; height: 100%; padding: calc(var(--u) * 14); border-radius: calc(var(--u) * 30); background: #000091;
+           box-shadow: 0 calc(var(--u) * 16) calc(var(--u) * 38) rgba(0, 0, 60, .2);
+           transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform 600ms var(--ease-out); }
+  @supports (width: 1cqw) { .pface { --u: calc(100cqw / 600); } }
+  .pcard.tilting .pface { transition: transform 90ms linear; will-change: transform; }
+  .pface::before { content: ""; position: absolute; inset: calc(var(--u) * 7); border-radius: calc(var(--u) * 24); border: 1.5px solid rgba(255, 255, 255, .35); pointer-events: none; }
+  .pin { position: relative; height: 100%; display: flex; flex-direction: column; overflow: hidden; border-radius: calc(var(--u) * 20); background: #fff; color: #0a0a3c; }
+  .glare { position: absolute; inset: 0; z-index: 4; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity 350ms ease;
+           background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255, 255, 255, .5), rgba(255, 255, 255, .12) 35%, rgba(255, 255, 255, 0) 60%); }
+  .pcard.tilting .glare { opacity: 1; }
+  .phead { padding: calc(var(--u) * 20) calc(var(--u) * 26) calc(var(--u) * 14); }
+  .plot { display: inline-block; background: #e1000f; color: #fff; font-weight: 800; font-size: calc(var(--u) * 19); line-height: 1; letter-spacing: .02em;
+          padding: calc(var(--u) * 8) calc(var(--u) * 13) calc(var(--u) * 7); border-radius: calc(var(--u) * 8); }
+  .pcard h3 { margin: calc(var(--u) * 12) 0 calc(var(--u) * 6); font-stretch: 70%; font-weight: 900; font-size: calc(var(--u) * 70); line-height: .88; letter-spacing: -.01em; color: #000091; }
+  .pplace { font-size: calc(var(--u) * 21); line-height: 1.2; font-weight: 600; color: #55587a; }
+  .pphoto { position: relative; flex-shrink: 0; height: calc(var(--u) * 236); background: #000091; }
+  .pphoto > img, .pphoto > .ph { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pphoto .ph { font-size: calc(var(--u) * 80); }
+  .plogo { position: absolute; z-index: 2; right: calc(var(--u) * 18); bottom: calc(var(--u) * -34); width: calc(var(--u) * 96); height: calc(var(--u) * 96);
+           border-radius: calc(var(--u) * 16); overflow: hidden; background: #fff; border: calc(var(--u) * 4) solid #fff; box-shadow: 0 calc(var(--u) * 6) calc(var(--u) * 18) rgba(0, 0, 60, .22); }
+  .plogo img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .psticker { position: absolute; z-index: 2; top: calc(var(--u) * -30); right: calc(var(--u) * 16); width: calc(var(--u) * 122); height: calc(var(--u) * 122);
+              display: grid; place-items: center; border-radius: 50%; background: #e1000f; color: #fff; border: calc(var(--u) * 5) solid #fff;
+              box-shadow: 0 calc(var(--u) * 8) calc(var(--u) * 20) rgba(150, 0, 10, .35), 0 0 0 calc(var(--u) * 3) #e1000f; transform: rotate(-12deg);
+              font-stretch: 65%; font-weight: 900; font-size: calc(var(--u) * 66); line-height: 1; letter-spacing: -.02em; }
+  .ptag { padding: calc(var(--u) * 14) calc(var(--u) * 26) calc(var(--u) * 10); max-width: calc(var(--u) * 480); font-size: calc(var(--u) * 23); font-weight: 800; font-stretch: 88%; line-height: 1.15; }
+  .pstats { margin: calc(var(--u) * 2) calc(var(--u) * 18) 0; border-top: calc(var(--u) * 3) solid #0a0a3c; }
+  .prow { display: flex; justify-content: space-between; align-items: center; gap: calc(var(--u) * 10); padding: calc(var(--u) * 6) calc(var(--u) * 12) calc(var(--u) * 5); border-bottom: 1px solid #dfe3f3; }
+  .prow:nth-child(even) { background: #f3f5ff; }
+  .prow span { font-size: calc(var(--u) * 22); font-weight: 600; color: #55587a; }
+  .prow b { font-stretch: 72%; font-weight: 900; font-size: calc(var(--u) * 38); line-height: 1; color: #000091; white-space: nowrap; }
+  .prow b small { margin-left: calc(var(--u) * 5); font-size: calc(var(--u) * 22); font-weight: 800; font-stretch: 85%; }
+  .pstars { display: inline-flex; gap: calc(var(--u) * 3); vertical-align: middle; }
+  .pstars svg { width: calc(var(--u) * 28); height: calc(var(--u) * 28); fill: #e1000f; }
+  .pfoot { margin-top: auto; padding: calc(var(--u) * 10) calc(var(--u) * 26) calc(var(--u) * 20); display: flex; justify-content: space-between; align-items: center; gap: calc(var(--u) * 12);
+           font-size: calc(var(--u) * 17); font-weight: 700; line-height: 1.3; }
+  .pflag { display: flex; flex-shrink: 0; width: calc(var(--u) * 64); height: calc(var(--u) * 8); border-radius: 2px; overflow: hidden; }
+  .pflag i { flex: 1; } .pflag i:nth-child(1) { background: #000091; } .pflag i:nth-child(2) { background: #fff; box-shadow: inset 0 0 0 1px #dfe3f3; } .pflag i:nth-child(3) { background: #e1000f; }
+  /* The cards are dealt onto the page the first time the section comes into view */
+  @media (prefers-reduced-motion: no-preference) {
+    .deck:not(.dealt) .pcard { opacity: 0; transform: translateY(48px) rotate(var(--deal, -5deg)); }
+    .deck.dealt .pcard { transition: transform 750ms var(--ease-out), opacity 420ms ease; transition-delay: calc(var(--i, 0) * 140ms); }
   }
-  .lots-row { display: grid; gap: 14px; }
-  .lots-row .lot { grid-template-columns: 112px minmax(0, 1fr); }
-  .lots-row .media { aspect-ratio: 1; }
-  .lots-row .ph { font-size: 40px; }
-  .lots-row .body { padding: 14px 16px; align-self: center; }
-  .lots-row h3 { font-size: 19px; margin-top: 8px; }
-  .lots-row p { font-size: 15px; }
-  @media (min-width: 640px) {
-    .lots-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .lots-row .lot { grid-template-columns: none; grid-template-rows: auto 1fr; }
-    .lots-row .media { aspect-ratio: 4 / 3; }
-    .lots-row .body { align-self: start; }
-  }
-  .sheet { list-style: none; margin: 8px 0 0; padding: 0; border-top: 2px solid var(--ink); }
-  .sheet li { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 4px 12px; padding: 14px 0; border-bottom: 1px solid var(--line); align-items: center; }
-  .sheet .n { font-stretch: var(--condensed); font-weight: 900; font-size: 30px; line-height: 1; color: var(--red); font-variant-numeric: tabular-nums; }
-  .sheet b { display: block; font-weight: 700; overflow-wrap: anywhere; }
-  .sheet span { display: block; color: var(--muted); font-size: 15px; }
+  /* Photos fade in when they finish loading instead of popping in */
+  img.fade { opacity: 0; transition: opacity 320ms ease; }
+  img.fade.on { opacity: 1; }
   .rules { color: var(--muted); font-size: 15px; margin: 18px 0 0; max-width: 60ch; }
 
   /* Grid */
+  .steps { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 10px; counter-reset: st; }
+  .steps li { counter-increment: st; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; align-items: start; line-height: 1.35; }
+  .steps li::before { content: counter(st); display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--ink); color: var(--page);
+                      font-stretch: var(--condensed); font-weight: 900; font-size: 18px; line-height: 1; }
+  .steps li span { padding-top: 4px; }
+  @media (min-width: 700px) { .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; } }
+  .tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 14px; margin: 0 0 14px; }
+  .jump { display: flex; gap: 6px; }
+  .jump button, .lucky { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 9px 13px; font: 700 14px/1 Archivo, sans-serif;
+                         font-variant-numeric: tabular-nums; cursor: pointer; transition: transform 120ms var(--ease-out), border-color 150ms ease, background-color 150ms ease; }
+  .jump button:active, .lucky:active { transform: scale(.96); }
+  .lucky { background: var(--ink); color: var(--page); border-color: var(--ink); }
+  @media (hover: hover) and (pointer: fine) { .jump button:hover { border-color: var(--ink); } }
+  .cell.found { animation: found 900ms var(--ease-out); }
+  @keyframes found { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--red) 70%, transparent); } 100% { box-shadow: 0 0 0 16px transparent; } }
   .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; color: var(--muted); margin: 0 0 14px; }
   .legend span { display: inline-flex; align-items: center; gap: 7px; }
   .legend span::before { content: ""; width: 15px; height: 15px; border-radius: 50%; border: 1px solid var(--line);
@@ -205,7 +280,7 @@
   @media (min-width: 600px) { .grid { grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 9px; } }
 
   /* Each number is a netball: a round ball with curved panel seams */
-  .cell { position: relative; isolation: isolate; aspect-ratio: 1; min-height: 44px; padding: 0; overflow: hidden;
+  .cell { scroll-margin-top: 16px; position: relative; isolation: isolate; aspect-ratio: 1; min-height: 44px; padding: 0; overflow: hidden;
           border: 1.5px solid var(--seam); border-radius: 50%; color: #0a0a3c; text-shadow: 0 0 3px var(--ball), 0 0 6px var(--ball);
           background: radial-gradient(circle at 34% 28%, #fff 0 18%, var(--ball) 58%, var(--ball-edge) 100%);
           font: 750 16px/1 Archivo, sans-serif; font-stretch: 85%; font-variant-numeric: tabular-nums; cursor: pointer;
@@ -233,6 +308,12 @@
   /* Form */
   .card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px 20px; }
   .form-wrap { position: relative; margin-top: 96px; }
+  @media (min-width: 1040px) {
+    #main { display: grid; grid-template-columns: minmax(0, 1fr) 380px; column-gap: 48px; align-items: start; }
+    #main > section { margin-top: 0; }
+    .form-wrap { position: sticky; top: 112px; margin-top: 118px; }
+    .mark + main { margin-top: 56px; }
+  }
   form.card { position: relative; z-index: 1; }
   .peek { position: absolute; z-index: 0; right: 26px; top: 0; width: 88px; height: auto; transform: translateY(-30%);
           transition: transform 420ms var(--ease-out); pointer-events: none; }
@@ -326,8 +407,15 @@
   .shot .goal { fill: var(--red); font: 900 30px Archivo, sans-serif; font-stretch: 72%; transform-box: fill-box; transform-origin: 50% 100%; }
   .confetti { position: absolute; top: -12px; width: 8px; height: 14px; border-radius: 2px; pointer-events: none; }
 
-  footer { margin: 72px 0 0; padding: 22px 0 calc(110px + env(safe-area-inset-bottom, 0px)); border-top: 2px solid var(--red); color: var(--muted); font-size: 15px; }
-  footer p { margin: 0; }
+  footer { margin: 80px 0 0; padding: 26px 0 calc(110px + env(safe-area-inset-bottom, 0px)); border-top: 2px solid var(--red); color: var(--muted); font-size: 15px; }
+  footer p { margin: 22px 0 0; }
+  footer .sponsor { max-width: 52ch; color: var(--ink); font-weight: 600; font-size: 17px; line-height: 1.4; }
+  footer .sponsor a { color: inherit; white-space: nowrap; }
+  .partners { display: grid; gap: 12px; }
+  .partners > span { font-weight: 700; color: var(--ink); }
+  .plist { display: flex; flex-wrap: wrap; gap: 12px 26px; }
+  .plist div { display: flex; align-items: center; gap: 10px; color: var(--ink); font-weight: 600; }
+  .plist img { width: 44px; height: 44px; border-radius: 10px; object-fit: contain; background: #fff; border: 1px solid var(--line); }
 
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
   .setup { background: #fff3cd; color: #3d2e00; border-radius: 12px; padding: 14px 16px; margin: 24px 0 0; font-size: 15px; }
@@ -353,12 +441,10 @@
       </div>
     </div>
     <div class="hero-body">
-      <h1 class="display" id="title"></h1>
+      <div class="hero-title"><h1 class="display" id="title"></h1><p class="hook" id="hook"></p></div>
       <div class="hero-info">
-      <p class="hook" id="hook"></p>
       <dl class="facts">
         <div><dt data-t="perNumber"></dt><dd id="priceVal"></dd></div>
-        <div><dt data-t="toWin"></dt><dd id="prizeCount"></dd></div>
         <div><dt data-t="draw"></dt><dd id="drawVal"></dd></div>
       </dl>
       <div class="progress" id="progress" hidden>
@@ -367,8 +453,9 @@
       </div>
       <a class="cta" href="#numbers" id="cta" data-t="ctaPick"></a>
       </div>
-      <div class="hero-kaya" id="heroKaya" aria-hidden="true">
-        <div class="hero-fig"><span class="hero-ball" id="heroBall"></span><img id="heroKayaImg" alt="" width="377" height="760"></div>
+      <div class="hero-kaya" id="heroKaya">
+        <div class="hero-fig" aria-hidden="true"><span class="hero-ball" id="heroBall"></span><img id="heroKayaImg" alt="" width="377" height="760"></div>
+        <p class="hero-sticker" id="heroSticker"><b id="stickerValue"></b><small id="stickerLabel"></small></p>
       </div>
     </div>
   </div>
@@ -381,23 +468,29 @@
     <figure class="portrait">
       <div class="frame" id="kayaFrame"></div>
     </figure>
-    <div>
-      <h2 class="display" id="kayaName"></h2>
-      <p id="kayaText"></p>
-    </div>
+    <h2 class="display" id="kayaName"></h2>
+    <p id="kayaText"></p>
+    <dl class="kstats" id="kayaStats"></dl>
   </section>
+
+  <hr class="mark">
 
   <section id="prizes">
     <h2 class="display" id="prizesTitle"></h2>
-    <div class="lots" id="lots"></div>
-    <ol class="sheet" id="sheet"></ol>
+    <div class="deck" id="deck"></div>
     <p class="rules" data-t="rules"></p>
   </section>
+
+  <hr class="mark">
 
   <main id="main">
     <section id="numbers">
       <h2 class="display" data-t="pick"></h2>
-      <p class="lede" id="hint"></p>
+      <ol class="steps" id="steps"></ol>
+      <div class="tools">
+        <div class="jump" id="jump"></div>
+        <button type="button" class="lucky" id="lucky"></button>
+      </div>
       <div class="legend">
         <span data-t="free"></span><span class="l-sel" data-t="selected"></span><span class="l-taken" data-t="taken"></span>
       </div>
@@ -447,7 +540,7 @@
     <button class="btn ghost" type="button" id="again" data-t="again" style="margin-top:12px"></button>
   </section>
 
-  <footer><p id="footer"></p></footer>
+  <footer><div class="partners"><span id="partnersLabel"></span><div class="plist" id="plist"></div></div><p class="sponsor" id="sponsor"></p><p id="footer"></p></footer>
 </div>
 
 <div class="bar" id="bar">
@@ -461,7 +554,7 @@
 /* =====================================================================
    1) PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE (it ends in /exec)
    ===================================================================== */
-const API_URL = 'https://script.google.com/macros/s/AKfycbwW6AyA9L6ZAsDI32tJj9Nkt0sCcoS4qAutuzWnN1l2w9GA5B74Rj89cdWT-UpyWAPqTg/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbzpzRqaDJQD7DL22QSkGWuLnKEuWHD9AQiE7ayEBOrHoBD5GTdomKuQ3YOeLpYThcafNw/exec';
 
 /* =====================================================================
    2) YOUR CONTENT — edit the text between the quotes.
@@ -474,35 +567,44 @@ const CONTENT = {
     en: 'Support Kaya in her 2027 netball season',
   },
   hook: {   // one line under the headline
-    fr: 'Joueuse de Meinier Netball et des Valley Vipers, internationale U21, Kaya finance elle-même sa saison.',
-    en: 'Playing for Meinier Netball, the Valley Vipers and France U21, Kaya funds her own season.',
+    fr: 'Une tombola pour Kaya, joueuse de Meinier Netball et des Valley Vipers et internationale U21, qui finance elle-même sa saison.',
+    en: 'A raffle for Kaya, who plays for Meinier Netball, the Valley Vipers and France U21 and funds her own season.',
   },
+  // total value of all the prizes, shown in the red sticker at the top of the page
+  totalValue: { fr: ['930\u00a0€', 'de lots'], en: ['€930', 'in prizes'] },
   kaya: {
     name: 'Kaya Luefkens',
     photo: 'kaya-training.jpg',
     text: {
-      fr: 'Originaire du Chablais, au bord du Léman, Kaya a découvert le netball à 9 ans au club genevois de Meinier, et joue aujourd’hui aussi avec les Valley Vipers de Saint-Jean-d’Aulps. Sélectionnée en équipe de France junior dès 13 ans, elle compte déjà 5 compétitions internationales et 3 médailles d’or, et a été élue meilleure joueuse des Championnats d’Europe U17 et U19 en 2025. Son objectif : devenir championne d’Europe en première division avant 2028. Comme la plupart des joueuses de netball, elle finance elle-même ses déplacements et ses compétitions, et l’argent de la tombola servira à sa saison 2027.',
-      en: 'Kaya grew up in the Chablais, on the shores of Lake Geneva, and discovered netball at 9 with the Meinier club in Geneva; today she also plays for the Valley Vipers in Saint-Jean-d’Aulps. Selected for the France junior squad at just 13, she has already played 5 international competitions, won 3 gold medals and was voted best player at the 2025 U17 and U19 European Championships. Her goal is to become European champion in the first division before 2028. Like most netball players, she pays for her own travel and competitions, and the money from this raffle will fund her 2027 season.',
+      fr: 'Originaire du Chablais, au bord du Léman, Kaya joue pour le club genevois Meinier Netball et pour les Valley Vipers de Saint-Jean-d’Aulps. Élue meilleure joueuse des Championnats d’Europe U17 et U19 en 2025, elle vise le titre européen en première division avant 2028. Comme la plupart des joueuses de netball, elle finance elle-même ses déplacements et ses compétitions : la tombola financera une partie de sa saison 2027.',
+      en: 'Kaya grew up in the Chablais, on the shores of Lake Geneva, and plays for Meinier Netball in Geneva and the Valley Vipers in Saint-Jean-d’Aulps. Voted best player at the 2025 U17 and U19 European Championships, she is aiming for the European first-division title before 2028. Like most netball players, she pays for her own travel and competitions: this raffle will fund a part of her 2027 season.',
+    },
+    // her career in four numbers: [number, unit, label]
+    stats: {
+      fr: [['9', 'ans', 'ses débuts au netball, à Meinier'], ['13', 'ans', 'première sélection en équipe de France junior'], ['5', '', 'compétitions internationales'], ['3', '', 'médailles d’or']],
+      en: [['9', 'yrs', 'when she started netball, at Meinier'], ['13', 'yrs', 'first selected for the France junior squad'], ['5', '', 'international competitions'], ['3', '', 'gold medals']],
     },
   },
-  // In draw order: prize 1 first. The first 4 are shown big, with a photo; the rest as a list.
+  // The prizes, in draw order. count = how many winners. A stat is [label, value, unit]; the value '*5' draws 5 stars.
   prizes: [
-    { photo: 'lot-1.jpg', fr: { title: 'Une nuit au Palace XX', detail: '[Détails : pour 2 personnes, petit-déjeuner inclus…]' },
-                          en: { title: 'A night at the Palace XX', detail: '[Details: for 2 people, breakfast included…]' } },
-    { photo: 'lot-2.jpg', fr: { title: '[Lot 2]', detail: '[Détails]' }, en: { title: '[Prize 2]', detail: '[Details]' } },
-    { photo: 'lot-3.jpg', fr: { title: '[Lot 3]', detail: '[Détails]' }, en: { title: '[Prize 3]', detail: '[Details]' } },
-    { photo: 'lot-4.jpg', fr: { title: '[Lot 4]', detail: '[Détails]' }, en: { title: '[Prize 4]', detail: '[Details]' } },
-    { fr: { title: '[Lot 5]', detail: '' }, en: { title: '[Prize 5]', detail: '' } },
-    { fr: { title: '[Lot 6]', detail: '' }, en: { title: '[Prize 6]', detail: '' } },
-    { fr: { title: '[Lot 7]', detail: '' }, en: { title: '[Prize 7]', detail: '' } },
-    { fr: { title: '[Lot 8]', detail: '' }, en: { title: '[Prize 8]', detail: '' } },
+    { count: 1, title: 'Hôtel Royal', partner: 'Hôtel Royal, Évian Resort', value: { fr: 'Valeur\u00a0: 680\u00a0€', en: 'Value: €680' }, photo: 'lot-hotel-royal.jpg', logo: 'logo-hotel-royal.jpg',
+      fr: { place: 'Évian-les-Bains, France', tag: 'Une nuit pour deux à l’Hôtel Royal, Évian Resort', donor: 'Offert par l’Hôtel Royal, Évian Resort',
+            stats: [['Personnes', '2'], ['Nuit', '1'], ['Petit-déjeuner', 'Inclus'], ['Bon pour le dîner', '100', '€'], ['Catégorie', '*5']] },
+      en: { place: 'Évian-les-Bains, France', tag: 'A night for two at the Hôtel Royal, Évian Resort', donor: 'Donated by the Hôtel Royal, Évian Resort',
+            stats: [['Guests', '2'], ['Night', '1'], ['Breakfast', 'Included'], ['Dinner voucher', '100', '€'], ['Category', '*5']] } },
+    { count: 3, title: 'Verbier 4 Vallées', partner: 'Verbier Tourisme', value: { fr: 'Valeur\u00a0: 79\u00a0CHF', en: 'Value: CHF 79' }, photo: 'lot-verbier.jpg', logo: 'logo-verbier.jpg',
+      fr: { place: 'Valais, Suisse', tag: 'Un forfait de ski d’une journée sur le domaine des 4 Vallées', donor: 'Offert par Verbier Tourisme',
+            stats: [['Forfait', '1', 'jour'], ['Neige', '*5'], ['Pistes', '+ de 400', 'km'], ['Domaine', '4 Vallées'], ['Sommet', '3 330', 'm']] },
+      en: { place: 'Valais, Switzerland', tag: 'A one-day ski pass for the 4 Vallées ski area', donor: 'Donated by Verbier Tourisme',
+            stats: [['Ski pass', '1', 'day'], ['Snow', '*5'], ['Slopes', '400+', 'km'], ['Ski area', '4 Vallées'], ['Summit', '3,330', 'm']] } },
   ],
+  // Shown in the footer after the invitation to sponsors. Put an email address between the quotes to add a contact link, e.g. 'name@example.com'.
+  contact: 'kluefkens@gmail.com',
   footer: {
-    fr: 'Tombola organisée par la famille et les amis de Kaya. Merci pour votre soutien !',
-    en: 'Raffle run by Kaya’s family and friends. Thank you for your support!',
+    fr: 'Tombola organisée par la famille de Kaya. Merci pour votre soutien !',
+    en: 'Raffle run by Kaya’s family. Thank you for your support!',
   },
 };
-const BIG_PRIZES = 4;
 // Illustrated Kaya (cut-outs of the sketch). Upload these files next to index.html too.
 const ART = { shoot: 'kaya-shoot.webp', front: 'kaya-front.webp' };
 // Where the ball sits in kaya-shoot.webp (pixels): used to put the real ball in her hands.
@@ -525,8 +627,11 @@ const STR = {
     perNumber: 'Per number', toWin: 'To win', draw: 'Draw', or: 'or',
     prizes1: '1 prize', prizesN: '{n} prizes', prizesTitle: '{n} prizes to win', prizesTitle1: '1 prize to win',
     progress: '{taken} of {total} numbers taken', ctaPick: 'Pick my numbers',
-    rules: 'Winners are drawn from paid numbers only, starting with prize 1. Each number can win once.',
+    rules: 'Four winners are drawn from the paid numbers.', lot: 'PRIZE', prizesHeading: 'To win',
     pick: 'Pick your numbers', hint: 'Tap one or more free numbers, up to {max} at a time.',
+    step1: 'Pick up to {max} numbers at {price} each.', step2: 'Reserve them with your name and email.', step3: 'Pay by bank transfer: the details arrive by email.',
+    lucky: 'Pick one for me', partners: 'With thanks to Hôtel Royal Évian Resort and Verbier Tourisme.',
+    sponsor: 'Would you or your company like to support Kaya over the long term? Get in touch, we’d love to hear from you.',
     free: 'Free', selected: 'Selected', taken: 'Taken',
     yourNumbers: 'Your numbers', noneYet: 'Tap numbers on the grid to add them here.',
     name: 'Your name', email: 'Email', currency: "I'll pay in", total: 'Total',
@@ -553,8 +658,11 @@ const STR = {
     perNumber: 'Le numéro', toWin: 'À gagner', draw: 'Tirage', or: 'ou',
     prizes1: '1 lot', prizesN: '{n} lots', prizesTitle: '{n} lots à gagner', prizesTitle1: '1 lot à gagner',
     progress: '{taken} numéros pris sur {total}', ctaPick: 'Choisir mes numéros',
-    rules: 'Les gagnants sont tirés parmi les numéros payés, en commençant par le 1er lot. Chaque numéro ne peut gagner qu’une fois.',
+    rules: 'Quatre gagnants sont tirés au sort parmi les numéros payés.', lot: 'LOT', prizesHeading: 'À gagner',
     pick: 'Choisissez vos numéros', hint: 'Touchez un ou plusieurs numéros libres, jusqu’à {max} à la fois.',
+    step1: 'Choisissez jusqu’à {max} numéros, à {price} chacun.', step2: 'Réservez-les avec votre nom et votre e\u2011mail.', step3: 'Payez par virement\u00a0: les coordonnées arrivent par e\u2011mail.',
+    lucky: 'Un numéro au hasard', partners: 'Merci à l’Hôtel Royal Évian Resort et à Verbier Tourisme.',
+    sponsor: 'Vous ou votre entreprise aimeriez soutenir Kaya sur la durée\u00a0? Contactez-nous, nous serions ravis d’en parler.',
     free: 'Libre', selected: 'Choisi', taken: 'Pris',
     yourNumbers: 'Vos numéros', noneYet: 'Touchez des numéros dans la grille pour les ajouter ici.',
     name: 'Votre nom', email: 'E-mail', currency: 'Je paie en', total: 'Total',
@@ -601,14 +709,20 @@ function photo(src, alt, fallback) {
   const ph = el('div', 'ph', fallback);
   if (!src) return ph;
   const img = new Image();
-  img.src = src; img.alt = alt; img.loading = 'lazy'; img.decoding = 'async';
+  img.alt = alt; img.loading = 'lazy'; img.decoding = 'async'; img.className = 'fade';
+  img.addEventListener('load', () => img.classList.add('on'));
   img.addEventListener('error', () => img.replaceWith(ph));
+  img.src = src;
+  if (img.complete && img.naturalWidth) img.classList.add('on');
   return img;
 }
 
 /* ── Static content: Kaya + prizes ── */
 function renderContent() {
   $('title').textContent = pick(CONTENT.headline);
+  const tv = pick(CONTENT.totalValue);
+  $('heroSticker').hidden = !tv;
+  if (tv) { $('stickerValue').textContent = tv[0]; $('stickerLabel').textContent = tv[1]; }
   $('hook').textContent = pick(CONTENT.hook);
   document.title = pick(CONTENT.headline);
 
@@ -617,36 +731,85 @@ function renderContent() {
   $('kayaFrame').replaceChildren(photo(k.photo, k.name, initials));
   $('kayaName').textContent = k.name;
   $('kayaText').textContent = pick(k.text);
+  $('kayaStats').replaceChildren(...pick(k.stats).map(([num, unit, label]) => {
+    const d = el('div'), dd = el('dd', null, num);
+    if (unit) dd.appendChild(el('small', null, unit));
+    d.append(dd, el('dt', null, label)); return d;
+  }));
 
-  const n = CONTENT.prizes.length;
-  $('prizesTitle').textContent = n === 1 ? tr('prizesTitle1') : tr('prizesTitle', { n });
-  $('prizeCount').textContent = n === 1 ? tr('prizes1') : tr('prizesN', { n });
+  const n = CONTENT.prizes.reduce((t, p) => t + (p.count || 1), 0);
+  $('prizesTitle').textContent = tr('prizesHeading');
 
-  const lots = $('lots'); lots.textContent = '';
-  const row = el('div', 'lots-row');
-  CONTENT.prizes.slice(0, BIG_PRIZES).forEach((p, i) => {
+  const STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 20.9l1.6-7L2 9.2l7.1-.6z"/></svg>';
+  const deck = $('deck'); deck.textContent = '';
+  CONTENT.prizes.forEach((p, i) => {
     const t = pick(p);
-    const card = el('article', 'lot' + (i === 0 ? ' lot-1' : ''));
-    const media = el('div', 'media');
-    media.appendChild(photo(p.photo, t.title || '', String(i + 1)));
-    const body = el('div', 'body');
-    body.append(el('span', 'rank', STR[lang].ord(i + 1)), el('h3', null, t.title || ''));
-    if (t.detail) body.appendChild(el('p', null, t.detail));
-    card.append(media, body);
-    (i === 0 ? lots : row).appendChild(card);
+    const card = el('article', 'pcard');
+    card.style.setProperty('--i', i);
+    card.style.setProperty('--deal', (i % 2 ? 5 : -5) + 'deg');
+    const face = el('div', 'pface'), inner = el('div', 'pin');
+    const head = el('div', 'phead');
+    head.append(el('span', 'plot', p.value ? pick(p.value) : tr('lot')), el('h3', null, p.title), el('div', 'pplace', t.place));
+    const ph = el('div', 'pphoto');
+    ph.appendChild(photo(p.photo, p.title, String(i + 1)));
+    if ((p.count || 1) > 1) { const st = el('div', 'psticker', '×' + p.count); st.setAttribute('aria-label', '× ' + p.count); ph.appendChild(st); }
+    if (p.logo) { const lg = el('div', 'plogo'), im = new Image(); im.alt = ''; im.loading = 'lazy'; im.addEventListener('error', () => lg.remove()); im.src = p.logo; lg.appendChild(im); ph.appendChild(lg); }
+    const stats = el('div', 'pstats');
+    t.stats.forEach(([label, value, unit]) => {
+      const row = el('div', 'prow'), b = el('b');
+      if (/^\*\d$/.test(value)) { const sp = el('span', 'pstars'); sp.innerHTML = STAR.repeat(+value[1]); sp.setAttribute('role', 'img'); sp.setAttribute('aria-label', value[1] + ' / 5'); b.appendChild(sp); }
+      else { b.textContent = value; if (unit) b.appendChild(el('small', null, unit)); }
+      row.append(el('span', null, label), b); stats.appendChild(row);
+    });
+    const foot = el('div', 'pfoot'), flag = el('div', 'pflag');
+    flag.append(el('i'), el('i'), el('i'));
+    foot.append(el('div', null, t.donor), flag);
+    inner.append(head, ph, el('div', 'ptag', t.tag), stats, foot, el('div', 'glare'));
+    face.appendChild(inner); card.appendChild(face); deck.appendChild(card);
+    tiltable(card);
   });
-  if (row.children.length) lots.appendChild(row);
-
-  const sheet = $('sheet'); sheet.textContent = '';
-  CONTENT.prizes.slice(BIG_PRIZES).forEach((p, j) => {
-    const t = pick(p), li = el('li');
-    li.appendChild(el('span', 'n', String(BIG_PRIZES + j + 1)));
-    const txt = el('div'); txt.appendChild(el('b', null, t.title || ''));
-    if (t.detail) txt.appendChild(el('span', null, t.detail));
-    li.appendChild(txt); sheet.appendChild(li);
-  });
-  sheet.hidden = !sheet.children.length;
   $('footer').textContent = pick(CONTENT.footer);
+  $('partnersLabel').textContent = tr('partners');
+  $('sponsor').textContent = tr('sponsor');
+  if (CONTENT.contact) { const a = el('a', null, CONTENT.contact); a.href = 'mailto:' + CONTENT.contact; $('sponsor').append(' ', a); }
+  $('plist').replaceChildren(...CONTENT.prizes.filter((p) => p.logo).map((p) => {
+    const d = el('div'), im = new Image(); im.alt = ''; im.loading = 'lazy'; im.src = p.logo; im.addEventListener('error', () => im.remove());
+    d.appendChild(im); return d;
+  }));
+}
+
+/* A prize card tilts towards the pointer / finger and a soft shine follows it */
+function tiltable(card) {
+  if (reduceMotion) return;
+  let raf = 0, last = null;
+  const apply = () => {
+    raf = 0;
+    if (!last) return;
+    const r = card.getBoundingClientRect();
+    const px = Math.min(1, Math.max(0, (last.x - r.left) / r.width)), py = Math.min(1, Math.max(0, (last.y - r.top) / r.height));
+    card.style.setProperty('--ry', ((px - .5) * 14).toFixed(2) + 'deg');
+    card.style.setProperty('--rx', ((.5 - py) * 10).toFixed(2) + 'deg');
+    card.style.setProperty('--gx', (px * 100).toFixed(1) + '%');
+    card.style.setProperty('--gy', (py * 100).toFixed(1) + '%');
+  };
+  const move = (e) => { last = { x: e.clientX, y: e.clientY }; card.classList.add('tilting'); if (!raf) raf = requestAnimationFrame(apply); };
+  const rest = () => { last = null; card.classList.remove('tilting'); card.style.setProperty('--rx', '0deg'); card.style.setProperty('--ry', '0deg'); };
+  card.addEventListener('pointermove', move);
+  card.addEventListener('pointerdown', move);
+  ['pointerleave', 'pointerup', 'pointercancel'].forEach((t) => card.addEventListener(t, rest));
+}
+
+/* Deal the cards in the first time the prize section is seen */
+function watchDeck() {
+  const deck = $('deck');
+  if (reduceMotion || !('IntersectionObserver' in window)) { deck.classList.add('dealt'); return; }
+  const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { deck.classList.add('dealt'); io.disconnect(); } }, { threshold: .18 });
+  io.observe(deck);
+}
+
+/* Small fade for content that swaps in (so nothing appears abruptly) */
+function fadeIn(node, ms) {
+  if (!reduceMotion && node.animate) node.animate([{ opacity: 0 }, { opacity: 1 }], { duration: ms || 280, easing: 'ease-out' });
 }
 
 /* ── Kaya's ball (same style as the sketch): lilac with a white panel ── */
@@ -674,7 +837,9 @@ function setupArt() {
   hb.style.top = (SHOOT.cy - SHOOT.r) / SHOOT.h * 100 + '%';
   hb.style.width = (2 * SHOOT.r) / SHOOT.w * 100 + '%';
   img.addEventListener('error', () => { hk.hidden = true; });
+  img.addEventListener('load', () => hk.classList.add('ready'));
   img.src = ART.shoot;
+  if (img.complete && img.naturalWidth) hk.classList.add('ready');
   const peek = $('peek'); peek.addEventListener('error', () => peek.remove()); peek.src = ART.front;
 }
 
@@ -909,7 +1074,16 @@ function applyLang() {
   const cur = CFG.currencies;
   $('priceVal').textContent = CFG.price + ' ' + (cur.length > 1 ? cur.slice(0, -1).join(', ') + ' ' + tr('or') + ' ' + cur[cur.length - 1] : cur[0]);
   $('drawVal').textContent = CFG.drawDate[lang] || CFG.drawDate.fr || '…';
-  $('hint').textContent = tr('hint', { max: CFG.maxPerOrder });
+  const cur2 = CFG.currencies, priceTxt = CFG.price + ' ' + (cur2.length > 1 ? cur2.slice(0, -1).join(', ') + ' ' + tr('or') + ' ' + cur2[cur2.length - 1] : cur2[0]);
+  $('steps').replaceChildren(...[tr('step1', { max: CFG.maxPerOrder, price: priceTxt }), tr('step2'), tr('step3')].map((t) => { const li = el('li'); li.appendChild(el('span', null, t)); return li; }));
+  $('lucky').textContent = tr('lucky');
+  const jump = $('jump'); jump.textContent = '';
+  for (let a = 1; a <= CFG.total; a += 100) {
+    const b = el('button', null, a + '–' + Math.min(CFG.total, a + 99)); b.type = 'button';
+    b.addEventListener('click', () => $('grid').children[a - 1].scrollIntoView({ behavior: scrollBehavior, block: 'start' }));
+    jump.appendChild(b);
+  }
+  jump.hidden = CFG.total <= 100;
   $('note').textContent = CFG.holdHours > 0 ? tr('note', { h: CFG.holdHours }) : tr('noteNoHold');
   renderContent();
   renderStatus();
@@ -958,6 +1132,16 @@ let formInView = false;
 new IntersectionObserver((entries) => { formInView = entries[0].isIntersecting; render(); }, { threshold: 0.15 }).observe($('form'));
 
 const scrollBehavior = reduceMotion ? 'auto' : 'smooth';
+$('lucky').addEventListener('click', () => {
+  if (!taken) return;
+  if (sel.size >= CFG.maxPerOrder) { setStatus('errMax', { max: CFG.maxPerOrder }, true); return; }
+  const free = []; for (let n = 1; n <= CFG.total; n++) if (!taken[n] && !sel.has(n)) free.push(n);
+  if (!free.length) return;
+  const n = free[Math.floor(Math.random() * free.length)], cell = $('grid').children[n - 1];
+  cell.scrollIntoView({ behavior: scrollBehavior, block: 'center' });
+  setTimeout(() => { toggle(n); cell.classList.remove('found'); void cell.offsetWidth; cell.classList.add('found'); }, reduceMotion ? 0 : 450);
+});
+
 $('cta').addEventListener('click', (e) => { e.preventDefault(); passToGrid(); });
 $('barBtn').addEventListener('click', () => {
   $('form').scrollIntoView({ behavior: scrollBehavior, block: 'start' });
@@ -1071,10 +1255,15 @@ function showDone(res, email, cover) {
     // Behind the full-screen ball: jump to the confirmation, then the ball zooms out into Kaya's hands; she turns and passes it in
     $('done').scrollIntoView({ behavior: 'auto', block: 'start' });
     render();
-    const hands = shoot(lastShot, { startDelay: ZOOM_OUT });
-    zoomTo(cover, hands.x, hands.y, hands.size, ZOOM_OUT);
+    const hands = shoot(lastShot, { hold: true });
+    // start the zoom-out only once the confirmation page has been drawn behind the ball (two frames later), so it starts cleanly
+    hands.ready.then(() => requestAnimationFrame(() => requestAnimationFrame(() => {
+      hands.go(ZOOM_OUT);
+      zoomTo(cover, hands.x, hands.y, hands.size, ZOOM_OUT);
+    })));
     return;
   }
+  fadeIn($('done'));
   $('done').scrollIntoView({ behavior: scrollBehavior, block: 'start' });
   render();
   shoot(lastShot, { startDelay: reduceMotion ? 0 : 650 });
@@ -1127,11 +1316,11 @@ function buildCourt(numbers, animated) {
   const sdefs = svgEl('defs', {}, svg);
   sdefs.innerHTML = '<radialGradient id="bselGrad" cx="34%" cy="28%" r="70%"><stop offset="12%" style="stop-color:var(--ball-sel-hi)"/><stop offset="100%" style="stop-color:var(--ball-sel)"/></radialGradient>' +
     '<clipPath id="bselClip"><circle r="11.3"/></clipPath>';
-  let film = null, num = null, kg = null;
+  let film = null, filmImg = null, num = null, kg = null;
   if (animated) {
     // one frame of the sheet is shown at a time by moving the viewBox
     film = svgEl('svg', { x: TX, y: TY, width: TURN.w * KT, height: TURN.h * KT, viewBox: `0 0 ${TURN.w} ${TURN.h}`, style: 'overflow: hidden' }, svg);
-    svgEl('image', { href: TURN.src, width: TURN.w * TURN.cols, height: TURN.h * Math.ceil(TURN.count / TURN.cols) }, film);
+    filmImg = svgEl('image', { href: TURN.src, width: TURN.w * TURN.cols, height: TURN.h * Math.ceil(TURN.count / TURN.cols) }, film);
     num = svgEl('text', { class: 'bnum-sel', 'text-anchor': 'middle', opacity: 0, style: 'font-size: 8.4px' }, svg);   // the number on the ball in her hands
   }
   // balls in flight: appended last-first so the first one is on top
@@ -1156,7 +1345,7 @@ function buildCourt(numbers, animated) {
     ` M${x - R * .82},${y + N * .38} L${x + R * .82},${y + N * .38} M${x - R * .68},${y + N * .7} L${x + R * .68},${y + N * .7}` }, svg);
   const goal = svgEl('text', { class: 'goal', x: 172, y: RING.y + 30, 'text-anchor': 'middle', opacity: 0 }, svg);
   goal.textContent = tr('goal');
-  return { svg, balls, net, goal, kaya: kg, film, num };
+  return { svg, balls, net, goal, kaya: kg, film, filmImg, num };
 }
 
 /* Shoots ball b from point `from` through the ring to its resting place; returns ms until it scores */
@@ -1233,14 +1422,24 @@ function shoot(numbers, opts = {}) {
     return target;
   }
 
+  // With opts.hold the scene is built now but only starts when target.go(delay) is called, so the page can
+  // finish drawing it (and decode Kaya's animation) while the full-screen ball still covers everything.
+  let go;
+  const started = opts.hold ? new Promise((r) => { go = r; }) : Promise.resolve(opts.startDelay || 0);
+  target.go = go || (() => {});
+  target.ready = sc.filmImg && sc.filmImg.decode ? withTimeout(sc.filmImg.decode().catch(() => {}), 600) : Promise.resolve();
+
   if (!animated) {
     // fallback: the shooting sketch shoots each ball from her hands
-    numbers.forEach((n, i) => {
-      const delay = (opts.startDelay || 0) + 250 + i * 520;
-      const at = launch(sc, sc.balls[i], i, START, delay);
-      if (sc.kaya) sc.kaya.animate([{ transform: 'translateY(0) scaleY(1)' }, { transform: 'translateY(2px) scaleY(.97)', offset: .25 }, { transform: 'translateY(-8px) scaleY(1)', offset: .55 }, { transform: 'translateY(0)' }],
-        { duration: 460, delay: delay - 160, easing: EASE });
-      scoreOnce(sc, at);
+    started.then((d0) => {
+      if (run !== sceneRun) return;
+      numbers.forEach((n, i) => {
+        const delay = d0 + 250 + i * 520;
+        const at = launch(sc, sc.balls[i], i, START, delay);
+        if (sc.kaya) sc.kaya.animate([{ transform: 'translateY(0) scaleY(1)' }, { transform: 'translateY(2px) scaleY(.97)', offset: .25 }, { transform: 'translateY(-8px) scaleY(1)', offset: .55 }, { transform: 'translateY(0)' }],
+          { duration: 460, delay: delay - 160, easing: EASE });
+        scoreOnce(sc, at);
+      });
     });
     return target;
   }
@@ -1257,7 +1456,7 @@ function shoot(numbers, opts = {}) {
     } else sc.num.setAttribute('opacity', 0);
   };
   (async () => {
-    await sleep(opts.startDelay || 0);
+    await sleep(await started);
     for (let i = 0; i < numbers.length && run === sceneRun; i++) {
       const hold = holdNum(numbers[i]);
       if (i === 0) {
@@ -1309,14 +1508,20 @@ $('copyRef').addEventListener('click', () => {
 });
 
 $('again').addEventListener('click', () => {
-  $('done').hidden = true; $('main').hidden = false; load(); render();
+  $('done').hidden = true; $('main').hidden = false; fadeIn($('main'), 320); load(); render();
   $('numbers').scrollIntoView({ behavior: scrollBehavior, block: 'start' });
 });
 
 document.querySelectorAll('.lang button').forEach((b) => b.addEventListener('click', () => { lang = b.dataset.lang; applyLang(); }));
 
 setupArt();
+watchDeck();
 buildGrid();
+// Kaya's animation starts loading as soon as the numbers come into view, so it is ready long before anyone books
+if ('IntersectionObserver' in window && !reduceMotion) {
+  const warm = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { warm.disconnect(); preloadTurn().then((ok) => { sc_ready = ok; }); } }, { rootMargin: '200px' });
+  warm.observe($('numbers'));
+}
 buildCurrencies();
 applyLang();
 load();
