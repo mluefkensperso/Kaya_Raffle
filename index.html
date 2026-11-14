@@ -116,25 +116,28 @@
   .hero-info { grid-area: info; min-width: 0; }
   .hero-kaya { grid-area: kaya; align-self: end; position: relative; width: 100%; max-width: 190px; justify-self: end; margin-right: -4px; padding-left: 6%; }
   .hero-fig { position: relative; }
+  /* the photo is cut at the shins: fade it out into the court */
+  .hero-fig img { filter: drop-shadow(1.5px 0 0 #fff) drop-shadow(-1.5px 0 0 #fff) drop-shadow(0 1.5px 0 #fff) drop-shadow(0 -1.5px 0 #fff); -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 99%); mask-image: linear-gradient(to bottom, #000 80%, transparent 99%); }
+  .hero-kaya::after { display: none; }
   /* Total prize value, as a red sticker on the hero (same style as the ×3 on the Verbier card) */
-  .hero-sticker { position: absolute; z-index: 3; top: 40%; right: -10px; margin: 0; width: 92px; height: 92px; border-radius: 50%; background: #e1000f; color: #fff;
+  .hero-sticker { position: absolute; z-index: 3; top: 66%; right: -10px; margin: 0; width: 92px; height: 92px; border-radius: 50%; background: #e1000f; color: #fff;
                   border: 4px solid #fff; box-shadow: 0 8px 20px rgba(0, 0, 40, .35), 0 0 0 2px #e1000f; transform: rotate(-12deg);
                   display: grid; place-content: center; text-align: center; line-height: 1; }
-  .hero-sticker b { display: block; font-stretch: 65%; font-weight: 900; font-size: 30px; letter-spacing: -.01em; white-space: nowrap; }
+  .hero-sticker b { display: block; font-stretch: 62%; font-weight: 900; font-size: 27px; letter-spacing: -.01em; white-space: nowrap; }
   .hero-sticker small { display: block; margin-top: 3px; font-weight: 800; font-size: 11.5px; letter-spacing: .02em; }
   @media (min-width: 700px) {
     .hero-sticker { width: 128px; height: 128px; top: -27%; right: -6px; border-width: 5px; }
   }
   @media (min-width: 1040px) {
     .hero-sticker { right: -46px; }
-    .hero-sticker b { font-size: 42px; }
+    .hero-sticker b { font-size: 37px; }
     .hero-sticker small { font-size: 15px; margin-top: 4px; }
   }
   @media (prefers-reduced-motion: no-preference) {
     .hero-kaya.ready .hero-sticker { animation: stick 520ms cubic-bezier(.34, 1.56, .64, 1) 1050ms both; }
     @keyframes stick { from { opacity: 0; transform: rotate(-30deg) scale(.4); } to { opacity: 1; transform: rotate(-12deg) scale(1); } }
   }
-  .hero-kaya img { position: relative; z-index: 1; display: block; width: 100%; height: auto; transform: scaleX(-1); }
+  .hero-kaya img { position: relative; z-index: 1; display: block; width: 100%; height: auto; }
   .hero-kaya::after { content: ""; position: absolute; z-index: 0; left: 14%; right: 8%; bottom: -5px; height: 14px; border-radius: 50%; background: rgba(0, 0, 40, .45); filter: blur(5px); }
   .hero-ball, .fly-ball { position: absolute; z-index: 0; aspect-ratio: 1; display: block; }
   .hero-ball { transition: opacity 300ms ease; }
@@ -220,8 +223,10 @@
   .plot { display: inline-block; background: #e1000f; color: #fff; font-weight: 800; font-size: calc(var(--u) * 19); line-height: 1; letter-spacing: .02em;
           padding: calc(var(--u) * 8) calc(var(--u) * 13) calc(var(--u) * 7); border-radius: calc(var(--u) * 8); }
   .pcard h3 { margin: calc(var(--u) * 12) 0 calc(var(--u) * 6); font-stretch: 70%; font-weight: 900; font-size: calc(var(--u) * 70); line-height: .88; letter-spacing: -.01em; color: #000091; }
+  .tstar { display: inline-block; width: .5em; height: .5em; margin: 0 .04em 0 .02em; vertical-align: .32em; }
+  .tstar svg { display: block; width: 100%; height: 100%; fill: #000091; }
   .pplace { font-size: calc(var(--u) * 21); line-height: 1.2; font-weight: 600; color: #55587a; }
-  .pphoto { position: relative; flex-shrink: 0; height: calc(var(--u) * 236); background: #000091; }
+  .pphoto { position: relative; flex: 1 0 calc(var(--u) * 236); min-height: calc(var(--u) * 236); background: #000091; }
   .pphoto > img, .pphoto > .ph { width: 100%; height: 100%; object-fit: cover; display: block; }
   .pphoto .ph { font-size: calc(var(--u) * 80); }
   .plogo { position: absolute; z-index: 2; right: calc(var(--u) * 18); bottom: calc(var(--u) * -34); width: calc(var(--u) * 96); height: calc(var(--u) * 96);
@@ -231,11 +236,12 @@
               display: grid; place-items: center; border-radius: 50%; background: #e1000f; color: #fff; border: calc(var(--u) * 5) solid #fff;
               box-shadow: 0 calc(var(--u) * 8) calc(var(--u) * 20) rgba(150, 0, 10, .35), 0 0 0 calc(var(--u) * 3) #e1000f; transform: rotate(-12deg);
               font-stretch: 65%; font-weight: 900; font-size: calc(var(--u) * 66); line-height: 1; letter-spacing: -.02em; }
-  .ptag { padding: calc(var(--u) * 14) calc(var(--u) * 26) calc(var(--u) * 10); max-width: calc(var(--u) * 480); font-size: calc(var(--u) * 23); font-weight: 800; font-stretch: 88%; line-height: 1.15; }
+  .ptag { padding: calc(var(--u) * 16) calc(var(--u) * 26) calc(var(--u) * 14); max-width: calc(var(--u) * 470); font-size: calc(var(--u) * 22); font-weight: 800; font-stretch: 88%; line-height: 1.15; }
   .pstats { margin: calc(var(--u) * 2) calc(var(--u) * 18) 0; border-top: calc(var(--u) * 3) solid #0a0a3c; }
   .prow { display: flex; justify-content: space-between; align-items: center; gap: calc(var(--u) * 10); padding: calc(var(--u) * 6) calc(var(--u) * 12) calc(var(--u) * 5); border-bottom: 1px solid #dfe3f3; }
   .prow:nth-child(even) { background: #f3f5ff; }
-  .prow span { font-size: calc(var(--u) * 22); font-weight: 600; color: #55587a; }
+  .prow { min-height: calc(var(--u) * 60); }
+  .prow > span { font-size: calc(var(--u) * 22); line-height: 1.2; font-weight: 600; color: #55587a; }
   .prow b { font-stretch: 72%; font-weight: 900; font-size: calc(var(--u) * 38); line-height: 1; color: #000091; white-space: nowrap; }
   .prow b small { margin-left: calc(var(--u) * 5); font-size: calc(var(--u) * 22); font-weight: 800; font-stretch: 85%; }
   .pstars { display: inline-flex; gap: calc(var(--u) * 3); vertical-align: middle; }
@@ -307,17 +313,14 @@
 
   /* Form */
   .card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 22px 20px; }
-  .form-wrap { position: relative; margin-top: 96px; }
+  .form-wrap { position: relative; margin-top: 40px; }
   @media (min-width: 1040px) {
     #main { display: grid; grid-template-columns: minmax(0, 1fr) 380px; column-gap: 48px; align-items: start; }
     #main > section { margin-top: 0; }
-    .form-wrap { position: sticky; top: 112px; margin-top: 118px; }
+    .form-wrap { position: sticky; top: 24px; margin-top: 118px; }
     .mark + main { margin-top: 56px; }
   }
   form.card { position: relative; z-index: 1; }
-  .peek { position: absolute; z-index: 0; right: 26px; top: 0; width: 88px; height: auto; transform: translateY(-30%);
-          transition: transform 420ms var(--ease-out); pointer-events: none; }
-  .form-wrap.peeking .peek { transform: translateY(-60%); }
   form h2 { font-size: 30px; }
   /* A chosen number = a blue netball (same look as a chosen ball in the grid) */
   .bball { --s: 46px; position: relative; isolation: isolate; display: inline-grid; place-items: center; flex-shrink: 0;
@@ -394,7 +397,7 @@
   .copy { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 5px 9px; font: 600 13px/1 Archivo, sans-serif; cursor: pointer; }
   .copy:active { transform: scale(.96); }
   .todo p#doneBody { margin: 0; max-width: none; font-size: 15px; }
-  .shot { display: block; width: 100%; max-width: 420px; aspect-ratio: 340 / 292; margin: -8px auto 6px; padding: 0; border: 0; background: none; cursor: pointer; color: inherit; }
+  .shot { display: block; width: 100%; max-width: 420px; aspect-ratio: 340 / 240; margin: -8px auto 6px; padding: 0; border: 0; background: none; cursor: pointer; color: inherit; }
   .shot svg { display: block; width: 100%; height: auto; overflow: visible; }
   .shot .floor { stroke: var(--line); stroke-width: 2; }
   .shot .post { fill: var(--post); }
@@ -403,12 +406,13 @@
   .bnum-sel { fill: #fff; font: 750 9.5px Archivo, sans-serif; font-stretch: 85%; }
   .bnum { fill: #0a0a3c; font: 800 8.5px Archivo, sans-serif; font-stretch: 78%; }
   .shot .spin { transform-box: fill-box; transform-origin: 50% 50%; }
-  .shot .kaya { transform-box: fill-box; transform-origin: 50% 100%; }
+  .shot .kaya { transform-box: fill-box; transform-origin: 50% 100%; -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent); mask-image: linear-gradient(to bottom, #000 70%, transparent); }
   .shot .goal { fill: var(--red); font: 900 30px Archivo, sans-serif; font-stretch: 72%; transform-box: fill-box; transform-origin: 50% 100%; }
   .confetti { position: absolute; top: -12px; width: 8px; height: 14px; border-radius: 2px; pointer-events: none; }
 
   footer { margin: 80px 0 0; padding: 26px 0 calc(110px + env(safe-area-inset-bottom, 0px)); border-top: 2px solid var(--red); color: var(--muted); font-size: 15px; }
   footer p { margin: 22px 0 0; }
+  footer .credits { margin-top: 14px; font-size: 11px; line-height: 1.5; opacity: .75; white-space: pre-line; }
   footer .sponsor { max-width: 52ch; color: var(--ink); font-weight: 600; font-size: 17px; line-height: 1.4; }
   footer .sponsor a { color: inherit; white-space: nowrap; }
   .partners { display: grid; gap: 12px; }
@@ -422,7 +426,7 @@
   .setup code { font-size: 14px; }
 
   @media (prefers-reduced-motion: reduce) {
-    .fill, .bar, .cell, .btn, .cta, .chip, .peek { transition-duration: 0ms; }
+    .fill, .bar, .cell, .btn, .cta, .chip { transition-duration: 0ms; }
   }
 </style>
 </head>
@@ -454,7 +458,7 @@
       <a class="cta" href="#numbers" id="cta" data-t="ctaPick"></a>
       </div>
       <div class="hero-kaya" id="heroKaya">
-        <div class="hero-fig" aria-hidden="true"><span class="hero-ball" id="heroBall"></span><img id="heroKayaImg" alt="" width="377" height="760"></div>
+        <div class="hero-fig" aria-hidden="true"><img id="heroKayaImg" alt="" width="620" height="1286"></div>
         <p class="hero-sticker" id="heroSticker"><b id="stickerValue"></b><small id="stickerLabel"></small></p>
       </div>
     </div>
@@ -499,7 +503,6 @@
     </section>
 
     <div class="form-wrap" id="formWrap">
-    <img class="peek" id="peek" alt="" aria-hidden="true" width="370" height="760">
     <form class="card" id="form" novalidate>
       <h2 class="display" data-t="yourNumbers"></h2>
       <div class="chips" id="chips"></div>
@@ -540,7 +543,7 @@
     <button class="btn ghost" type="button" id="again" data-t="again" style="margin-top:12px"></button>
   </section>
 
-  <footer><div class="partners"><span id="partnersLabel"></span><div class="plist" id="plist"></div></div><p class="sponsor" id="sponsor"></p><p id="footer"></p></footer>
+  <footer><div class="partners"><span id="partnersLabel"></span><div class="plist" id="plist"></div></div><p class="sponsor" id="sponsor"></p><p id="footer"></p><p class="credits" id="credits"></p></footer>
 </div>
 
 <div class="bar" id="bar">
@@ -554,7 +557,7 @@
 /* =====================================================================
    1) PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE (it ends in /exec)
    ===================================================================== */
-const API_URL = 'https://script.google.com/macros/s/AKfycbzpzRqaDJQD7DL22QSkGWuLnKEuWHD9AQiE7ayEBOrHoBD5GTdomKuQ3YOeLpYThcafNw/exec';
+const API_URL = '';
 
 /* =====================================================================
    2) YOUR CONTENT — edit the text between the quotes.
@@ -567,36 +570,40 @@ const CONTENT = {
     en: 'Support Kaya in her 2027 netball season',
   },
   hook: {   // one line under the headline
-    fr: 'Une tombola pour Kaya, joueuse de Meinier Netball et des Valley Vipers et internationale U21, qui finance elle-même sa saison.',
-    en: 'A raffle for Kaya, who plays for Meinier Netball, the Valley Vipers and France U21 and funds her own season.',
+    fr: 'Une tombola pour Kaya, athlète internationale qui joue pour la France, les Valley Vipers de Morzine et Meinier Netball, et qui finance sa saison.',
+    en: 'A raffle for Kaya, a national athlete who plays for France, Morzine’s Valley Vipers & Meinier Netball and funds her own season.',
   },
   // total value of all the prizes, shown in the red sticker at the top of the page
-  totalValue: { fr: ['930\u00a0€', 'de lots'], en: ['€930', 'in prizes'] },
+  totalValue: { fr: ['1\u00a0000\u00a0€', 'de lots'], en: ['€1,000', 'worth of prizes'] },
   kaya: {
     name: 'Kaya Luefkens',
     photo: 'kaya-training.jpg',
     text: {
-      fr: 'Originaire du Chablais, au bord du Léman, Kaya joue pour le club genevois Meinier Netball et pour les Valley Vipers de Saint-Jean-d’Aulps. Élue meilleure joueuse des Championnats d’Europe U17 et U19 en 2025, elle vise le titre européen en première division avant 2028. Comme la plupart des joueuses de netball, elle finance elle-même ses déplacements et ses compétitions : la tombola financera une partie de sa saison 2027.',
-      en: 'Kaya grew up in the Chablais, on the shores of Lake Geneva, and plays for Meinier Netball in Geneva and the Valley Vipers in Saint-Jean-d’Aulps. Voted best player at the 2025 U17 and U19 European Championships, she is aiming for the European first-division title before 2028. Like most netball players, she pays for her own travel and competitions: this raffle will fund a part of her 2027 season.',
+      fr: 'Originaire du Chablais, sur la rive française du Léman, Kaya représente la France au sein de l’équipe nationale junior pour la 4e saison. Localement, elle joue pour les Valley Vipers de Saint-Jean-d’Aulps et pour Meinier Netball à Genève. Tout récemment, elle a été capitaine de l’équipe de France face à l’Angleterre aux Championnats d’Europe U19 à Nottingham. Comme beaucoup d’athlètes de l’équipe nationale, elle finance ses propres déplacements aux stages d’entraînement mensuels et aux compétitions. Cette tombola financera une partie de sa saison 2027.',
+      en: 'Kaya grew up in the Chablais, on the French shores of Lake Geneva, and is representing France in its national junior squad for her 4th season. Locally she plays for the Valley Vipers in St-Jean-d’Aulps and Meinier Netball in Geneva. Most recently she captained France against England at the U19 European Championships in Nottingham. Like many national athletes, she pays for her own travel to monthly training camps and competitions. This raffle will fund a part of her 2027 season.',
     },
     // her career in four numbers: [number, unit, label]
     stats: {
-      fr: [['9', 'ans', 'ses débuts au netball, à Meinier'], ['13', 'ans', 'première sélection en équipe de France junior'], ['5', '', 'compétitions internationales'], ['3', '', 'médailles d’or']],
-      en: [['9', 'yrs', 'when she started netball, at Meinier'], ['13', 'yrs', 'first selected for the France junior squad'], ['5', '', 'international competitions'], ['3', '', 'gold medals']],
+      fr: [['9', 'ans', 'ses débuts au netball'], ['13', 'ans', 'première sélection en équipe de France junior U17'], ['6', '', 'compétitions internationales'], ['3', '', 'médailles d’or']],
+      en: [['9', 'yrs', 'when she started playing netball'], ['13', 'yrs', 'first selection for the U17 French junior squad'], ['6', '', 'international competitions'], ['3', '', 'gold medals']],
     },
   },
   // The prizes, in draw order. count = how many winners. A stat is [label, value, unit]; the value '*5' draws 5 stars.
   prizes: [
-    { count: 1, title: 'Hôtel Royal', partner: 'Hôtel Royal, Évian Resort', value: { fr: 'Valeur\u00a0: 680\u00a0€', en: 'Value: €680' }, photo: 'lot-hotel-royal.jpg', logo: 'logo-hotel-royal.jpg',
-      fr: { place: 'Évian-les-Bains, France', tag: 'Une nuit pour deux à l’Hôtel Royal, Évian Resort', donor: 'Offert par l’Hôtel Royal, Évian Resort',
-            stats: [['Personnes', '2'], ['Nuit', '1'], ['Petit-déjeuner', 'Inclus'], ['Bon pour le dîner', '100', '€'], ['Catégorie', '*5']] },
-      en: { place: 'Évian-les-Bains, France', tag: 'A night for two at the Hôtel Royal, Évian Resort', donor: 'Donated by the Hôtel Royal, Évian Resort',
-            stats: [['Guests', '2'], ['Night', '1'], ['Breakfast', 'Included'], ['Dinner voucher', '100', '€'], ['Category', '*5']] } },
-    { count: 3, title: 'Verbier 4 Vallées', partner: 'Verbier Tourisme', value: { fr: 'Valeur\u00a0: 79\u00a0CHF', en: 'Value: CHF 79' }, photo: 'lot-verbier.jpg', logo: 'logo-verbier.jpg',
-      fr: { place: 'Valais, Suisse', tag: 'Un forfait de ski d’une journée sur le domaine des 4 Vallées', donor: 'Offert par Verbier Tourisme',
-            stats: [['Forfait', '1', 'jour'], ['Neige', '*5'], ['Pistes', '+ de 400', 'km'], ['Domaine', '4 Vallées'], ['Sommet', '3 330', 'm']] },
-      en: { place: 'Valais, Switzerland', tag: 'A one-day ski pass for the 4 Vallées ski area', donor: 'Donated by Verbier Tourisme',
-            stats: [['Ski pass', '1', 'day'], ['Snow', '*5'], ['Slopes', '400+', 'km'], ['Ski area', '4 Vallées'], ['Summit', '3,330', 'm']] } },
+    { count: 1, title: 'Hôtel Royal 5* Palace', partner: 'Évian Resort', photo: 'lot-hotel-royal.jpg', logo: 'logo-hotel-royal.jpg',
+      fr: { tag: 'Une nuit pour deux en chambre double à l’Hôtel Royal d’Évian Resort, un palace cinq étoiles qui surplombe le lac Léman à Évian-les-Bains.',
+            donor: 'Offert par Évian Resort',
+            stats: [['Petit-déjeuner', 'Inclus'], ['Bon dîner par personne, hors boissons', '100', '€'], ['Fitness, sports et spa à l’evian@SPA', 'Accès libre']] },
+      en: { tag: 'A night for two in a double room at Évian Resort’s Hôtel Royal, a five-star palace hotel overlooking Lake Geneva in Évian-les-Bains.',
+            donor: 'Donated by Évian Resort',
+            stats: [['Breakfast', 'Included'], ['Dinner voucher per person, excluding drinks', '€100'], ['Fitness, sports and spa at l’evian@SPA', 'Free access']] } },
+    { count: 3, title: 'Verbier 4 Vallées', partner: 'Verbier Tourisme', photo: 'lot-verbier.jpg', logo: 'logo-verbier.jpg',
+      fr: { tag: 'Forfait de ski d’une journée pour le domaine des 4 Vallées, en Suisse.',
+            donor: 'Offert par Verbier Tourisme',
+            stats: [['Domaine', '4 Vallées'], ['Forfait par gagnant', '1', 'jour'], ['Pistes', '+ de 400', 'km']] },
+      en: { tag: '1-day ski pass for the 4 Vallées ski area in Switzerland.',
+            donor: 'Donated by Verbier Tourisme',
+            stats: [['Ski area', '4 Vallées'], ['Ski pass per winner', '1', 'day'], ['Slopes', '400+', 'km']] } },
   ],
   // Shown in the footer after the invitation to sponsors. Put an email address between the quotes to add a contact link, e.g. 'name@example.com'.
   contact: 'kluefkens@gmail.com',
@@ -606,19 +613,13 @@ const CONTENT = {
   },
 };
 // Illustrated Kaya (cut-outs of the sketch). Upload these files next to index.html too.
-const ART = { shoot: 'kaya-shoot.webp', front: 'kaya-front.webp' };
-// Where the ball sits in kaya-shoot.webp (pixels): used to put the real ball in her hands.
-const SHOOT = { w: 377, h: 760, cx: 345.8, cy: 93.7, r: 59 };
-// Kaya catching, turning and passing: 63 frames (24 per second) cut from the video, in one image of 9 columns.
-// balls = centre of the ball (pixels, in one frame) for each frame until she lets go of it.
-const TURN = { src: 'kaya-turn.webp', w: 267, h: 340, cols: 9, count: 63, release: 50,
-  balls: [[86.7,109.9],[85.9,114.7],[85.6,120.0],[85.0,125.9],[84.6,131.6],[84.1,135.6],[84.0,138.8],[84.1,141.2],[83.8,143.1],[84.2,144.4],[84.1,145.5],[84.6,145.8],[84.1,146.3],[84.1,146.1],[84.1,145.3],[84.1,144.2],[84.2,142.9],[84.8,141.1],[84.4,140.0],[85.7,138.0],[88.4,135.6],[91.2,133.3],[94.9,130.9],[98.7,128.2],[102.5,125.6],[108.3,122.2],[112.9,119.2],[116.7,117.1],[120.3,115.5],[123.2,114.4],[127.8,112.3],[131.1,111.5],[134.4,111.3],[138.1,111.0],[140.1,111.8],[144.3,111.6],[147.2,112.1],[149.6,113.0],[152.0,113.0],[154.0,114.1],[156.2,114.5],[158.3,114.7],[161.4,114.0],[165.1,113.6],[169.7,112.4],[175.8,109.6],[185.4,106.1],[196.5,103.1],[212.6,97.8],[234.2,92.3]] };
+const ART = { hero: 'kaya-photo-front.webp' };
 
 /* ===================================================================== */
 
 // Defaults shown until the backend answers (the real values come from Code.gs CONFIG).
 let CFG = {
-  title: { en: 'Raffle', fr: 'Tombola' }, prize: { en: '', fr: '' }, drawDate: { en: '31 December', fr: '31 décembre' },
+  title: { en: 'Raffle', fr: 'Tombola' }, prize: { en: '', fr: '' }, drawDate: { en: '1 January 2027', fr: '1er janvier 2027' },
   organiser: '', total: 300, price: 10, maxPerOrder: 10, holdHours: 72, currencies: ['CHF', 'EUR', 'GBP'],
 };
 
@@ -630,7 +631,8 @@ const STR = {
     rules: 'Four winners are drawn from the paid numbers.', lot: 'PRIZE', prizesHeading: 'To win',
     pick: 'Pick your numbers', hint: 'Tap one or more free numbers, up to {max} at a time.',
     step1: 'Pick up to {max} numbers at {price} each.', step2: 'Reserve them with your name and email.', step3: 'Pay by bank transfer: the details arrive by email.',
-    lucky: 'Pick one for me', partners: 'With thanks to Hôtel Royal Évian Resort and Verbier Tourisme.',
+    credits: 'Hôtel Royal photo: © Edouard Guibaud\nVerbier photo: © Verbier Tourisme\nPhotos of Kaya with the French team: © XXX',
+    lucky: 'Pick one for me', partners: 'With thanks to Évian Resort and Verbier Tourisme.',
     sponsor: 'Would you or your company like to support Kaya over the long term? Get in touch, we’d love to hear from you.',
     free: 'Free', selected: 'Selected', taken: 'Taken',
     yourNumbers: 'Your numbers', noneYet: 'Tap numbers on the grid to add them here.',
@@ -661,7 +663,8 @@ const STR = {
     rules: 'Quatre gagnants sont tirés au sort parmi les numéros payés.', lot: 'LOT', prizesHeading: 'À gagner',
     pick: 'Choisissez vos numéros', hint: 'Touchez un ou plusieurs numéros libres, jusqu’à {max} à la fois.',
     step1: 'Choisissez jusqu’à {max} numéros, à {price} chacun.', step2: 'Réservez-les avec votre nom et votre e\u2011mail.', step3: 'Payez par virement\u00a0: les coordonnées arrivent par e\u2011mail.',
-    lucky: 'Un numéro au hasard', partners: 'Merci à l’Hôtel Royal Évian Resort et à Verbier Tourisme.',
+    credits: 'Photo de l’Hôtel Royal : © Edouard Guibaud\nPhoto de Verbier : © Verbier Tourisme\nPhotos de Kaya en équipe de France : © XXX',
+    lucky: 'Un numéro au hasard', partners: 'Merci à Évian Resort et à Verbier Tourisme.',
     sponsor: 'Vous ou votre entreprise aimeriez soutenir Kaya sur la durée\u00a0? Contactez-nous, nous serions ravis d’en parler.',
     free: 'Libre', selected: 'Choisi', taken: 'Pris',
     yourNumbers: 'Vos numéros', noneYet: 'Touchez des numéros dans la grille pour les ajouter ici.',
@@ -749,7 +752,11 @@ function renderContent() {
     card.style.setProperty('--deal', (i % 2 ? 5 : -5) + 'deg');
     const face = el('div', 'pface'), inner = el('div', 'pin');
     const head = el('div', 'phead');
-    head.append(el('span', 'plot', p.value ? pick(p.value) : tr('lot')), el('h3', null, p.title), el('div', 'pplace', t.place));
+    const h3 = el('h3');
+    p.title.split('*').forEach((part, k) => { if (k) { const st = el('span', 'tstar'); st.innerHTML = STAR; st.setAttribute('aria-label', ' étoiles '); h3.appendChild(st); } h3.append(part); });
+    if (p.value) head.appendChild(el('span', 'plot', pick(p.value)));
+    head.appendChild(h3);
+    if (t.place) head.appendChild(el('div', 'pplace', t.place));
     const ph = el('div', 'pphoto');
     ph.appendChild(photo(p.photo, p.title, String(i + 1)));
     if ((p.count || 1) > 1) { const st = el('div', 'psticker', '×' + p.count); st.setAttribute('aria-label', '× ' + p.count); ph.appendChild(st); }
@@ -771,6 +778,7 @@ function renderContent() {
   $('footer').textContent = pick(CONTENT.footer);
   $('partnersLabel').textContent = tr('partners');
   $('sponsor').textContent = tr('sponsor');
+  $('credits').textContent = tr('credits');
   if (CONTENT.contact) { const a = el('a', null, CONTENT.contact); a.href = 'mailto:' + CONTENT.contact; $('sponsor').append(' ', a); }
   $('plist').replaceChildren(...CONTENT.prizes.filter((p) => p.logo).map((p) => {
     const d = el('div'), im = new Image(); im.alt = ''; im.loading = 'lazy'; im.src = p.logo; im.addEventListener('error', () => im.remove());
@@ -829,77 +837,34 @@ function selBallMarkup(num) {
 }
 function ballSVG() { return '<svg viewBox="-13 -13 26 26">' + ballMarkup('') + '</svg>'; }
 
-/* ── Illustrated Kaya: hero (shooting, facing the text) and form (peeking) ── */
+/* ── Kaya's photo at the top of the page ── */
 function setupArt() {
-  const hk = $('heroKaya'), img = $('heroKayaImg'), hb = $('heroBall');
-  hb.innerHTML = ballSVG();
-  hb.style.left = (SHOOT.w - SHOOT.cx - SHOOT.r) / SHOOT.w * 100 + '%';   // mirrored: she faces the text
-  hb.style.top = (SHOOT.cy - SHOOT.r) / SHOOT.h * 100 + '%';
-  hb.style.width = (2 * SHOOT.r) / SHOOT.w * 100 + '%';
+  const hk = $('heroKaya'), img = $('heroKayaImg');
   img.addEventListener('error', () => { hk.hidden = true; });
   img.addEventListener('load', () => hk.classList.add('ready'));
-  img.src = ART.shoot;
+  img.src = ART.hero;
   if (img.complete && img.naturalWidth) hk.classList.add('ready');
-  const peek = $('peek'); peek.addEventListener('error', () => peek.remove()); peek.src = ART.front;
 }
 
-/* ── The pass: Kaya shoots the ball from the hero down to the numbers while the page scrolls ── */
+/* ── "Pick my numbers": smooth scroll down to the grid, then the numbers ripple ── */
 let passing = false;
-const easeInOut = (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-
 function passToGrid() {
   const maxScroll = document.documentElement.scrollHeight - innerHeight;
   const endY = Math.min(maxScroll, $('numbers').getBoundingClientRect().top + scrollY - 12);
-  const hb = $('heroBall');
-  if (reduceMotion || passing || $('heroKaya').hidden || !hb.offsetWidth || !hb.animate) {
-    window.scrollTo({ top: endY, behavior: reduceMotion ? 'auto' : 'smooth' });
-    return;
-  }
+  window.scrollTo({ top: endY, behavior: reduceMotion ? 'auto' : 'smooth' });
+  if (reduceMotion || passing) return;
   passing = true;
-  const b = hb.getBoundingClientRect(), size = b.width;
   const cells = $('grid').children, top0 = cells[0].offsetTop;
   let cols = 0; while (cols < cells.length && cells[cols].offsetTop === top0) cols++;
   const idx = Math.min(cells.length - 1, cols + Math.floor(cols / 2));
-  const c = cells[idx].getBoundingClientRect();
-  const startY = scrollY;
-  const P0 = { x: b.left + size / 2, y: b.top + size / 2 };
-  const P2 = { x: c.left + c.width / 2, y: c.top + c.height / 2 - (endY - startY) };
-  const P1 = { x: (P0.x + P2.x) / 2 - 40, y: Math.min(P0.y, P2.y) - Math.min(280, innerHeight * .4) };
-  const endScale = c.width / size;
-
-  const fly = el('span', 'fly-ball'); fly.innerHTML = ballSVG();
-  fly.style.width = fly.style.height = size + 'px';
-  const place = (x, y, s, rot) => { fly.style.transform = `translate(${x - size / 2}px, ${y - size / 2}px) scale(${s}) rotate(${rot}deg)`; };
-  place(P0.x, P0.y, 1, 0);
-  document.body.appendChild(fly);
-  hb.style.transition = 'none'; hb.style.opacity = 0;
-
-  $('heroKaya').animate([
-    { transform: 'translateY(0) scaleY(1)' },
-    { transform: 'translateY(4px) scaleY(.97)', offset: .22 },
-    { transform: 'translateY(-14px) scaleY(1.01)', offset: .55 },
-    { transform: 'translateY(0) scaleY(1)' },
-  ], { duration: 560, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' });
-
-  let userScrolled = false;
-  const stop = () => { userScrolled = true; };
-  addEventListener('wheel', stop, { passive: true }); addEventListener('touchstart', stop, { passive: true });
-  const D = 1150, t0 = performance.now() + 130;
-
-  function frame(now) {
-    const t = Math.max(0, Math.min(1, (now - t0) / D));
-    if (!userScrolled) window.scrollTo(0, startY + (endY - startY) * easeInOut(t));
-    const u = 1 - t;
-    const x = u * u * P0.x + 2 * u * t * P1.x + t * t * P2.x;
-    const y = u * u * P0.y + 2 * u * t * P1.y + t * t * P2.y;
-    place(x, y, 1 + (endScale - 1) * t + .55 * Math.sin(Math.PI * t), -620 * t);
-    if (t < 1) return requestAnimationFrame(frame);
-    removeEventListener('wheel', stop); removeEventListener('touchstart', stop);
-    ripple(idx);
-    fly.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220, easing: 'ease-out', fill: 'forwards' }).finished.then(() => fly.remove());
-    setTimeout(() => { hb.style.transition = ''; hb.style.opacity = ''; passing = false; }, 500);
-  }
-  requestAnimationFrame(frame);
+  let last = -1, still = 0;
+  const wait = () => {                       // ripple once the scroll has settled
+    if (Math.abs(scrollY - last) < 1) still++; else still = 0;
+    last = scrollY;
+    if (still < 3) return requestAnimationFrame(wait);
+    ripple(idx); passing = false;
+  };
+  requestAnimationFrame(wait);
 }
 
 /* The ball lands and the numbers bounce outwards from where it hit */
@@ -948,7 +913,6 @@ function toggle(n) {
   else {
     if (sel.size >= CFG.maxPerOrder) { setStatus('errMax', { max: CFG.maxPerOrder }, true); return; }
     sel.add(n);
-    preloadTurn().then((ok) => { sc_ready = ok; });
     hop($('grid').children[n - 1]);
     if (statusMsg.err) setStatus(null);
     $('formerr').textContent = '';
@@ -1062,7 +1026,6 @@ function render() {
   $('totalVal').textContent = total;
   $('barTotal').textContent = (nums.length === 1 ? tr('count1') : tr('countN', { n: nums.length })) + ', ' + total;
   $('bar').classList.toggle('show', nums.length > 0 && !formInView && $('done').hidden);
-  $('formWrap').classList.toggle('peeking', nums.length > 0);
   $('submit').disabled = busy;
   $('submit').textContent = busy ? tr('sending') : tr('submit');
 }
@@ -1072,9 +1035,12 @@ function applyLang() {
   document.querySelectorAll('[data-t]').forEach((e) => { e.textContent = tr(e.dataset.t); });
   document.querySelectorAll('.lang button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.lang === lang ? 'true' : 'false'));
   const cur = CFG.currencies;
-  $('priceVal').textContent = CFG.price + ' ' + (cur.length > 1 ? cur.slice(0, -1).join(', ') + ' ' + tr('or') + ' ' + cur[cur.length - 1] : cur[0]);
+  // price shown as "10 €, £, CHF": symbols where there is one, euro first
+  const SYM = { EUR: '€', GBP: '£', CHF: 'CHF' }, ORDER = ['EUR', 'GBP', 'CHF'];
+  const curShown = cur.slice().sort((a, b) => (ORDER.indexOf(a) + 1 || 9) - (ORDER.indexOf(b) + 1 || 9)).map((c) => SYM[c] || c).join(', ');
+  $('priceVal').textContent = CFG.price + '\u00a0' + curShown;
   $('drawVal').textContent = CFG.drawDate[lang] || CFG.drawDate.fr || '…';
-  const cur2 = CFG.currencies, priceTxt = CFG.price + ' ' + (cur2.length > 1 ? cur2.slice(0, -1).join(', ') + ' ' + tr('or') + ' ' + cur2[cur2.length - 1] : cur2[0]);
+  const priceTxt = CFG.price + '\u00a0' + curShown;
   $('steps').replaceChildren(...[tr('step1', { max: CFG.maxPerOrder, price: priceTxt }), tr('step2'), tr('step3')].map((t) => { const li = el('li'); li.appendChild(el('span', null, t)); return li; }));
   $('lucky').textContent = tr('lucky');
   const jump = $('jump'); jump.textContent = '';
@@ -1164,7 +1130,7 @@ $('form').addEventListener('submit', (e) => {
   const numbers = [...sel].sort((a, b) => a - b);
   const cover = zoomIn(numbers[0]);                 // the ball fills the screen while the booking is sent
   // wait for the zoom to cover the screen and (briefly) for Kaya's animation to be ready
-  const sheet = withTimeout(preloadTurn(), 3000, false).then((ok) => { sc_ready = ok; });
+  const sheet = null;
   const settle = (fn) => (x) => Promise.all([cover ? cover.ready : null, sheet]).then(() => fn(x));
   api('POST', { action: 'reserve', numbers, name, email, currency, lang, website: $('website').value })
     .then(settle((res) => {
@@ -1269,35 +1235,18 @@ function showDone(res, email, cover) {
   shoot(lastShot, { startDelay: reduceMotion ? 0 : 650 });
 }
 
-/* ── The animation of Kaya (cut from the video) is loaded in the background once someone picks a number ── */
-let turnSheet = null;              // Promise<boolean>: true once the image is ready to draw
-function preloadTurn() {
-  if (turnSheet) return turnSheet;
-  const img = new Image();
-  img.src = TURN.src;
-  turnSheet = (img.decode ? img.decode() : new Promise((ok, ko) => { img.onload = ok; img.onerror = ko; }))
-    .then(() => true, () => false);
-  return turnSheet;
-}
 const withTimeout = (p, ms, v) => Promise.race([p, new Promise((r) => setTimeout(() => r(v), ms))]);
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-/* ── The goal scene ── */
+/* ── The goal scene: each reserved ball arcs up into the ring ── */
 const NS = 'http://www.w3.org/2000/svg';
-// To scale: Kaya (1.6 m) is ~134 units tall, so 1 m ≈ 83.5 units. The rim is 3 m above the floor, 38 cm across;
-// the net hangs ~40 cm; the post stands just behind the ring.
-const M = 83.5, FLOOR = 272;                       // balls rest at FLOOR; the floor line is at FLOOR + 12
-const RIM_R = .19 * M, NET = .4 * M;
-const RING = { x: 262, y: FLOOR + 12 - 3 * M };
-const POST_X = RING.x + RIM_R + 12;
-const BALL_K = .9;                                 // scene balls drawn at netball size relative to her
-// fallback drawing (if the animation can't load): the shooting sketch
-const KAYA_H = 136, KAYA_X = 14, KAYA_Y = FLOOR + 12 - KAYA_H, KS = KAYA_H / SHOOT.h;
-const START = { x: KAYA_X + SHOOT.cx * KS, y: KAYA_Y + SHOOT.cy * KS };
-// the animation: half size, feet on the floor line
-const KT = .42, TX = 6, TY = FLOOR + 12 - 330 * KT;   // 330 = soles of her shoes in a frame
-const ballAt = (i) => ({ x: TX + TURN.balls[i][0] * KT, y: TY + TURN.balls[i][1] * KT });
+const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)', FALL = 'cubic-bezier(.55,0,1,.45)';
+const SCENE_W = 340, SCENE_H = 240, FLOOR = 228;               // FLOOR = where the court floor meets the back wall
+const HANDS = { x: 70, y: 196, r: 22 };                         // where the ball starts (and where the zoomed-out ball lands)
+const RING = { x: 246, y: 64, rx: 21, ry: 5.5 }, NET = 30, POST_X = 246;
+const FAR = .5;                                                  // a ball at the ring looks half its size in her hands
 let lastShot = [];
-let sceneRun = 0;                  // bumps when the scene restarts, so an older run stops driving frames
+let sceneRun = 0;
 
 function svgEl(tag, attrs, parent) {
   const e = document.createElementNS(NS, tag);
@@ -1306,69 +1255,58 @@ function svgEl(tag, attrs, parent) {
   return e;
 }
 
-function buildCourt(numbers, animated) {
-  const svg = svgEl('svg', { viewBox: `0 0 340 ${FLOOR + 20}`, 'aria-hidden': 'true' });
-  svgEl('line', { class: 'floor', x1: 8, y1: FLOOR + 12, x2: 332, y2: FLOOR + 12 }, svg);
-  // post + ring back half
-  svgEl('rect', { class: 'post', x: POST_X, y: RING.y - 8, width: 6, height: FLOOR + 12 - (RING.y - 8), rx: 2 }, svg);
-  svgEl('rect', { class: 'post', x: RING.x + RIM_R - 1, y: RING.y - 2, width: POST_X - (RING.x + RIM_R) + 2, height: 4, rx: 1 }, svg);
-  svgEl('path', { class: 'ring', d: `M${RING.x - RIM_R},${RING.y} A${RIM_R},4.5 0 0 1 ${RING.x + RIM_R},${RING.y}` }, svg);
-  const sdefs = svgEl('defs', {}, svg);
-  sdefs.innerHTML = '<radialGradient id="bselGrad" cx="34%" cy="28%" r="70%"><stop offset="12%" style="stop-color:var(--ball-sel-hi)"/><stop offset="100%" style="stop-color:var(--ball-sel)"/></radialGradient>' +
+function buildCourt(numbers) {
+  const svg = svgEl('svg', { viewBox: `0 0 ${SCENE_W} ${SCENE_H}`, 'aria-hidden': 'true', style: 'overflow: hidden' });
+  const defs = svgEl('defs', {}, svg);
+  defs.innerHTML = '<radialGradient id="bselGrad" cx="34%" cy="28%" r="70%"><stop offset="12%" style="stop-color:var(--ball-sel-hi)"/><stop offset="100%" style="stop-color:var(--ball-sel)"/></radialGradient>' +
     '<clipPath id="bselClip"><circle r="11.3"/></clipPath>';
-  let film = null, filmImg = null, num = null, kg = null;
-  if (animated) {
-    // one frame of the sheet is shown at a time by moving the viewBox
-    film = svgEl('svg', { x: TX, y: TY, width: TURN.w * KT, height: TURN.h * KT, viewBox: `0 0 ${TURN.w} ${TURN.h}`, style: 'overflow: hidden' }, svg);
-    filmImg = svgEl('image', { href: TURN.src, width: TURN.w * TURN.cols, height: TURN.h * Math.ceil(TURN.count / TURN.cols) }, film);
-    num = svgEl('text', { class: 'bnum-sel', 'text-anchor': 'middle', opacity: 0, style: 'font-size: 8.4px' }, svg);   // the number on the ball in her hands
-  }
-  // balls in flight: appended last-first so the first one is on top
+  // floor line, post, back half of the ring
+  svgEl('line', { class: 'floor', x1: 0, y1: FLOOR, x2: SCENE_W, y2: FLOOR }, svg);
+  svgEl('rect', { class: 'post', x: POST_X - 2.5, y: RING.y - 14, width: 5, height: FLOOR - RING.y + 14, rx: 2 }, svg);
+  svgEl('path', { class: 'ring', d: `M${RING.x - RING.rx},${RING.y} A${RING.rx},${RING.ry} 0 0 1 ${RING.x + RING.rx},${RING.y}` }, svg);
+  // balls: the first is drawn last so it sits on top
   const balls = numbers.map(() => null);
   for (let i = numbers.length - 1; i >= 0; i--) {
-    const g = svgEl('g', { class: 'ball', transform: `translate(${START.x} ${START.y})` }, svg);
-    const spin = svgEl('g', { class: 'spin' }, svgEl('g', { transform: `scale(${BALL_K})` }, g));
+    const g = svgEl('g', { class: 'ball', opacity: 0, transform: `translate(${HANDS.x} ${HANDS.y}) scale(${HANDS.r / 11.4})` }, svg);
+    const spin = svgEl('g', { class: 'spin' }, g);
     spin.innerHTML = selBallMarkup(numbers[i]);
     balls[i] = g;
   }
-  if (!animated) {
-    // fallback: the shooting sketch, drawn after the balls so her fingers are in front of the ball
-    kg = svgEl('image', { class: 'kaya', href: ART.shoot, x: KAYA_X, y: KAYA_Y, width: SHOOT.w * KS, height: KAYA_H }, svg);
-    kg.addEventListener('error', () => kg.remove());
-  }
-  // ring front half + net, in front of the balls
-  svgEl('path', { class: 'ring', d: `M${RING.x - RIM_R},${RING.y} A${RIM_R},4.5 0 0 0 ${RING.x + RIM_R},${RING.y}` }, svg);
-  const R = RIM_R, N = NET, x = RING.x, y = RING.y, nb = R * .55;   // net narrows from the rim to the bottom
+  // front half of the ring + net (in front of the balls)
+  svgEl('path', { class: 'ring', d: `M${RING.x - RING.rx},${RING.y} A${RING.rx},${RING.ry} 0 0 0 ${RING.x + RING.rx},${RING.y}` }, svg);
+  const R = RING.rx, x = RING.x, y = RING.y, nb = R * .55;
   const net = svgEl('path', { class: 'net', d:
-    `M${x - R + 1},${y + 2} L${x - nb},${y + N} L${x + nb},${y + N} L${x + R - 1},${y + 2}` +
-    ` M${x - R * .5},${y + 4} L${x - nb * .35},${y + N} M${x},${y + 4.5} L${x},${y + N} M${x + R * .5},${y + 4} L${x + nb * .35},${y + N}` +
-    ` M${x - R * .82},${y + N * .38} L${x + R * .82},${y + N * .38} M${x - R * .68},${y + N * .7} L${x + R * .68},${y + N * .7}` }, svg);
-  const goal = svgEl('text', { class: 'goal', x: 172, y: RING.y + 30, 'text-anchor': 'middle', opacity: 0 }, svg);
+    `M${x - R + 1},${y + 2} L${x - nb},${y + NET} L${x + nb},${y + NET} L${x + R - 1},${y + 2}` +
+    ` M${x - R * .5},${y + 4} L${x - nb * .35},${y + NET} M${x},${y + 5} L${x},${y + NET} M${x + R * .5},${y + 4} L${x + nb * .35},${y + NET}` +
+    ` M${x - R * .82},${y + NET * .38} L${x + R * .82},${y + NET * .38} M${x - R * .68},${y + NET * .7} L${x + R * .68},${y + NET * .7}` }, svg);
+  const goal = svgEl('text', { class: 'goal', x: 120, y: 70, 'text-anchor': 'middle', opacity: 0 }, svg);
   goal.textContent = tr('goal');
-  return { svg, balls, net, goal, kaya: kg, film, filmImg, num };
+  return { svg, balls, net, goal };
 }
 
-/* Shoots ball b from point `from` through the ring to its resting place; returns ms until it scores */
-const FLIGHT = .52, FLY = 1700;
-const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)', FALL = 'cubic-bezier(.55,0,1,.45)';
-function launch(sc, b, i, from, delay) {
-  const r = { x: RING.x - 30 - i * 23, y: FLOOR + 2 };
-  const ctrl = { x: (from.x + RING.x) / 2 + 10, y: RING.y - 70 };
+/* Throws ball i from her hands up through the ring (getting smaller as it goes away from us), then it drops to the floor */
+const FLY = 1500;
+function launch(sc, b, i, delay) {
+  const k0 = HANDS.r / 11.4, k1 = k0 * FAR;
+  const rest = { x: RING.x + 26 + i * 12, y: FLOOR - 11.4 * k1 + 1 };
+  const ctrl = { x: (HANDS.x + RING.x) / 2 + 10, y: RING.y - 90 };
   const frames = [];
-  for (let s = 0; s <= 22; s++) {                 // arc: quadratic curve from her hands into the ring
-    const t = s / 22, u = 1 - t;
-    frames.push({ transform: `translate(${u * u * from.x + 2 * u * t * ctrl.x + t * t * RING.x}px, ${u * u * from.y + 2 * u * t * ctrl.y + t * t * (RING.y - 4)}px)`, offset: FLIGHT * t });
+  for (let s = 0; s <= 20; s++) {                  // the arc, up to just above the ring
+    const t = s / 20, u = 1 - t;
+    const px = u * u * HANDS.x + 2 * u * t * ctrl.x + t * t * RING.x;
+    const py = u * u * HANDS.y + 2 * u * t * ctrl.y + t * t * (RING.y - 6);
+    frames.push({ transform: `translate(${px}px, ${py}px) scale(${k0 + (k1 - k0) * Math.sqrt(t)})`, offset: .55 * t });
   }
-  frames.push({ transform: `translate(${RING.x}px, ${RING.y + NET - 4}px)`, offset: .64, easing: FALL });
-  frames.push({ transform: `translate(${RING.x - 6}px, ${FLOOR}px)`, offset: .78, easing: EASE });
-  frames.push({ transform: `translate(${(RING.x - 6 + r.x) / 2}px, ${FLOOR - 22}px)`, offset: .88, easing: FALL });
-  frames.push({ transform: `translate(${r.x}px, ${r.y}px)`, offset: 1 });
+  frames.push({ transform: `translate(${RING.x}px, ${RING.y + NET - 4}px) scale(${k1})`, offset: .66, easing: FALL });
+  frames.push({ transform: `translate(${RING.x + 8}px, ${rest.y}px) scale(${k1})`, offset: .82, easing: EASE });
+  frames.push({ transform: `translate(${(RING.x + 8 + rest.x) / 2}px, ${rest.y - 14}px) scale(${k1})`, offset: .91, easing: FALL });
+  frames.push({ transform: `translate(${rest.x}px, ${rest.y}px) scale(${k1})`, offset: 1 });
   b.removeAttribute('transform');
-  b.animate(frames, { duration: FLY, delay, fill: 'both' });
-  b.querySelector('.spin').animate([{ transform: 'rotate(0deg)' }, { transform: 'rotate(-720deg)' }], { duration: FLY, delay, fill: 'both', easing: EASE });
-  sc.net.animate([{ transform: 'scaleY(1)' }, { transform: 'scaleY(1.28)', offset: .4 }, { transform: 'scaleY(1)' }],
-    { duration: 380, delay: delay + FLY * FLIGHT - 40, easing: EASE });
-  return delay + FLY * FLIGHT + 60;
+  b.animate(frames, { duration: FLY, delay, fill: 'both' });          // 'both': the ball waits in her hands until the shot
+  b.querySelector('.spin').animate([{ transform: 'rotate(0deg)' }, { transform: 'rotate(-540deg)' }], { duration: FLY, delay, fill: 'both', easing: EASE });
+  sc.net.animate([{ transform: 'scaleY(1)' }, { transform: 'scaleY(1.3)', offset: .4 }, { transform: 'scaleY(1)' }],
+    { duration: 380, delay: delay + FLY * .58, easing: EASE });
+  return delay + FLY * .58;
 }
 
 function scoreOnce(sc, at) {
@@ -1379,108 +1317,48 @@ function scoreOnce(sc, at) {
   setTimeout(celebrate, at);
 }
 
-/* Plays frames a → b of the animation (either direction) at `fps`; resolves when done */
-function playFrames(sc, run, a, b, fps, onFrame) {
-  return new Promise((done) => {
-    const dir = b >= a ? 1 : -1, n = Math.abs(b - a), t0 = performance.now();
-    let last = -1;
-    const tick = (now) => {
-      if (run !== sceneRun) return done(false);
-      const k = Math.min(n, Math.floor((now - t0) * fps / 1000));
-      if (k !== last) { last = k; const i = a + dir * k; showFrame(sc, i); if (onFrame) onFrame(i); }
-      if (k < n) requestAnimationFrame(tick); else done(true);
-    };
-    requestAnimationFrame(tick);
-  });
-}
-function showFrame(sc, i) {
-  const c = i % TURN.cols, r = Math.floor(i / TURN.cols);
-  sc.film.setAttribute('viewBox', `${c * TURN.w} ${r * TURN.h} ${TURN.w} ${TURN.h}`);
-}
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-// Playback speed of the catch-and-turn (the video is 24 frames a second; 42 ≈ 1.75× faster: about 1.2 s to the pass)
-const TURN_FPS = 42;
-
 function shoot(numbers, opts = {}) {
   const box = $('shot');
   box.setAttribute('aria-label', tr('replay'));
   const run = ++sceneRun;
-  const animated = !reduceMotion && opts.animated !== false && !!sc_ready;
-  const sc = buildCourt(numbers, animated);
+  const sc = buildCourt(numbers);
   box.replaceChildren(sc.svg);
 
-  // where the ball sits in her hands at the start (screen position + size) — the zoomed ball lands here
-  const p0 = animated ? ballAt(0) : START;
+  // where the ball sits in her hands (screen position + size): the zoomed-out ball lands here
   const ctm = sc.svg.getScreenCTM();
-  const pt = ctm ? new DOMPoint(p0.x, p0.y).matrixTransform(ctm) : { x: innerWidth / 2, y: innerHeight / 3 };
-  const target = { x: pt.x, y: pt.y, size: 2 * (animated ? 24.5 * KT : SHOOT.r * KS) * (ctm ? ctm.a : 1) };
+  const pt = ctm ? new DOMPoint(HANDS.x, HANDS.y).matrixTransform(ctm) : { x: innerWidth / 2, y: innerHeight / 3 };
+  const target = { x: pt.x, y: pt.y, size: 2 * HANDS.r * (ctm ? ctm.a : 1) };
 
-  if (reduceMotion || !sc.svg.animate) {           // still picture: balls resting under the post
-    sc.balls.forEach((b, i) => b.setAttribute('transform', `translate(${RING.x - 30 - i * 23} ${FLOOR + 2})`));
+  if (reduceMotion || !sc.svg.animate) {            // still picture: balls resting by the post
+    const k1 = HANDS.r / 11.4 * FAR;
+    sc.balls.forEach((b, i) => { b.setAttribute('opacity', 1); b.setAttribute('transform', `translate(${RING.x + 26 + i * 12} ${FLOOR - 11.4 * k1 + 1}) scale(${k1})`); });
     sc.goal.setAttribute('opacity', 1);
-    if (sc.kaya === null && sc.film) showFrame(sc, TURN.count - 1);
+    target.go = () => {}; target.ready = Promise.resolve();
     return target;
   }
 
-  // With opts.hold the scene is built now but only starts when target.go(delay) is called, so the page can
-  // finish drawing it (and decode Kaya's animation) while the full-screen ball still covers everything.
+  // With opts.hold the scene waits for target.go(delay), so the page can draw it while the full-screen ball still covers everything
   let go;
   const started = opts.hold ? new Promise((r) => { go = r; }) : Promise.resolve(opts.startDelay || 0);
   target.go = go || (() => {});
-  target.ready = sc.filmImg && sc.filmImg.decode ? withTimeout(sc.filmImg.decode().catch(() => {}), 600) : Promise.resolve();
+  target.ready = Promise.resolve();
 
-  if (!animated) {
-    // fallback: the shooting sketch shoots each ball from her hands
-    started.then((d0) => {
-      if (run !== sceneRun) return;
-      numbers.forEach((n, i) => {
-        const delay = d0 + 250 + i * 520;
-        const at = launch(sc, sc.balls[i], i, START, delay);
-        if (sc.kaya) sc.kaya.animate([{ transform: 'translateY(0) scaleY(1)' }, { transform: 'translateY(2px) scaleY(.97)', offset: .25 }, { transform: 'translateY(-8px) scaleY(1)', offset: .55 }, { transform: 'translateY(0)' }],
-          { duration: 460, delay: delay - 160, easing: EASE });
-        scoreOnce(sc, at);
-      });
-    });
-    return target;
-  }
-
-  // animated: she holds the ball facing us, turns to the hoop and passes it in; then the next ones
-  sc.balls.forEach((b) => b.setAttribute('opacity', 0));
-  showFrame(sc, 0);
-  const holdNum = (n) => (i) => {
-    if (i < TURN.release) {
-      const p = ballAt(i);
-      sc.num.textContent = n;
-      sc.num.setAttribute('x', p.x); sc.num.setAttribute('y', p.y + 3);
-      sc.num.setAttribute('opacity', 1);
-    } else sc.num.setAttribute('opacity', 0);
-  };
   (async () => {
-    await sleep(await started);
-    for (let i = 0; i < numbers.length && run === sceneRun; i++) {
-      const hold = holdNum(numbers[i]);
-      if (i === 0) {
-        hold(0);
-        if (!await playFrames(sc, run, 0, TURN.release - 1, TURN_FPS, hold)) return;
-      } else {
-        // bring the arms back in (a new ball appears in her hands), then pass again
-        await sleep(250);
-        if (!await playFrames(sc, run, TURN.count - 1, TURN.release - 8, 56, hold)) return;
-        if (!await playFrames(sc, run, TURN.release - 8, TURN.release - 1, TURN_FPS, hold)) return;
-      }
-      // she lets go: the page's ball takes over from the drawn one
-      sc.num.setAttribute('opacity', 0);
-      const b = sc.balls[i];
-      b.setAttribute('opacity', 1);
-      scoreOnce(sc, launch(sc, b, i, ballAt(TURN.release - 1), 0));
-      if (!await playFrames(sc, run, TURN.release, TURN.count - 1, 32)) return;
-    }
+    const d0 = await started;
+    if (run !== sceneRun) return;
+    const appear = (b, delay, pop) => b.animate(pop ? [{ opacity: 0 }, { opacity: 1 }] : [{ opacity: 1 }, { opacity: 1 }], { duration: pop ? 220 : 1, delay, easing: 'ease-out', fill: 'forwards' });
+    let t = d0;
+    sc.balls.forEach((b, i) => {
+      if (i === 0) appear(b, t, false); else appear(b, t, true);
+      t += i === 0 ? 250 : 300;                     // a short pause before each shot
+      scoreOnce(sc, launch(sc, b, i, t));
+      t += 520;
+    });
   })();
   return target;
 }
 
 $('shot').addEventListener('click', () => { if (lastShot.length) shoot(lastShot); });
-let sc_ready = false;            // true once the animation image has loaded
 
 /* One celebration moment: tricolour confetti after a booking */
 function celebrate() {
@@ -1517,11 +1395,6 @@ document.querySelectorAll('.lang button').forEach((b) => b.addEventListener('cli
 setupArt();
 watchDeck();
 buildGrid();
-// Kaya's animation starts loading as soon as the numbers come into view, so it is ready long before anyone books
-if ('IntersectionObserver' in window && !reduceMotion) {
-  const warm = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { warm.disconnect(); preloadTurn().then((ok) => { sc_ready = ok; }); } }, { rootMargin: '200px' });
-  warm.observe($('numbers'));
-}
 buildCurrencies();
 applyLang();
 load();
